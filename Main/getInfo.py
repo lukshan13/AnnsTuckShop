@@ -3,13 +3,14 @@ import datetime
 import time
 
 def get_datetime():
-    global date, day, ctime, time_mins, time_display
+    global now, date, day, ctime, time_mins, time_display
     now = datetime.datetime.now()
     date = (now.strftime("%B %d, %Y"))
     day = (now.strftime("%A"))
     ctime = (time.localtime()[3], time.localtime()[4])
     time_display = (str(ctime[0])) + ":" + (str(ctime[1]))
     time_mins = (ctime[0]*60)+(ctime[1])
+    
 
 def get_TimeOfDay():
 	global TimeOfDay
@@ -22,3 +23,9 @@ def get_TimeOfDay():
 	else:
 	    TimeOfDay = ("Hello!")
 
+
+
+def RunGetInfo():
+	get_datetime()
+	get_TimeOfDay()
+	get_AccademicYear()

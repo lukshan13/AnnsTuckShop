@@ -1,37 +1,89 @@
-body {
+ body{
   background: #fafafa;
   color: #333333;
-  margin-top: 5rem;
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h2, h3, h4, h5, h6{
   color: #444444;
 }
 
 
-
-.bg-steel {
-  background-color: #213564;
+header{
+  background: white;
+  width: 100%;
+  padding: 15px 0;
+  color: white;
+  text-align: center;
 }
 
-.site-header .navbar-nav .nav-link {
-  color: #EAEFFA;
+nav ul{
+  background: #052150;
+  overflow: hidden;
+  color: white;
+  padding: auto;
+  text-align: left;
+  padding-bottom: 0px;
+  -webkit-transition: max-height 0.4s;
+  -ms-transition: max-height 0.4s;
+  -o-transition: max-height 0.4s;
+  -moz-transition: max-height 0.4s;
+  transition: max-height 0.4s;
+
+
 }
 
-.site-header .navbar-nav .nav-link:hover {
-  color: #ffffff;
+nav ul li{
+  display: inline-block;
+  padding: 15px;
 }
 
-.site-header .navbar-nav .nav-link.active {
-  font-weight: 500;
+nav ul li:hover{
+  background-color: #80A0CC;
 }
 
-.content-section {
+
+nav a{
+  text-decoration: none;
+  color: #e8f1ff;
+}
+
+nav a:hover{
+  text-decoration: none;
+  color: white;
+}
+
+ 
+li.right{
+  float: right;
+  padding-right: 25px;
+
+}
+
+li.rightlast{
+  float: right;
+  padding-right: 50px;
+}
+
+
+
+.sidebaritem{
+  text-decoration: none!important;
+}
+
+.sidebaritem:hover{
+  color: black!important;
+}
+
+.content-section{
   background: #ffffff;
   padding: 10px 20px;
   border: 1px solid #dddddd;
   border-radius: 3px;
   margin-bottom: 20px;
+
 }
 
 
@@ -46,49 +98,94 @@ a.links:hover{
 }
 
 
-.section-title {
+.section-title{
   color: #444444;
 }
 
-a.section-title:hover {
+a.section-title:hover{
   color: #428bca;
   text-decoration: none;
 }
 
-.section-content {
+.section-content{
   white-space: pre-line;
 }
 
-.section-img {
+.section-img{
   height: 65px;
   width: 65px;
   margin-right: 16px;
 }
 
-.section-metadata {
+.section-metadata{
   padding-bottom: 1px;
   margin-bottom: 4px;
   border-bottom: 1px solid #e3e3e3
 }
 
-.section-metadata a:hover {
+.section-metadata a:hover{
   color: #333;
   text-decoration: none;
 }
 
-.section-svg {
+.section-svg{
   width: 25px;
   height: 25px;
   vertical-align: middle;
 }
 
-.account-img {
+.account-img{
   height: 125px;
   width: 125px;
   margin-right: 20px;
   margin-bottom: 16px;
 }
 
-.account-heading {
+.account-heading{
   font-size: 2.5rem;
 }
+
+
+.nav-handle{
+  width: 100%;
+  background: #052150;
+  text-align: left;
+  box-sizing: border-box;
+  padding: 10px;
+  cursor: pointer;
+  font-family: sans-serif;
+  padding-left: 50px;
+  display: none; 
+  color: #e8f1ff;
+  position:relative; bottom: 15px;
+
+  
+
+}
+
+
+
+/* using media queries to adjust the site for other devices */
+@media screen and (max-width: 680px){
+  
+  nav ul{
+    max-height: 0px;
+  }
+
+  .when-showing{
+    max-height: 20em;
+  }
+
+  nav ul li{
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+  }
+
+  .nav-handle{
+    display: block;
+  }
+
+}
+
+

@@ -1,2 +1,48 @@
 <!-- calling template -->
 {% extends "Layout/layout.html" %}
+
+{% block _content_ %}
+	<div class="content-section">
+		<form method="POST" action="">
+			<fieldset class="form-group">
+			<legend class="border-bottom mb-4">Register Now</legend>
+
+				<div class="input-group">
+
+					<div class="form-row">
+   						<div class="col-md-auto mb-3">
+    						<label for="validationDefault01">First name</label>
+						    <input type="text" class="form-control" id="validationDefault01" placeholder="John" required>
+						</div>
+						<div class="col-md-auto mb-3">
+						    <label for="validationDefault02">Last name</label>
+						    <input type="text" class="form-control" id="validationDefault02" placeholder="Appleseed"  required>
+						</div>
+					</div>
+
+
+
+
+
+					<div class="form-row ">
+						<div class="form-group col-md-auto mb-3">
+		    				<label for="Forest_Email_Head">Forest email username:</label>
+		   					<input type="email" class="form-control" id="Forest_Email_Head" placeholder="JAppleseed">
+		   					<span class="help-block"><small>Please note: Email will be verified</small></span>
+		 				</div>
+		 				<div class="form-group col-md-auto mb-3">
+		 					<label for="Forest_Email_Domain">    Please select one</label>
+		 					<select class="form-control" id="Forest_Email_Domain" >
+		     					<option>@forestsch.org.uk</option>
+		     					<option>@forest.org.uk</option>
+
+	     					
+	     				</div>				 			
+	 				</div>
+	 			</div>
+			</fieldset>
+		</form>
+	</div>	
+
+
+{% endblock _content_ %}

@@ -24,13 +24,13 @@ def get_TimeOfDay():
 	    TimeOfDay = ("Hello!")
 
 def get_AccademicYear():
-	global year12, year13
+	global StartYear12, StartYear13
 	if (now.month) <= (7):
-		year12 = (now.year - 1)
-		year13 = (year12-1)
+		StartYear12 = (now.year - 1)
+		StartYear13 = (StartYear12-1)
 	else:
-		year12 = (now.year)
-		year13 = (year12 -1)
+		StartYear12 = (now.year)
+		StartYear13 = (StartYear12 -1)
 	
 
 

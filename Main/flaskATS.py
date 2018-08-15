@@ -30,8 +30,8 @@ def ParseInfo():
 		'date' :(getInfo.date),
 		'day': (getInfo.day),
 		'TimeOfDay': (getInfo.TimeOfDay),
-		'AccademicYear12': (getInfo.year12),
-		'AccademicYear13': (getInfo.year13)
+		'AccademicYear12': (getInfo.StartYear12),
+		'AccademicYear13': (getInfo.StartYear13)
 	}
 
 @site.route('/home')

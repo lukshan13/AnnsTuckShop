@@ -10,27 +10,27 @@
 				<div class="input-group">
 
 					<div class="form-row">
-   						<div class="col-md-auto mb-3">
-    						<label for="validationDefault01">First name</label>
-						    <input type="text" class="form-control" id="validationDefault01" placeholder="John" required>
+   						<div class="col-md-auto mb-4">
+    						<label for="FirstName">First name</label>
+						    <input type="text" class="form-control" id="FirstName" placeholder="John" required>
 						</div>
 						<div class="col-md-auto mb-4">
-						    <label for="validationDefault02">Last name</label>
-						    <input type="text" class="form-control" id="validationDefault02" placeholder="Appleseed"  required>
+						    <label for="LastName">Last name</label>
+						    <input type="text" class="form-control" id="LastName" placeholder="Appleseed"  required>
 						</div>
 					</div>
 
 					<div class="form-row">
-						<div class="form-group col-md-auto mb-3">
+						<div class="col-md-auto mb-1">
 		    				<label for="Forest_Email_Head">Forest email username:</label>
-		   					<input type="email" class="form-control" id="Forest_Email_Head" placeholder="JAppleseed">
+		   					<input type="email" class="form-control" id="Forest_Email_Head" placeholder="JAppleseed" required>
 		   					<span class="help-block"><small>Please note: Email will be verified</small></span>
 		 				</div>
-		 				<div class="form-group col-md-auto mb-3">
+		 				<div class="form-group col-md-auto mb-1 id_staff_student">
 		 					<label for="Forest_Email_Domain">    Please select one</label>
-		 					<select class="form-control" id="Forest_Email_Domain">
-		     					<option>@forestsch.org.uk</option>
-		     					<option>@forest.org.uk</option>	
+		 					<select class="form-control" id="Forest_Email_Domain" name="Forest_Email_Domain">
+		     					<option value="sch_student">@forestsch.org.uk</option>
+		     					<option value="sch_staff" >@forest.org.uk</option>	
 		     				</select>	 				
 	     				</div>
 	     			</div>
@@ -39,43 +39,82 @@
 	 		</fieldset>
 
   
-  <div class="form-group">
-    <label for="inputPassword3" class="form-label">Password</label>
-    <div>
-      <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
-    </div>
-  </div>
-  <fieldset class="form-group">
-    <div>
-      <legend class="col-form-label">Radios</legend>
-      <div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios1" value="option1" checked>
-          <label class="form-check-label" for="gridRadios1">
-            First radio
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios2" value="option2">
-          <label class="form-check-label" for="gridRadios2">
-            Second radio
-          </label>
-        </div>
-        <div class="form-check disabled">
-          <input class="form-check-input" type="radio" name="gridRadios" id="gridRadios3" value="option3" disabled>
-          <label class="form-check-label" for="gridRadios3">
-            Third disabled radio
-          </label>
-        </div>
-      </div>
-    </div>
-  </fieldset>
-  <div class="form-group">
-    <div class="col-md-auto mb-3">
-      <button type="submit" class="btn btn-primary">Sign in</button>
-    </div>
-  </div>
-</form>
-	</div>	
+		  	<div class="form-row">
+		  		<div class="col-md-auto">
+					<label for="PasswordInput" class="form-label">Password</label>
+					<div>
+						<input type="password" class="form-control" id="PasswordInput" placeholder="Password" required>
+					</div>
+				</div>
+			</div>
+			<fieldset class="form-group">
+				<div>
+					<legend style="padding-top: 25px;" class="col-form-label">Select Year Group</legend>
+					<div>
+						<div class="form-check">
+							<input class="form-check-input _student _student-default" type="radio" name="AccademicYear" id="AccademicYear12" value="AccademicYear12" checked="true" >
+							<label class="form-check-label" for="AccademicYear12">
+								Year 12, joining Sixth Form from the September of {{ info.AccademicYear12 }}
+		  					</label>
+						</div>
+						<div class="form-check">
+							<input class="form-check-input _student" type="radio" name="AccademicYear" id="AccademicYear13" value="AccademicYear13">
+							<label class="form-check-label" for="AccademicYear13">
+								Year 13, joining Sixth Form from the September of {{ info.AccademicYear13 }}
+							</label>
+						</div>
+						<div class="form-check">
+							<input class="form-check-input _staff" type="radio" name="AccademicYear" id="Staff" value="Staff" disabled>
+							<label class="form-check-label" for="Staff">
+								Staff Member
+							</label>
+						</div>
+					</div>
+				</div>
+
+				<div style ="padding-top: 25px; padding-left: 0px;" class="form-group mb-1 col-md-4">
+		 					<label for="Select House">House</label>
+		 					<select class="form-control" id="House">
+		     					<option>Astell</option>
+		     					<option>Baylis</option>
+		     					<option>Bishop's</option>
+		     					<option>Copeland's</option>
+		     					<option>Doctor's</option>
+		     					<option>Eliot</option>
+		     					<option>Guy's</option>
+		     					<option>Hepworth</option>
+		     					<option>Johnians</option>
+		     					<option>Kingsley</option>
+		     					<option>Miller's</option>
+		     					<option>Poole's</option>
+		     					<option>School</option>
+		     				</select>	 				
+	     				</div>
+			</fieldset>
+			<div class="form-group">
+				<div class="col-md-auto mb-3">
+					<button type="submit" class="btn btn-primary">Register</button>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<script>
+		$(document).ready(function(){
+		  $('select[name="Forest_Email_Domain"]').change(function() {
+
+		    if ($(this).val() == "sch_staff"){
+		      $("._staff").attr('disabled', false);
+		      $("._student").attr('disabled', true);
+		      $( "._staff" ).prop( "checked", true );
+		      }
+		    if ($(this).val() == "sch_student"){
+		      $("._staff").attr('disabled', true);
+		      $("._student").attr('disabled', false);
+		      $( "._student-default" ).prop( "checked", true );
+		      }
+		  });
+		})
+	</script>	
 
 {% endblock _content_ %}

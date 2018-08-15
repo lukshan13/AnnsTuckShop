@@ -23,6 +23,16 @@ def get_TimeOfDay():
 	else:
 	    TimeOfDay = ("Hello!")
 
+def get_AccademicYear():
+	global year12, year13
+	if (now.month) <= (7):
+		year12 = (now.year - 1)
+		year13 = (year12-1)
+	else:
+		year12 = (now.year)
+		year13 = (year12 -1)
+	
+
 
 
 def RunGetInfo():

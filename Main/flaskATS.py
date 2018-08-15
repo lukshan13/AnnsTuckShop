@@ -29,8 +29,9 @@ def ParseInfo():
 		'page_title': (page_title),
 		'date' :(getInfo.date),
 		'day': (getInfo.day),
-		'TimeOfDay': (getInfo.TimeOfDay)
-
+		'TimeOfDay': (getInfo.TimeOfDay),
+		'AccademicYear12': (getInfo.year12),
+		'AccademicYear13': (getInfo.year13)
 	}
 
 @site.route('/home')

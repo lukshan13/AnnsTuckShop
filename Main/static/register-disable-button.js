@@ -1,18 +1,12 @@
-$(document).ready(function() {
-// By Default Disable radio button
-$(".second").attr('disabled', true);
-$(".wrap").css('opacity', '.2'); // This line is used to lightly hide label for disable radio buttons.
-// Disable radio buttons function on Check Disable radio button.
-$("form input:radio").change(function() {
-if ($(this).val() == "Disable") {
-$(".second").attr('checked', false);
-$(".second").attr('disabled', true);
-$(".wrap").css('opacity', '.2');
-}
-// Else Enable radio buttons.
-else {
-$(".second").attr('disabled', false);
-$(".wrap").css('opacity', '1');
-}
-});
-});
+
+$(document).ready(function(){
+	$('select[name="Forest_Email_Domain"]').change(function() {
+		if ($(this).val() == "sch_staff"){
+			$("._staff").attr('disabled', false);
+			$("._student").attr('disabled', true);
+		}
+		if ($(this).val() == "sch_student"){
+			$("._staff").attr('disabled', true);
+			$("._student").attr('disabled', false);
+		}
+			});

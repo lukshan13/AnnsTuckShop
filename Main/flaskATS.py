@@ -44,7 +44,7 @@ def home():
 @site.route('/register/')
 def register():
 	ParseInfo()
-	return render_template('signup.html',info=info, pg_name="Sign Up")
+	return render_template('Signup.html',info=info, pg_name="Sign Up")
 
 @site.route('/about')
 def about():

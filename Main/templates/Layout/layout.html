@@ -29,16 +29,17 @@
 		<h1 style="color: #213564 ">Anne's Tuck Shop</h1>
 	</header>
 	<nav>
+		<div class="nav-handle" style="padding-top: 0p">Navbar</div>
 		<ul>
 			<a href="{{ url_for('home') }}"><li>Home</li></a>
-			<a href="{{ url_for('home') }}"><li>Pre-order</li></a>
-			<a href="{{ url_for('home') }}"><li>Shop</li></a>
-			<a href="{{ url_for('home') }}"><li>Balance services</li></a>
+			<a href=""><li>Pre-order <span class="badge badge-secondary badge-danger">dev</span></li></a>
+			<a href="{{ url_for('home') }}"><li>Shop <span class="badge badge-secondary badge-danger">dev</span></li></a>
+			<a href="{{ url_for('home') }}"><li>Balance services <span class="badge badge-secondary badge-danger">dev</span></li></a>
 		
-			<a href="{{ url_for('register') }}"><li class="rightlast">Register</li></a>
-			<a href="{{ url_for('home') }}"><li class="right">Log in</li></a>
+			<a href="{{ url_for('register') }}"><li class="rightlast">Register </li></a>
+			<a href="{{ url_for('home') }}"><li class="right">Log in <span class="badge badge-secondary badge-danger">dev</span></li></a>
 		</ul>
-		<div class="nav-handle">Navbar</div>
+		
 	</nav>
 
 

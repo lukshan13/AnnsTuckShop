@@ -15,7 +15,7 @@ page = ("nil")
 #from getInfo 
 getInfo.RunGetInfo()
 '''TEMP'''
-userType = ("Student")
+userType = ("Guest")
 page_title = (userType + ": ")
 
 def shutdown_server():
@@ -45,6 +45,14 @@ def home():
 def register():
 	ParseInfo()
 	return render_template('Signup.html',info=info, pg_name="Sign Up")
+
+@site.route('/signin/')
+def signin():
+	ParseInfo()
+	return render_template('Signin.html',info=info, pg_name="Sign In")
+
+
+
 
 @site.route('/about')
 def about():

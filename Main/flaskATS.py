@@ -2,9 +2,11 @@ print ("Developed By Lukshan Sharvaswaran, DvDt:2018. @lukshan13")
 
 #calling in required libraries for code
 import flask
-from flask import Flask, render_template, url_for, request
+from flask import Flask, render_template, url_for, request, redirect
 import getInfo as getInfo
 import os
+
+
 
 site = Flask(__name__)
 #hardcoding values incase no values are returned from database to prevent errors
@@ -40,10 +42,21 @@ def home():
 	ParseInfo()
 	return render_template('Home.html',info=info, pg_name="Home", sidebar="yes")
 
-@site.route('/signup/')
-@site.route('/register/')
+@site.route('/signup/', methods=['POST', 'GET'])
+def gotoregister():
+	return redirect(url_for('register'), 301)
+
+@site.route('/register/', methods=['POST', 'GET'])
 def register():
 	ParseInfo()
+	global First_Name
+	
+	if request.method == 'POST':
+		First_Name = request.form 
+		Last_Name = request.form.get('Last_Name_Form')
+		print (First_Name)
+		print ("test")
+
 	return render_template('Signup.html',info=info, pg_name="Sign Up")
 
 @site.route('/signin/')

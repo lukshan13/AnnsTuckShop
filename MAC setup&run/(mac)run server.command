@@ -1,6 +1,6 @@
 cd ~/desktop/annes_tuck_shop/main
 
-export FLASK_APP=flaskATS.py
+export FLASK_APP=ATS
 export FLASK_DEBUG=0
 open http://localhost:8000
 

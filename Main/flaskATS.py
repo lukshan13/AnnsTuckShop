@@ -3,15 +3,53 @@ print ("Developed By Lukshan Sharvaswaran, DvDt:2018. @lukshan13")
 #calling in required libraries for code
 import flask
 from flask import Flask, render_template, url_for, request, redirect
+from flask_sqlalchemy import SQLAlchemy
 import getInfo as getInfo
-import os
-
-
-
+import os, sys
 site = Flask(__name__)
+
+print("The Python version is %s.%s.%s" % sys.version_info[:3])
+
+
+site.config['SECRET_KEY'] = '123456789abcdefghijk987654321'
+#temp secret key for developmental purposes
+site.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db' 
+site.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db = SQLAlchemy(site)
+
+class User(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	First_name = db.Column(db.String(25), unique=True, nullable=False)
+	Last_name = db.Column(db.String(25), unique=True, nullable=False)
+	Username = db.Column(db.String(25), unique=True, nullable=False)
+	YGS = db.Column(db.Integer, nullable=False)
+	Email = db.Column(db.String(120), unique=True, nullable=False)
+	House = db.Column(db.String(10), nullable=False)
+	Password = db.Column(db.String(120), nullable=False)
+	Orders = db.relationship('Order', backref=('customer'), lazy=True)
+
+
+class Item(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	Item_name = db.Column(db.String(25), unique=True, nullable=False)
+	Type = db.Column(db.String(8), nullable=False)
+	Price = db.Column(db.Integer, nullable=False)
+
+
+class Order(db.Model):
+	id = db.Column(db.Integer, primary_key=True)
+	User_ID = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+	Order_Item = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
+	
+
+
+
+
+
+
 #hardcoding values incase no values are returned from database to prevent errors
-userType = ("nil")
-page = ("nil")
+
 
 
 #from getInfo 
@@ -53,7 +91,6 @@ def register():
 	
 	if request.method == 'POST':
 		First_Name = request.form 
-		Last_Name = request.form.get('Last_Name_Form')
 		print (First_Name)
 		print ("test")
 

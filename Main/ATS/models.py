@@ -5,10 +5,11 @@ class User(db.Model):
 	First_name = db.Column(db.String(25), unique=True, nullable=False)
 	Last_name = db.Column(db.String(25), unique=True, nullable=False)
 	Username = db.Column(db.String(25), unique=True, nullable=False)
-	YGS = db.Column(db.Integer, nullable=False)
+	YGS = db.Column(db.String(7), nullable=False)
 	Email = db.Column(db.String(120), unique=True, nullable=False)
 	House = db.Column(db.String(10), nullable=False)
 	Password = db.Column(db.String(120), nullable=False)
+	AccVerified = db.Column(db.Integer, nullable=False, default=0)
 	Admin_status = db.Column(db.Integer, nullable=False, default=0)
 	Orders = db.relationship('Order', backref=('customer'), lazy=True)
 

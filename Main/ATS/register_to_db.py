@@ -50,10 +50,16 @@ class rUser:
 		if self.EmailEnd == ("sch_student"):
 			EmailDomain = "@forestsch.org.uk"
 
-
-
 		self.EmailAddress = (self.Username+EmailDomain)
 		print ("Generating account for", self.EmailAddress)
+
+
+
+	def normalise(self):
+		self.FirstName = self.FirstName.capitalize()
+		self.LastName = self.LastName.capitalize()
+		self.Username = self.Username.lower()
+
 
 
 	def add_to_db(self):
@@ -64,6 +70,8 @@ class rUser:
 
 
 	def add_new_user(self):
+		print ("New Register request")
+		self.normalise()
 		self.check_existing()
 		if self.existing == (False):
 			self.add_to_db()

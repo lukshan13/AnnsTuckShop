@@ -4,7 +4,9 @@ print ('importing modules.....')
 import sys
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-import ATS.getInfo as getInfo
+from flask_login import LoginManager
+
+from ATS import getInfo as getInfo
 
 
 import os, sys
@@ -19,6 +21,7 @@ site.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 site.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(site)
+login_manager = LoginManager(site)
 
 from ATS import routes
 

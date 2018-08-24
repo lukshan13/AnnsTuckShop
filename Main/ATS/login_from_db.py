@@ -7,6 +7,7 @@ class sUser:
 	Username = None
 	Password = None
 	existing = False
+	verified = False
 	error = None
 	success_login = False
 	current_user_login = None
@@ -29,18 +30,26 @@ class sUser:
 			print ("checking if account exisits")
 			if check_query.Username == self.Username:
 				self.existing = True
-				print ("User found")
+				print ("Username found")
 				
 		except AttributeError:
 			self.existing = False
 			self.error = ("Username does not exist or is misspelt")
 
-	
+
+	def check_verified(self):
+		print ("Checking if username email verified")
+		self.current_user_login = User.query.filter_by(Username=self.Username).first()
+		if self.current_user_login.AccVerified == (1):
+			self.verified = True
+			print ("Username email verified")
+		else:
+			self.error = ("Username email not verified. Please check email to verify account")
+
 
 
 	def compare_password(self):
 		print ("Checking password")
-		self.current_user_login = User.query.filter_by(Username=self.Username).first()
 		if self.current_user_login.Password == self.Password:
 			self.success_login = True
 			print ("Credentials match!")
@@ -55,7 +64,9 @@ class sUser:
 		self.normalise()
 		self.check_existing()
 		if self.existing == (True):
-			self.compare_password()
+			self.check_verified()
+			if self.verified == (True):
+				self.compare_password()
 
 		print ("Error:", self.error)
 

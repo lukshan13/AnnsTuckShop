@@ -1,5 +1,5 @@
 from flask import render_template, url_for, request, redirect
-from flask_login import login_user
+from flask_login import login_user, current_user, logout_user
 from ATS import site, db
 
 from ATS.models import User, Item, Order
@@ -45,8 +45,10 @@ def gotoregister():
 
 @site.route('/register/', methods=['POST', 'GET'])
 def register():
+	if current_user.is_authenticated:
+		return redirect(url_for('home'))
 	ParseInfo()
-	
+
 	if request.method == 'POST':
 		global login_s_error
 		form_data = request.form
@@ -62,9 +64,10 @@ def register():
 		return render_template('Signup.html',info=info, pg_name="Sign Up")
 
 
-
 @site.route('/signin/', methods=['POST', 'GET'])
 def signin():
+	if current_user.is_authenticated:
+		return redirect(url_for('home'))
 	ParseInfo()
 
 	if request.method =="POST":
@@ -90,11 +93,11 @@ def signin():
 		return render_template('Signin.html',info=info, pg_name="Sign In")
 
 
-
+@site.route('/logout/')
 @site.route('/signout/')
 def signout():
-	ParseInfo()
-
+	logout_user()
+	return redirect(url_for('home'))
 
 
 

@@ -36,8 +36,13 @@
 			<a href="{{ url_for('home') }}"><li>Shop <span class="badge badge-secondary badge-danger">dev</span></li></a>
 			<a href="{{ url_for('home') }}"><li>Balance services <span class="badge badge-secondary badge-danger">dev</span></li></a>
 		
-			<a href="{{ url_for('register') }}"><li class="rightlast">Register<span class="badge badge-secondary badge-default">new</span></li></a>
-			<a href="{{ url_for('signin') }}"><li class="right">Log in</li></a>
+			{% if current_user.is_authenticated %}
+				<a href="{{ url_for('signout') }}"><li class="rightlast">Log out</li></a>
+				<a href="{{ url_for('home') }}"><li class="right">Account <span class="badge badge-secondary badge-danger">dev</span></li></a>
+			{% else %}
+				<a href="{{ url_for('register') }}"><li class="rightlast">Register</li></a>
+				<a href="{{ url_for('signin') }}"><li class="right">Log in <span class="badge badge-secondary badge-default">new</span></li></a>
+			{% endif %}
 		</ul>
 		
 	</nav>

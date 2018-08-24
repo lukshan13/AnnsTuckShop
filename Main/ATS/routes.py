@@ -5,6 +5,7 @@ from ATS import site, db
 from ATS.models import User, Item, Order
 from ATS.register_to_db import rUser
 from ATS.login_from_db import sUser
+from ATS.skHandler import sk
 
 from ATS import getInfo as getInfo
 
@@ -14,15 +15,27 @@ from ATS import getInfo as getInfo
 #from getInfo 
 getInfo.RunGetInfo()
 '''TEMP'''
-userType = ("Guest")
-page_title = (userType + ": ")
+
+page_title = ("Guest" + ": ")
 
 def shutdown_server():
     func = request.environ.get('werkzeug.server.shutdown')
     func()
 
 def ParseInfo():
+
+
 	global info
+	try:
+		if current_user.YGS:
+			if current_user.YGS != "S":
+				user_type = ("Student")
+			else:
+				user_type = ("Staff")
+	except:
+		user_type = ("Guest")
+
+	page_title = (user_type + ": ")
 	getInfo.RunGetInfo()
 	info = {
 		'page_title': (page_title),
@@ -100,11 +113,6 @@ def signout():
 	return redirect(url_for('home'))
 
 
-
-
-
-
-
 @site.route('/about')
 def about():
 	ParseInfo()
@@ -113,7 +121,15 @@ def about():
 @site.route('/shutdownserver1034')
 def shutdown():
     shutdown_server()
-    return 'Server shutting down...'
+    return redirect(url_for('home'))
+
+
+@site.route('/purgekey')
+def purgekey():
+	purge = sk()
+	purge.purgeKey()
+	return redirect(url_for('shutdown'))
+
 
 @site.route('/error/')
 def error():

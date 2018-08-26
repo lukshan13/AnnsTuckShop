@@ -1,0 +1,41 @@
+<!-- calling template -->
+{% extends "Layout/layout.html" %}
+
+{% block _content_ %}
+	<div class="content-section">
+		<form method="POST" action="">
+			<fieldset class="form-group">
+			<legend class="border-bottom mb-4">Verify Your Account manually</legend>
+
+				
+
+				<div class="form">
+					<div class="col-md-7 mb-1">
+	    				<label for="username">Forest email username:</label>
+	   					<input type="text" class="form-control" id="username" name="username_verify" placeholder="JAppleseed" required>
+	 				</div>
+     			</div>
+     		
+
+			  	<div class="form">
+			  		<div class="col-md-7" style="padding-top: 13px">				
+						<label for="PasswordInput" class="form-label">Token</label>
+						<input type="text" class="form-control" id="TokenInput" name="token_verify" placeholder="(paste here) eg.137040ed1de49e64fjef1f93sk3" required>			
+					</div>
+				</div>
+
+			</fieldset>
+
+			<div class="border-top"></div>
+			<div class="form" style="padding-top: 20px">
+				<div class="col-md-auto mb-3">
+					<button type="submit" class="btn btn-primary">Verify</button>
+				</div>
+			</div>
+		</form>
+		
+	</div>
+
+	
+
+{% endblock _content_ %}

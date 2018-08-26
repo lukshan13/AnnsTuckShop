@@ -34,7 +34,7 @@ class sUser:
 				
 		except AttributeError:
 			self.existing = False
-			self.error = ("Username does not exist or is misspelt")
+			self.error = ("Username does not exist or is miss-spelt")
 
 
 	def check_verified(self):

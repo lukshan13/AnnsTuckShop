@@ -1,5 +1,6 @@
 from ATS import db
-from ATS.models import User, Item, Order
+from ATS.models import User
+from ATS.user_verification import GetVerifyToken
 
 
 class rUser:
@@ -14,6 +15,7 @@ class rUser:
 	Password = None
 	existing = False
 	error = None
+	token = None
 
 	def __init__(self, FirstName, LastName, Username, EmailEnd, YGS, House, Password):
 		self.FirstName = FirstName
@@ -33,15 +35,9 @@ class rUser:
 			if check_query.Username == self.Username:
 				self.existing = True
 				self.error = ("Account under that name already exists.")
-
-
 		except AttributeError:
 			print ("Account does not exist")
-			self.existing = False
-
-		
-
-		
+			self.existing = False	
 
 
 	def generate_email_address(self):
@@ -75,4 +71,29 @@ class rUser:
 		self.check_existing()
 		if self.existing == (False):
 			self.add_to_db()
-		
+			getVerify = GetVerifyToken(self.Password, self.Username, self.EmailAddress, self.FirstName)
+			getVerify.get_verify_token()
+			getVerify.send_email_verify_token()
+			self.token = getVerify.token
+			print (self.token)
+	
+
+class vUser:
+
+	Username = None
+
+	def __init__(self, vUsername):
+		self.Username = vUsername.lower()
+
+	def verify_user(self):
+			try:
+				print (self.Username)
+				check_query = User.query.filter_by(Username=self.Username).first()
+				print (check_query)
+				check_query.AccVerified = ("1")
+				db.session.commit()
+				print ("commiting to db")
+			except AttributeError:
+				error = ("Something went wrong, please try again. This should not happen")
+				print (error)
+				return error

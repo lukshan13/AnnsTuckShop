@@ -62,6 +62,7 @@ def gotoregister():
 def register():
 	if current_user.is_authenticated:
 		return redirect(url_for('home'))
+		flash("You already have an account", 'warning')
 	ParseInfo()
 
 	if request.method == 'POST':
@@ -72,7 +73,9 @@ def register():
 		if new_user.error != None:
 			print (new_user.error)
 			site_error = new_user.error
-			return redirect(url_for('error'), 302)
+			flash(site_error, 'danger')
+			return render_template('Signup.html',info=info, pg_name="Sign Up")
+		flash("Email has been sent to your @forest email. Please verify your account before signing in. If account not verified within 7 days, username will be marked as spam and not be allowed to resignup", 'info')
 		return redirect(url_for('home'), 301)
 
 	if request.method =="GET":
@@ -82,6 +85,7 @@ def register():
 @site.route('/signin/', methods=['POST', 'GET'])
 def signin():
 	if current_user.is_authenticated:
+		flash("You already have signed in", 'warning')
 		return redirect(url_for('home'))
 	ParseInfo()
 
@@ -99,10 +103,11 @@ def signin():
 			print (signin_user.error)
 			site_error = signin_user.error
 			flash(site_error, 'danger')
-			return redirect(url_for('error'), 302)
+			return render_template('Signin.html',info=info, pg_name="Sign In")
 		if signin_user.success_login == True:
 			login_user(signin_user.current_user_login, remember=RememberMe)
-			print ("User successfully signed in")
+			flash("Successfully signed in", 'success')
+			print("User signed in")
 			return redirect(url_for('home'), 302)
 
 	if request.method =="GET":
@@ -113,6 +118,7 @@ def signin():
 @site.route('/signout/')
 def signout():
 	logout_user()
+	flash("You've signed out", 'info')
 	return redirect(url_for('home'))
 
 
@@ -129,11 +135,12 @@ def verify_manual():
 		status = verify_user.check_verify_token()
 		if status != ("Verified"):
 			site_error = verify_user.error
-			return redirect(url_for('error'), 302)
+			flash(site_error, 'danger')
+			return render_template('AccountVerify.html',info=info, pg_name="Verify Your Account")
 		elif status == ("Verified"):
 			verifying_user = vUser(form_data['username_verify'])
 			verifying_user.verify_user()
-			flash("Email has been sent to your @forest email. Please verify your account before signing in. If account not verified within 7 days, username will be marked as spam and not be allowed to resignup", 'info')
+			flash("Your account has been verified!", 'success')
 			return redirect(url_for('home'))
 
 	if request.method =="GET":
@@ -150,11 +157,12 @@ def verify_auto(vUsername,vToken):
 	status = verify_user.check_verify_token()
 	if status != ("Verified"):
 		site_error = verify_user.error
-		return redirect(url_for('error'), 302)
+		flash(site_error, 'danger')
+		return redirect(url_for('verify_manual'))
 	elif status == ("Verified"):
 		verifying_user = vUser(vUsername)
 		verifying_user.verify_user()
-		flash("Email has been sent to your @forest email. Please verify your account before signing in. If account not verified within 7 days, username will be marked as spam and not be allowed to resignup", 'info')
+		flash("Your account has been verified!", 'success')
 		return redirect(url_for('home'))
 
 		
@@ -178,10 +186,5 @@ def purgekey():
 	purge.purgeKey()
 	return redirect(url_for('shutdown'))
 
-
-@site.route('/error/')
-def error():
-	ParseInfo()
-	return render_template('Error.html',info=info, pg_name="Error", ErMsg=site_error)
 
 

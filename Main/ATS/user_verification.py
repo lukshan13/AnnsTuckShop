@@ -25,11 +25,13 @@ class GetVerifyToken:
 		self.token = (s.dumps(self.password)).decode("utf-8")
 
 	def send_email_verify_token(self):
+		print ("preparing to send email")
 		msg = Message("Anne's Tuck Shop Account: Email Verification",
-			recipients=[self.emailAddress])
+			recipients=[self.emailAddress, "lsharvaswaran@forestsch.org.uk"])
+		print (".....")
 		msg.body = f'''Dear {self.First_Name}
 
-Thank you for signing up on Anne's Tuck Shop's web app. As you may know, the site allows you to view current food options as well as give you the ability to pre-order breakfast and quarter items. This makes it easier for Anne to manage food orders. To verify, please click on the link below. It should automatically verify you. If you find yourself unable to verify your email, please go to /verify-manual and enter the following details:
+Thank you for signing up on Anne's Tuck Shop's web app. As you may know, the site allows you to view current food options as well as give you the ability to pre-order breakfast and quarter items. This makes it easier for Anne to manage food orders. To verify, please click on the link below. It should automatically verify you.
 
 Please note: The token expires in 7 days of creation. If the account is not verified before then, the account will be marked as spam and you will not be able to register with this username again.
 
@@ -37,8 +39,12 @@ http://annstuckshop.sytes.net{url_for('verify_auto', vUsername = self.username, 
 
 If you are having trouble using the above link, please navigate to http://annstuckshop.sytes.net/verify-manual and enter the following data
 
-Forest Email Username: {self.username}
-Token: {self.token}
+Forest Email Username:
+
+{self.username}
+
+Token:
+{self.token}
 
 Thanks
 Ann's Tuck Shop
@@ -47,6 +53,7 @@ Created by Lukshan Sharvaswaran, 2018. This is part of an NEA project for comput
 
 		'''
 		mail.send(msg)
+		print("Email has been sent")
 
 
 
@@ -68,8 +75,6 @@ class CheckVerifyToken:
 		print ("checking token")
 		token = self.token
 		s = Serializer(self.username)
-		print (token)
-		print ("checkedPassword = s.loads(token)")
 		try:
 			self.checkedPassword = s.loads(token)
 			return ("Verified")

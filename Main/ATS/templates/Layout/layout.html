@@ -32,7 +32,7 @@
 		<div class="nav-handle" style="padding-top: 0p">Navbar</div>
 		<ul>
 			<a href="{{ url_for('home') }}"><li>Home</li></a>
-			<a href=""><li>Pre-order <span class="badge badge-secondary badge-danger">dev</span></li></a>
+			<a href="{{ url_for('home') }}"><li>Pre-order <span class="badge badge-secondary badge-danger">dev</span></li></a>
 			<a href="{{ url_for('home') }}"><li>Shop <span class="badge badge-secondary badge-danger">dev</span></li></a>
 			<a href="{{ url_for('home') }}"><li>Balance services <span class="badge badge-secondary badge-danger">dev</span></li></a>
 		
@@ -72,7 +72,7 @@
 			        <h3>Main side bar</h3>
 			        <p class='text-muted'>Probably put latest news or something else anne wants
 			          <ul class="list-group">
-							<a class='sidebaritem' href="#"><li class="list-group-item list-group-item-light">Login</li></a>
+							<a class='sidebaritem' href="{{ url_for('signin') }}"><li class="list-group-item list-group-item-light">Login</li></a>
 							<a class='sidebaritem' href="{{ url_for('register') }}"><li class="list-group-item list-group-item-light">Register</li></a>
 							<a class='sidebaritem' href="#"><li class="list-group-item list-group-item-light">Recent breakfast changes?</li></a>
 							<a class='sidebaritem' href="#"><li class="list-group-item list-group-item-light">etc</li></a>

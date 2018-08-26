@@ -27,7 +27,7 @@ class sUser:
 		
 		try:
 			check_query = User.query.filter_by(Username=self.Username).first()
-			print ("checking if account exisits")
+			#checking if account exisits
 			if check_query.Username == self.Username:
 				self.existing = True
 				print ("Username found")
@@ -38,7 +38,7 @@ class sUser:
 
 
 	def check_verified(self):
-		print ("Checking if username email verified")
+		#Checking if username email verified
 		self.current_user_login = User.query.filter_by(Username=self.Username).first()
 		if self.current_user_login.AccVerified == (1):
 			self.verified = True
@@ -49,7 +49,7 @@ class sUser:
 
 
 	def compare_password(self):
-		print ("Checking password")
+		#Checking password
 		if self.current_user_login.Password == self.Password:
 			self.success_login = True
 			print ("Credentials match!")
@@ -63,9 +63,9 @@ class sUser:
 		print ("New Login request")
 		self.normalise()
 		self.check_existing()
-		if self.existing == (True):
+		if self.existing == (True): #tells function to continue if account exists
 			self.check_verified()
-			if self.verified == (True):
+			if self.verified == (True): #tells function to continue if account verified
 				self.compare_password()
 
 		print ("Error:", self.error)

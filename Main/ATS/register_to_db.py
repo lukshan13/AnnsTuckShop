@@ -34,7 +34,7 @@ class rUser:
 			print ("checking if account already exisits")
 			if check_query.Username == self.Username:
 				self.existing = True
-				self.error = ("Account under that name already exists.")
+				self.error = ("Account under that username already exists.")
 		except AttributeError:
 			print ("Account does not exist")
 			self.existing = False	
@@ -75,7 +75,6 @@ class rUser:
 			getVerify.get_verify_token()
 			getVerify.send_email_verify_token()
 			self.token = getVerify.token
-			print (self.token)
 	
 
 class vUser:

@@ -1,6 +1,6 @@
 from ATS import db, login_manager
 from flask_login import UserMixin
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -20,7 +20,7 @@ class User(db.Model, UserMixin):
 	Admin_status = db.Column(db.Integer, nullable=False, default=0)
 	Orders = db.relationship('Order', backref=('customer'), lazy=True)
 
-
+	
 	def __repr__(self):
 		return f"User('{self.First_name}', '{self.Last_name}', '{self.Username}', '{self.House}')"
 

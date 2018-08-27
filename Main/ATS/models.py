@@ -9,8 +9,8 @@ def load_user(user_id):
 
 class User(db.Model, UserMixin):
 	id = db.Column(db.Integer, primary_key=True)
-	First_name = db.Column(db.String(25), unique=True, nullable=False)
-	Last_name = db.Column(db.String(25), unique=True, nullable=False)
+	First_name = db.Column(db.String(25), nullable=False)
+	Last_name = db.Column(db.String(25), nullable=False)
 	Username = db.Column(db.String(25), unique=True, nullable=False)
 	YGS = db.Column(db.String(7), nullable=False)
 	Email = db.Column(db.String(120), unique=True, nullable=False)

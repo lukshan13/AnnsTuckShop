@@ -20,9 +20,10 @@ key = skHandler.sk()
 key.run()
 
 site.config['SECRET_KEY'] = (key.key)
-#temp secret key for developmental purposes
+#Key is imported from a file for better security and to easily reset it
 site.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 site.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+#calling database
 
 #site.config['MAIL_SERVER'] = 'smtp.gmail.com'
 #site.config['MAIL_PORT'] = 587
@@ -40,8 +41,6 @@ site.config['MAIL_USERNAME'] = YOUR EMAIL HERE
 site.config['MAIL_DEFAULT_SENDER'] = YOUR EMAIL HERE
 site.config['MAIL_PASSWORD'] = YOUR PASSWORD HERE
 
-
-
 print ("SMTP server is : ", os.environ.get("EMAIL_USER"))
 #Gmail username and password is being stored in enviromental variables to prevent access on repositories, and makes it much easier to change.
 #SMTP server will be switched to the forest.org.uk's server in due course once it is available
@@ -50,9 +49,6 @@ print ("SMTP server is : ", os.environ.get("EMAIL_USER"))
 db = SQLAlchemy(site)
 login_manager = LoginManager(site)
 mail = Mail(site)
-
-
-
 
 from ATS import routes
 

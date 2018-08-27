@@ -9,7 +9,7 @@
     <!-- Bootstrap CSS -->  <!-- using Bootstrap's css as it produces a very nice text layout-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <!-- using 'url_for' to find the css file in case it changes -->
-    <link rel="stylesheet" type="text/css" href=" {{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" type="text/css" href=" {{ url_for('static', filename='main.css') }}?version=3.01">
 
 	{% if info.page_title %}
 		<title>ATS - {{info.page_title}} {{pg_name}} </title>
@@ -26,10 +26,18 @@
 
 	<!--Navbar-->
 	<header>
-		<h1 style="color: #213564 ">Anne's Tuck Shop</h1>
+		<h1 class="ATS_title"><img class="Forest-Logo" src="https://www.forest.org.uk/wp-content/themes/forestschool/assets/images/logo-forest-school.png" alt="Forest-Logo">Anne's Tuck Shop</h1>
+	
 	</header>
 	<nav>
-		<div class="nav-handle" style="padding-top: 0p">Navbar</div>
+		<div class="nav-handle" style="padding-top: 0p">
+			<span onclick="myFunction(this)">
+				<div class="bar1 nav-handle-icon"></div>
+				<div class="bar2 nav-handle-icon"></div>
+				<div class="bar3 nav-handle-icon"></div>
+			</span>
+			<div style="position:relative; left: 40px; bottom: 15px; font-size: 1.2em;">Navbar</div>
+		</div>
 		<ul>
 			<a href="{{ url_for('home') }}"><li>Home</li></a>
 			<a href="{{ url_for('home') }}"><li>Pre-order <span class="badge badge-secondary badge-danger">dev</span></li></a>
@@ -67,19 +75,41 @@
 		
 
 		    {% if sidebar == 'yes' %}
-			    <div class="col-md-4">
-			      <div class="content-section">
-			        <h3>Main side bar</h3>
-			        <p class='text-muted'>Probably put latest news or something else anne wants
-			          <ul class="list-group">
-							<a class='sidebaritem' href="{{ url_for('signin') }}"><li class="list-group-item list-group-item-light">Login</li></a>
-							<a class='sidebaritem' href="{{ url_for('register') }}"><li class="list-group-item list-group-item-light">Register</li></a>
-							<a class='sidebaritem' href="#"><li class="list-group-item list-group-item-light">Recent breakfast changes?</li></a>
-							<a class='sidebaritem' href="#"><li class="list-group-item list-group-item-light">etc</li></a>
-			          </ul>
-			        </p>
-			      </div>
-			    </div>
+		    <div class="col-md-4">
+				{% if current_user.is_authenticated %}
+					<div class="content-section">
+						<h3>{{info.Current_Fullname}}</h3>
+						<p class='text-muted'>
+							{% if current_user.YGS == "S" %}
+								Staff, {{current_user.House}} House
+							{% elif current_user.YGS == "12" or current_user.YGS == "13" %}
+								Student, Year {{current_user.YGS}}, {{current_user.House}} House
+							{% endif %}
+							{% if current_user.Admin_status == 1 %}
+								- ADMIN
+							{% endif %}
+							<ul class="list-group">
+								<a class='sidebaritem' href="{{ url_for('home') }}"><li class="list-group-item list-group-item-light">View Breakfast Menu</li></a>
+								<a class='sidebaritem' href="{{ url_for('home') }}"><li class="list-group-item list-group-item-light">View Quarter Menu</li></a>
+								<a class='sidebaritem' href="https://goo.gl/rWmht8"><li class="list-group-item list-group-item-light">View Lunch Menu</li></a>
+								<a class='sidebaritem' href="#"><li class="list-group-item list-group-item-light">Recent breakfast changes?</li></a>
+								<a class='sidebaritem' href="#"><li class="list-group-item list-group-item-light">etc</li></a>
+							</ul>
+						</p>
+					</div>
+
+				{% else %}
+					<div class="content-section">
+						<h3>Guest</h3>
+						<p class='text-muted'>Please Register or Log in to get more options
+							<ul class="list-group">
+								<a class='sidebaritem' href="{{ url_for('signin') }}"><li class="list-group-item list-group-item-light">Login</li></a>
+								<a class='sidebaritem' href="{{ url_for('register') }}"><li class="list-group-item list-group-item-light">Register</li></a>
+							</ul>
+						</p>
+					</div>
+				{% endif %}
+			</div>
 			{% endif %}
 	  </div>
 	</main>

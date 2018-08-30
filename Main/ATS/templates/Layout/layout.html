@@ -20,6 +20,8 @@
 	<link rel="shortcut icon" type="image/png" href=" {{ url_for('static', filename='favicon-waitress.png') }}">
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+	{% block _head_ %}{% endblock %}
 </head>
 <body>
 
@@ -31,8 +33,8 @@
 	</header>
 	<nav>
 		<div class="nav-handle" style="padding-top: 0p">
-			<span onclick="myFunction(this)">
-				<div class="bar1 nav-handle-icon"></div>
+			<span>
+				<div class="bar1 nav-handle-icon change"></div>
 				<div class="bar2 nav-handle-icon"></div>
 				<div class="bar3 nav-handle-icon"></div>
 			</span>
@@ -40,13 +42,16 @@
 		</div>
 		<ul>
 			<a href="{{ url_for('home') }}"><li>Home</li></a>
-			<a href="{{ url_for('home') }}"><li>Pre-order <span class="badge badge-secondary badge-danger">dev</span></li></a>
-			<a href="{{ url_for('home') }}"><li>Shop <span class="badge badge-secondary badge-danger">dev</span></li></a>
-			<a href="{{ url_for('home') }}"><li>Balance services <span class="badge badge-secondary badge-danger">dev</span></li></a>
+			<a href="{{ url_for('pre_order') }}"><li>Pre-order <span class="badge badge-secondary badge-danger">dev</span></li></a>
+			<a href="{{ url_for('shop') }}"><li>Shop <span class="badge badge-secondary badge-danger">dev</span></li></a>
+			<a href="{{ url_for('balance_services') }}"><li>Balance services <span class="badge badge-secondary badge-danger">dev</span></li></a>
 		
 			{% if current_user.is_authenticated %}
 				<a href="{{ url_for('signout') }}"><li class="rightlast">Log out</li></a>
-				<a href="{{ url_for('home') }}"><li class="right">Account <span class="badge badge-secondary badge-danger">dev</span></li></a>
+				<a href="{{ url_for('account') }}"><li class="right">Account <span class="badge badge-secondary badge-danger">dev</span></li></a>
+				{% if current_user.Admin_status == 1 %}
+					<a href="{{ url_for('adminpage') }}"><li class="rightlast">Admin Services</li></a>
+				{% endif %}
 			{% else %}
 				<a href="{{ url_for('register') }}"><li class="rightlast">Register</li></a>
 				<a href="{{ url_for('signin') }}"><li class="right">Log in <span class="badge badge-secondary badge-default">new</span></li></a>
@@ -89,8 +94,8 @@
 								- ADMIN
 							{% endif %}
 							<ul class="list-group">
-								<a class='sidebaritem' href="{{ url_for('home') }}"><li class="list-group-item list-group-item-light">View Breakfast Menu</li></a>
-								<a class='sidebaritem' href="{{ url_for('home') }}"><li class="list-group-item list-group-item-light">View Quarter Menu</li></a>
+								<a class='sidebaritem' href="{{ url_for('food_table_none') }}breakfast"><li class="list-group-item list-group-item-light">View Breakfast Menu</li></a>
+								<a class='sidebaritem' href="{{ url_for('food_table_none') }}quarter"><li class="list-group-item list-group-item-light">View Quarter Menu</li></a>
 								<a class='sidebaritem' href="https://goo.gl/rWmht8"><li class="list-group-item list-group-item-light">View Lunch Menu</li></a>
 								<a class='sidebaritem' href="#"><li class="list-group-item list-group-item-light">Recent breakfast changes?</li></a>
 								<a class='sidebaritem' href="#"><li class="list-group-item list-group-item-light">etc</li></a>
@@ -120,9 +125,11 @@
 		$(document).ready(function(){
 			$('.nav-handle').on('click', function(){
 				$('nav ul').toggleClass('when-showing');
+				$()
 			});
 		});
 
 	</script>
+	<div style="color: #eeeeff;position:relative;top: 60px;text-align: center;">Developed By Lukshan Sharvaswaran, DvDt:2018. @lukshan13</div>
 </body>
 </html>

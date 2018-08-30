@@ -1,0 +1,81 @@
+{% extends "Layout/layout.html" %}
+
+
+{% block _content_ %}
+
+
+<style>
+td, th{
+        border-color: black !important;
+    }
+
+    {% if highlight[:9] == "breakfast" %}
+        .colB{
+            background-color: #80a0CC;
+            color: #f5f5f5;
+        }
+    {% elif highlight[:7] == "quarter" %}
+        .colQ{
+            background-color: #80a0CC;
+            color: #f5f5f5;
+        }
+
+    {% endif %}
+
+</style>
+
+
+
+    <section class="media content-section">
+        <div class="media-body"><div class="section-metadata" style="border-bottom: none; font-size: 1.3em">
+            <small class="text-muted">ATS Food Table</small>
+        </div>
+
+        <table class="table" style="font-size: 1em">
+            <thead class="foodTable-head">
+            <tr>
+                <th>Day</th>
+                <th>Breakfast</th>
+                <th>Quarter</th>
+            </tr>
+            </thead>
+            <tr>
+                <th scope="row">Monday</th>
+                <td class="colB">{{table_data.Breakfast[0]}}</td>
+                <td class="colQ">{{table_data.Quarter[0]}}</td>
+            </tr>
+            <tr>
+                <th scope="row">Tuesday</th>
+                <td class="colB">{{table_data.Breakfast[1]}}</td>
+                <td class="colQ">{{table_data.Quarter[1]}}</td>
+            </tr>
+            <tr>
+                <th scope="row">Wednesay</th>
+                <td class="colB">{{table_data.Breakfast[2]}}</td>
+                <td class="colQ">{{table_data.Quarter[2]}}</td>
+            </tr>
+            <tr>
+                <th scope="row">Thursday</th>
+                <td class="colB">{{table_data.Breakfast[3]}}</td>
+                <td class="colQ">{{table_data.Quarter[3]}}</td>
+            </tr>
+            <tr>
+                <th scope="row">Friday</th>
+                <td class="colB">{{table_data.Breakfast[4]}}</td>
+                <td class="colQ">{{table_data.Quarter[4]}}</td>
+            </tr>
+            <tr>
+                <th scope="row">Saturday</th>
+                <td class="colB">{{table_data.Breakfast[5]}}</td>
+                <td class="colQ">{{table_data.Quarter[5]}}</td>
+            </tr>
+            <tr>
+                <th scope="row">Sunday</th>
+                <td class="colB">{{table_data.Breakfast[6]}}</td>
+                <td class="colQ">{{table_data.Quarter[6]}}</td>
+            </tr>
+        </table>
+
+
+    </section>
+{% endblock _content_ %}

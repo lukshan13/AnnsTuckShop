@@ -1,5 +1,5 @@
 #Importing dependencies and modules
-from flask import render_template, url_for, request, redirect, flash
+from flask import render_template, url_for, request, redirect, flash, abort
 from flask_login import login_user, current_user, logout_user
 from ATS import site, db, mail
 #custom made modules
@@ -8,6 +8,7 @@ from ATS.register_to_db import rUser, vUser
 from ATS.login_from_db import sUser
 from ATS.skHandler import sk
 from ATS.user_verification import CheckVerifyToken
+from ATS.get_foodtable_from_db import TableGetter
 from ATS import getInfo as getInfo
 
 getInfo.RunGetInfo()
@@ -60,14 +61,14 @@ def gotoregister():
 def register():
 	#lets the user register to the system
 	if current_user.is_authenticated:
-		return redirect(url_for('home'))
 		flash("You already have an account", 'warning')
+		return redirect(url_for('home'))
 	ParseInfo()
 
 	if request.method == 'POST':
 		global site_error
 		form_data = request.form
-		new_user = rUser(form_data['First_Name_Form'], form_data['Last_Name_Form'], form_data['Forest_Username_Form'], form_data['Forest_Email_Domain_Form'], form_data['AccademicYear_Form'], form_data['House_Form'], form_data['Password_Form'])
+		new_user = rUser(form_data['First_Name_Form'], form_data['Last_Name_Form'], form_data['Forest_Username_Form'], form_data['Forest_Email_Domain_Form'], form_data['AccademicYear_Form'], form_data['House_Form'], form_data['Password_Form'], 0)
 		new_user.add_new_user()
 		#Checks if any errors were produced
 		if new_user.error != None:
@@ -75,10 +76,12 @@ def register():
 			site_error = new_user.error
 			flash(site_error, 'danger')
 			return render_template('Signup.html',info=info, pg_name="Sign Up")
-		flash("Email has been sent to your @forest email. Please verify your account before signing in. If account not verified within 7 days, username will be marked as spam and not be allowed to resignup", 'info')
+		flash("Email has been sent to your @forest email. Please verify your account before signing in. If account not verified within 7 days, username will be marked as spam and not be allowed to resignup. If you can't see the email, please check that it has not been sent to your junk inbox!", 'info')
 		return redirect(url_for('home'), 301)
 	if request.method =="GET":
 		return render_template('Signup.html',info=info, pg_name="Sign Up")
+
+
 
 @site.route('/signin/', methods=['POST', 'GET'])
 def signin():
@@ -174,14 +177,56 @@ def home():
 	ParseInfo()
 	return render_template('Home.html',info=info, pg_name="Home", sidebar="yes")
 
+@site.route('/pre-order')
+def pre_order():
+	ParseInfo()
+	flash ("Whoops, this page is not complete yet! Hang tight, it'll be here soon!", "warning")
+	return render_template('Home.html',info=info, pg_name="Home", sidebar="yes")
+
+@site.route('/shop')
+def shop():
+	ParseInfo()
+	flash ("Whoops, this page is not complete yet! Hang tight, it'll be here soon!", "warning")
+	return render_template('Home.html',info=info, pg_name="Home", sidebar="yes")
+
+@site.route('/balance-services')
+def balance_services():
+	ParseInfo()
+	flash ("Whoops, this page is not complete yet! Hang tight, it'll be here soon!", "warning")
+	return render_template('Home.html',info=info, pg_name="Home", sidebar="yes")
+
+@site.route('/account')
+def account():
+	ParseInfo()
+	flash ("Whoops, this page is not complete yet! Hang tight, it'll be here soon!", "warning")
+	return render_template('/account/Account.html',info=info, pg_name="My Account", sidebar="yes")
+
+
+
 
 @site.route('/about')
 def about():
 	ParseInfo()
 	return render_template('About.html')
 
+@site.route('/table/<highlight>')
+def food_table(highlight):
+	ParseInfo()
+	Table = TableGetter()
+	Table.getTables()
+	return render_template('/FoodTable.html', info=info, pg_name="FoodTable",sidebar="yes", highlight=highlight, table_data=Table.tableData)
+
+@site.route('/table/')
+def food_table_none():
+	ParseInfo()
+	Table = TableGetter()
+	Table.getTables()
+	return render_template('/FoodTable.html', info=info, pg_name="FoodTable",sidebar="yes", highlight="None", table_data=Table.tableData)
 
 
+
+
+#-------------------------------------------------------------------------------------------------------------
 
 
 
@@ -190,16 +235,47 @@ def admin_perm_check():
 	if current_user.is_authenticated:
 		if current_user.Admin_status == (1):
 			return True
-	return False
+		elif current_user.Admin_status != (1):
+			return False
+
+
+
+
+@site.route('/admin')
+def adminpage():
+	admin = admin_perm_check()
+	if admin == True:
+		return render_template('/admin/Adminpage.html',info=info, pg_name="Admin", sidebar="no")
+	else:
+		flash("Whoops! Looks like you don't have permission to do that! If you think this is a mistake, please contact support", "danger")
+		return redirect(url_for('home'))
+
+
+
+
+
+
+
+
+
+@site.route('/admin/view-pre-orders')
+def view_preorder():
+	admin = admin_perm_check()
+	if admin == True:
+		return render_template('/admin/View_preorder.html',info=info, pg_name="Admin", sidebar="no")
+	else:
+		flash("Whoops! Looks like you don't have permission to do that! If you think this is a mistake, please contact support", "danger")
+		return redirect(url_for('home'))
+
 
 
 
 @site.route('/restart_server')
-def shutdown():
+def restart_server():
 	admin = admin_perm_check()
 	if admin == True:
 		shutdown_server()
-		flash (f"Server Restart inititiated by {current_user.Username}", warning)
+		flash (f"Server Restart inititiated by {current_user.Username}", "warning")
 	else:
 		flash("Whoops! Looks like you don't have permission to do that! If you think this is a mistake, please contact support", "danger")
 	return redirect(url_for('home'))

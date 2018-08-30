@@ -1,0 +1,32 @@
+<!-- calling template -->
+{% extends "Layout/layout.html" %}
+		<!--<legend class="border-bottom mb-4"> Good {{info.TimeOfDay}}, {{current_user.First_name}} </legend> -->
+{% block _content_ %}
+    <section class="media content-section">
+        <div class="media-body">
+        	<legend class="mb-0 list-group-item-light" style="font-size: 0.8em">&nbsp;Admin Control Panel</legend>
+	        <legend class="border-bottom mb-4"> Good {{info.TimeOfDay}}, {{current_user.First_name}}</legend>
+
+	        <a class="btn btn-primary btn-block" href="{{ url_for('view_preorder') }}">View Preorders</a>
+	        <br>
+	        <div style="text-align:center;">
+	        	<h5> Shop options </h5>
+	        	<br>
+	        	<button type="button" class="btn btn-primary btn-sm">Add New Item</button>
+				<button type="button" class="btn btn-danger btn-sm">Delete Item</button>
+				<button type="button" class="btn btn-secondary btn-sm">Modify Breakfast Data</button>
+				<button type="button" class="btn btn-secondary btn-sm">Modify Quarter Data</button>
+				<button type="button" class="btn btn-secondary btn-sm">Modify Week-Special</button>
+	        </div>
+	        <br>
+	        <div style="text-align:center;">
+    	        <h5> Accounts options </h5>
+	        	<br>
+	        	<button type="button" class="btn btn-primary btn-sm">Add New Account</button>
+				<button type="button" class="btn btn-danger btn-sm">Delete Account</button>
+				<button type="button" class="btn btn-secondary btn-sm">Verify An Account Manually</button>
+				<button type="button" class="btn btn-secondary btn-sm">View and Modify Accounts</button>
+	        </div>
+    	</div>
+    </section>
+{% endblock _content_ %}

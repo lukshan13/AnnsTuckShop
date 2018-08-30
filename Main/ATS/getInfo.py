@@ -15,13 +15,13 @@ def get_datetime():
 def get_TimeOfDay():
 	global TimeOfDay
 	if time_mins >= (1021):
-	    TimeOfDay = ("Good Evening!")
+	    TimeOfDay = ("Evening")
 	elif (721) <= time_mins <= (1020)  :
-	    TimeOfDay = ("Good Afternoon!")
+	    TimeOfDay = ("Afternoon")
 	elif time_mins <= (720):
-	    TimeOfDay = ("Good Morning!")
+	    TimeOfDay = ("Morning")
 	else:
-	    TimeOfDay = ("Hello!")
+	    TimeOfDay = ("Day")
 
 def get_AccademicYear():
 	global StartYear12, StartYear13

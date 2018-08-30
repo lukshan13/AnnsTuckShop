@@ -181,24 +181,6 @@ a.section-title:hover{
   transition: 0.4s;
 }
 
-/* Rotate first bar */
-.change .bar1 {
-    -webkit-transform: rotate(-45deg) translate(-9px, 6px) ;
-    transform: rotate(-45deg) translate(-9px, 6px) ;
-}
-
-/* Fade out the second bar */
-.change .bar2 {
-    opacity: 0;
-}
-
-/* Rotate last bar */
-.change .bar3 {
-    -webkit-transform: rotate(45deg) translate(-8px, -8px) ;
-    transform: rotate(45deg) translate(-8px, -8px) ;
-}
-
-
 
 .Forest-Logo{
   max-width: 150px;
@@ -207,6 +189,11 @@ a.section-title:hover{
   float: left;
   padding-left: 50px;
   position: relative; top: 0px;
+}
+
+.foodTable-head{
+  background-color: #052150;
+  color: white;
 }
 
 
@@ -270,3 +257,8 @@ a.section-title:hover{
   }
 }
 
+<script>
+function myFunction(navIcon) {
+    navIcon.classList.toggle("change");
+}
+</script>

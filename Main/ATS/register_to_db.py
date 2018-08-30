@@ -13,11 +13,12 @@ class rUser:
 	House = None
 	EmailAddress = None
 	Password = None
+	Admin = None
 	existing = False
 	error = None
 	token = None
 
-	def __init__(self, FirstName, LastName, Username, EmailEnd, YGS, House, Password):
+	def __init__(self, FirstName, LastName, Username, EmailEnd, YGS, House, Password, Admin):
 		self.FirstName = FirstName
 		self.LastName = LastName
 		self.Username = Username
@@ -25,6 +26,7 @@ class rUser:
 		self.YGS = YGS
 		self.House = House
 		self.Password = Password
+		self.Admin = Admin
 
 
 	def check_existing(self):

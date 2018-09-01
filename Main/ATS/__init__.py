@@ -44,10 +44,13 @@ mail = Mail(site)
 from ATS import routes
 from ATS.DB_check import check_breakfast, check_quarter
 
+
+db.create_all()
 checkBreakfast = check_breakfast()
 checkQuarter = check_quarter()
 checkBreakfast.checkBreakfast()
 checkQuarter.checkQuarter()
+
 
 
 print (getInfo.time_display)

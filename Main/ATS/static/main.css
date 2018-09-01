@@ -129,7 +129,17 @@ a.section-title:hover{
   border-bottom: 1px solid #e3e3e3
 }
 
+.section-metadata-noline{
+  padding-bottom: 1px;
+  margin-bottom: 4px;
+}
+
 .section-metadata a:hover{
+  color: #333;
+  text-decoration: none;
+}
+
+.section-metadata-noline a:hover{
   color: #333;
   text-decoration: none;
 }

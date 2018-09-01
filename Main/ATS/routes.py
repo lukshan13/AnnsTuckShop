@@ -8,7 +8,7 @@ from ATS.register_to_db import rUser, vUser
 from ATS.login_from_db import sUser
 from ATS.skHandler import sk
 from ATS.user_verification import CheckVerifyToken
-from ATS.get_foodtable_from_db import TableGetter
+from ATS.get_data_from_db import TableGetter
 from ATS import getInfo as getInfo
 
 getInfo.RunGetInfo()
@@ -77,6 +77,33 @@ def register():
 			flash(site_error, 'danger')
 			return render_template('Signup.html',info=info, pg_name="Sign Up")
 		flash("Email has been sent to your @forest email. Please verify your account before signing in. If account not verified within 7 days, username will be marked as spam and not be allowed to resignup. If you can't see the email, please check that it has not been sent to your junk inbox!", 'info')
+		logout_user()
+		return redirect(url_for('home'), 301)
+	if request.method =="GET":
+		return render_template('Signup.html',info=info, pg_name="Sign Up")
+
+
+@site.route('/register/a/d/m/i/n/register', methods=['POST', 'GET'])
+def register_admin():
+	#lets the user register to the system as an admin (WARNING THIS SHOULD NOT BE REVEALED TO PUBLIC)
+	if current_user.is_authenticated:
+		flash("You already have an account", 'warning')
+		return redirect(url_for('home'))
+	ParseInfo()
+
+	if request.method == 'POST':
+		global site_error
+		form_data = request.form
+		new_user = rUser(form_data['First_Name_Form'], form_data['Last_Name_Form'], form_data['Forest_Username_Form'], form_data['Forest_Email_Domain_Form'], form_data['AccademicYear_Form'], form_data['House_Form'], form_data['Password_Form'], 1)
+		new_user.add_new_user()
+		#Checks if any errors were produced
+		if new_user.error != None:
+			print (new_user.error)
+			site_error = new_user.error
+			flash(site_error, 'danger')
+			return render_template('Signup.html',info=info, pg_name="Sign Up")
+		flash("Email has been sent to your @forest email. Please verify your account before signing in. If account not verified within 7 days, username will be marked as spam and not be allowed to resignup. If you can't see the email, please check that it has not been sent to your junk inbox!", 'info')
+		logout_user()
 		return redirect(url_for('home'), 301)
 	if request.method =="GET":
 		return render_template('Signup.html',info=info, pg_name="Sign Up")
@@ -213,14 +240,14 @@ def about():
 def food_table(highlight):
 	ParseInfo()
 	Table = TableGetter()
-	Table.getTables()
+	Table.getQBTables()
 	return render_template('/FoodTable.html', info=info, pg_name="FoodTable",sidebar="yes", highlight=highlight, table_data=Table.tableData)
 
 @site.route('/table/')
 def food_table_none():
 	ParseInfo()
 	Table = TableGetter()
-	Table.getTables()
+	Table.getQBTables()
 	return render_template('/FoodTable.html', info=info, pg_name="FoodTable",sidebar="yes", highlight="None", table_data=Table.tableData)
 
 
@@ -237,6 +264,7 @@ def admin_perm_check():
 			return True
 		elif current_user.Admin_status != (1):
 			return False
+	return False
 
 
 
@@ -244,6 +272,7 @@ def admin_perm_check():
 @site.route('/admin')
 def adminpage():
 	admin = admin_perm_check()
+	ParseInfo()
 	if admin == True:
 		return render_template('/admin/Adminpage.html',info=info, pg_name="Admin", sidebar="no")
 	else:
@@ -252,25 +281,31 @@ def adminpage():
 
 
 
-
-
-
-
-
-
 @site.route('/admin/view-pre-orders')
 def view_preorder():
 	admin = admin_perm_check()
+	ParseInfo()
 	if admin == True:
-		return render_template('/admin/View_preorder.html',info=info, pg_name="Admin", sidebar="no")
+		Table = TableGetter()
+		Table.getPre_orders()
+		return render_template('/admin/View_preorder.html',info=info, pg_name="Admin", sidebar="no", OrderData = Table.OrderData)
 	else:
 		flash("Whoops! Looks like you don't have permission to do that! If you think this is a mistake, please contact support", "danger")
 		return redirect(url_for('home'))
 
+@site.route('/admin/view-pre-orders/completed/<id>')
+def complete_order(id):
+	completeOrder = TableGetter()
+	completeOrder.completePre_Orders(id)
+	return redirect(request.referrer)
 
 
 
-@site.route('/restart_server')
+
+
+
+
+@site.route('/admin/restart_server')
 def restart_server():
 	admin = admin_perm_check()
 	if admin == True:
@@ -283,11 +318,16 @@ def restart_server():
 
 
 
-@site.route('/purgekey')
+@site.route('/admin/purgekey')
 def purgekey():
-	purge = sk()
-	purge.purgeKey()
-	return redirect(url_for('shutdown'))
+	admin = admin_perm_check()
+	if admin == True:
+		purge = sk()
+		purge.purgeKey()
+		return redirect(url_for('shutdown'))
+	else:
+		flash("Whoops! Looks like you don't have permission to do that! If you think this is a mistake, please contact support", "danger")
+		return redirect(url_for('home'))
 
 
 

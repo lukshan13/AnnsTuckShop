@@ -46,6 +46,9 @@ class Order(db.Model):
 	Time_for = db.Column(db.Integer, nullable=False)
 	Current = db.Column(db.Integer, default=0, nullable=False)
 
+	def __repr__(self):
+		return f"Order ID - {self.id}, Item - {self.Order_Item}, for User - {self.User_id}"
+
 class BreakfastTimetable(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	Day = db.Column(db.Integer, nullable=False, unique=True)

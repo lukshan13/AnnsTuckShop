@@ -1,5 +1,9 @@
 from ATS import db
-from ATS.models import BreakfastTimetable, QuarterTimetable, User
+from ATS.models import BreakfastTimetable, QuarterTimetable, User, Order
+
+
+class check_item_null:
+	pass
 
 
 
@@ -12,8 +16,11 @@ class check_breakfast:
 		print ("Breakfast Table checking....")
 		self.breakfast_table = BreakfastTimetable.query.all()
 		self.count = 0
-		Last = BreakfastTimetable.query.filter_by(id=(7)).first()
-		if Last.Day != "Sunday":
+		try:
+			Last = BreakfastTimetable.query.filter_by(id=(7)).first()
+			if Last.Day != "Sunday":
+				return
+		except(AttributeError):
 			return
 		for item in self.breakfast_table:
 			Daybank = [None, "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]

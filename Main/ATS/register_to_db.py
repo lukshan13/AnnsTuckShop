@@ -62,7 +62,7 @@ class rUser:
 
 	def add_to_db(self):
 		self.generate_email_address()
-		new_user1 = User(First_name=self.FirstName, Last_name=self.LastName, Username=self.Username, YGS=self.YGS, Email=self.EmailAddress, House=self.House, Password=self.Password)
+		new_user1 = User(First_name=self.FirstName, Last_name=self.LastName, Username=self.Username, YGS=self.YGS, Email=self.EmailAddress, House=self.House, Password=self.Password, Admin_status=self.Admin)
 		db.session.add(new_user1)
 		db.session.commit()
 

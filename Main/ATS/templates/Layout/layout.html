@@ -28,7 +28,7 @@
 
 	<!--Navbar-->
 	<header>
-		<h1 class="ATS_title"><img class="Forest-Logo" src="https://www.forest.org.uk/wp-content/themes/forestschool/assets/images/logo-forest-school.png" alt="Forest-Logo">Anne's Tuck Shop</h1>
+		<h1 class="ATS_title"><img class="Forest-Logo" src="https://www.forest.org.uk/wp-content/themes/forestschool/assets/images/logo-forest-school.png" alt="Forest-Logo" style="font-size: 0.7em">Anne's Tuck Shop</h1>
 	
 	</header>
 	<nav>
@@ -42,7 +42,7 @@
 		</div>
 		<ul>
 			<a href="{{ url_for('home') }}"><li>Home</li></a>
-			<a href="{{ url_for('pre_order') }}"><li>Pre-order <span class="badge badge-secondary badge-danger">dev</span></li></a>
+			<a href="{{ url_for('pre_order', page='select') }}"><li>Pre-order <span class="badge badge-secondary badge-danger">dev</span></li></a>
 			<a href="{{ url_for('shop') }}"><li>Shop <span class="badge badge-secondary badge-danger">dev</span></li></a>
 			<a href="{{ url_for('balance_services') }}"><li>Balance services <span class="badge badge-secondary badge-danger">dev</span></li></a>
 		

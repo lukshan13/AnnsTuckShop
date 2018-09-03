@@ -204,11 +204,22 @@ def home():
 	ParseInfo()
 	return render_template('Home.html',info=info, pg_name="Home", sidebar="yes")
 
-@site.route('/pre-order')
-def pre_order():
+
+@site.route('/pre-order/')
+def redirect_pre_order():
+	return redirect(url_for('pre_order', page="select"))
+@site.route('/pre-order/<page>')
+def pre_order(page):
 	ParseInfo()
+	pg_name = "Pre-Order"
 	flash ("Whoops, this page is not complete yet! Hang tight, it'll be here soon!", "warning")
-	return render_template('Home.html',info=info, pg_name="Home", sidebar="yes")
+
+	if page == "select":
+		return render_template('preorder/Preorder-select.html',info=info, pg_name=pg_name, sidebar="yes")
+	if page == "breakfast":
+		return render_template('preorder/Preorder-breakfast.html',info=info, pg_name=pg_name, sidebar="yes")
+	if page == "quarter":
+		return render_template('preorder/Preorder-select.html',info=info, pg_name=pg_name, sidebar="yes")
 
 @site.route('/shop')
 def shop():

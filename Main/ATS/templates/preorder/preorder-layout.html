@@ -1,0 +1,15 @@
+<!-- calling template -->
+{% extends "Layout/layout.html" %}
+
+{% block _content_ %}
+	<section class="media content-section">
+		<div class="media-body">
+			<div class="section-metadata">
+				Information
+			</div>
+			<h6 class="list-group-item-light">You are able to order Breakfast and Quarter options from this menu. Please note, you may only order one of each item at any given time. You are only able to order an item of the current day. ATS can accept up to 25 inqueue orders at one time. Orders will be dealt in a first come first served basis. Please collect all orders promptly for when you request them. Failure to do so will result in your order being cancelled.</h6>
+		</div>
+	</section>
+	{% block _pre_order_content_ %}{% endblock %}
+
+{% endblock _content_ %}

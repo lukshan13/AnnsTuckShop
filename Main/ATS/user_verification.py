@@ -31,7 +31,7 @@ class GetVerifyToken:
 		print (".....")
 		msg.body = f'''Dear {self.First_Name}
 
-Thank you for signing up on Anne's Tuck Shop's web app. As you may know, the site allows you to view current food options as well as give you the ability to pre-order breakfast and quarter items. This makes it easier for Anne to manage food orders. To verify, please click on the link below. It should automatically verify you.
+Thank you for signing up on Ann's Tuck Shop's web app. As you may know, the site allows you to view current food options as well as give you the ability to pre-order breakfast and quarter items. This makes it easier for Anne to manage food orders. To verify, please click on the link below. It should automatically verify you.
 
 Please note: The token expires in 7 days of creation. If the account is not verified before then, the account will be marked as spam and you will not be able to register with this username again.
 

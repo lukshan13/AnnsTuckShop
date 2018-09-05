@@ -1,4 +1,4 @@
-cd ~/desktop/annes_tuck_shop/main
+cd ~/desktop/anns_tuck_shop/main
 
 export FLASK_APP=ATS
 export FLASK_ENV=development

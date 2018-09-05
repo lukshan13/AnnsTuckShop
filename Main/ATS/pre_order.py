@@ -6,4 +6,6 @@ import getInfo as getInfo
 class BreakfastOptions:
 
 	def getInfoFromDB(self):
-		today = 
+		today = getInfo.day.lower()
+		print (today)
+		breakfast_today = BreakfastTimetable.query

@@ -3,3 +3,15 @@ Main/ATS/site.db
 *.pyc
 *.pyc
 *.pyc
+.sync/*
+*.DS_Store*
+.DS_Store
+Main/.DS_Store
+Main/ATS/.DS_Store
+Main/ATS/.sync/IgnoreList
+Main/ATS/.sync/StreamsList
+Main/.DS_Store
+Main/ATS/.DS_Store
+Main/.DS_Store
+.DS_Store
+.DS_Store

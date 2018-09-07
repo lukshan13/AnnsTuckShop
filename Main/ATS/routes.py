@@ -9,6 +9,7 @@ from ATS.login_from_db import sUser
 from ATS.skHandler import sk
 from ATS.user_verification import CheckVerifyToken
 from ATS.get_data_from_db import TableGetter
+from ATS.pre_order import PreOrderOptions
 from ATS import getInfo as getInfo
 
 getInfo.RunGetInfo()
@@ -212,13 +213,31 @@ def redirect_pre_order():
 def pre_order(page):
 	ParseInfo()
 	pg_name = "Pre-Order"
-	flash ("Whoops, this page is not complete yet! Hang tight, it'll be here soon!", "warning")
 
 	if page == "select":
+		flash ("Whoops, this page is not complete yet! Hang tight, it'll be here soon!", "warning")
 		return render_template('preorder/Preorder-select.html',info=info, pg_name=pg_name, sidebar="yes")
 	if page == "breakfast":
-		return render_template('preorder/Preorder-breakfast.html',info=info, pg_name=pg_name, sidebar="yes")
+		if current_user.is_authenticated:
+			bOrder = PreOrderOptions(current_user.id, "breakfast")
+			if bOrder.run() == True: 
+				flash ("It appears you already have a Pre-Order in system for this selection today. Please note that you are only able to order one of any item","")
+				return redirect(url_for('food_table_none',))
+			else:
+				return render_template('/preorder/Preorder-breakfast.html',info=info, pg_name=pg_name, sidebar="yes", data=bOrder.data)
+		else:
+			flash ("Please log in to use this feature", "danger")
+			return redirect(url_for('pre_order', page="select"))
 	if page == "quarter":
+		if current_user.is_authenticated:
+			qOrder = PreOrderOptions(current_user.id, "quarter")
+			if qOrder.run() == True: 
+				flash ("It appears you already have a Pre-Order in system for this selection today. Please note that you are only able to order one of any item","")
+				return redirect(url_for('food_table_none',))
+			else:
+				return render_template('/preorder/Preorder-breakfast.html',info=info, pg_name=pg_name, sidebar="yes", data=qOrder.data)
+		else:
+			flash ("Please log in to use this feature", "danger")
 		return render_template('preorder/Preorder-select.html',info=info, pg_name=pg_name, sidebar="yes")
 
 @site.route('/shop')
@@ -335,7 +354,7 @@ def purgekey():
 	if admin == True:
 		purge = sk()
 		purge.purgeKey()
-		return redirect(url_for('shutdown'))
+		return redirect(url_for('restart_server'))
 	else:
 		flash("Whoops! Looks like you don't have permission to do that! If you think this is a mistake, please contact support", "danger")
 		return redirect(url_for('home'))

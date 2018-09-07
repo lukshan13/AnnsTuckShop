@@ -2,12 +2,11 @@ print ("Developed By Lukshan Sharvaswaran, DvDt:2018. @lukshan13")
 
 print ('importing modules.....')
 import sys, os
+from ATS import getInfo as getInfo
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_mail import Mail
-
-from ATS import getInfo as getInfo
 from ATS import skHandler
 
 

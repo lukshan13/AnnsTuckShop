@@ -50,6 +50,9 @@ def ParseInfo():
 		'Current_Fullname': (fullname)
 	}
 
+@site.route('/lunch_menu')
+def lunch_menu():
+	return redirect("http://webserver.forest.org.uk/catering/menu")
 
 #The routes below are used for user authentication and similar processes
 

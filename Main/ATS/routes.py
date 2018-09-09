@@ -9,7 +9,7 @@ from ATS.login_from_db import sUser
 from ATS.skHandler import sk
 from ATS.user_verification import CheckVerifyToken
 from ATS.get_data_from_db import TableGetter
-from ATS.pre_order import PreOrderOptions
+from ATS.pre_order import PreOrderOptions, SubmitPreorder, UserPreorders
 from ATS import getInfo as getInfo
 
 getInfo.RunGetInfo()
@@ -209,25 +209,37 @@ def home():
 @site.route('/pre-order/')
 def redirect_pre_order():
 	return redirect(url_for('pre_order', page="select"))
-@site.route('/pre-order/<page>')
+@site.route('/pre-order/<page>', methods=['POST', 'GET'])
 def pre_order(page):
 	ParseInfo()
 	pg_name = "Pre-Order"
 
+	if request.method =="POST":
+		form_data = request.form
+		check_Order = PreOrderOptions(current_user.id, (form_data["time_for"]).lower())
+		if check_Order.run() == True:
+			flash ("It appears you already have a Pre-Order in system for this selection today. Please note that you are only able to order one of any item","")
+			return redirect(url_for('food_table_none',))
+		submit_order = SubmitPreorder(current_user.id, (form_data["item_id"]), (form_data["time_for"]), (form_data["day_for"]) )
+		submit_order.submit()
+		return redirect(url_for("home"))
+
+
 	if page == "select":
-		flash ("Whoops, this page is not complete yet! Hang tight, it'll be here soon!", "warning")
 		return render_template('preorder/Preorder-select.html',info=info, pg_name=pg_name, sidebar="yes")
+
 	if page == "breakfast":
 		if current_user.is_authenticated:
 			bOrder = PreOrderOptions(current_user.id, "breakfast")
 			if bOrder.run() == True: 
-				flash ("It appears you already have a Pre-Order in system for this selection today. Please note that you are only able to order one of any item","")
+				flash ("It appears you already have a Pre-Order in system for this selection today. Please note that you are only able to order one of any item","warning")
 				return redirect(url_for('food_table_none',))
 			else:
-				return render_template('/preorder/Preorder-breakfast.html',info=info, pg_name=pg_name, sidebar="yes", data=bOrder.data)
+				return render_template('/preorder/Preorder-item.html',info=info, pg_name=pg_name, sidebar="yes", data=bOrder.data)
 		else:
 			flash ("Please log in to use this feature", "danger")
 			return redirect(url_for('pre_order', page="select"))
+
 	if page == "quarter":
 		if current_user.is_authenticated:
 			qOrder = PreOrderOptions(current_user.id, "quarter")
@@ -235,10 +247,23 @@ def pre_order(page):
 				flash ("It appears you already have a Pre-Order in system for this selection today. Please note that you are only able to order one of any item","")
 				return redirect(url_for('food_table_none',))
 			else:
-				return render_template('/preorder/Preorder-breakfast.html',info=info, pg_name=pg_name, sidebar="yes", data=qOrder.data)
+				return render_template('/preorder/Preorder-item.html',info=info, pg_name=pg_name, sidebar="yes", data=qOrder.data)
 		else:
 			flash ("Please log in to use this feature", "danger")
 		return render_template('preorder/Preorder-select.html',info=info, pg_name=pg_name, sidebar="yes")
+
+	if page == "my-orders":
+		if current_user.is_authenticated:
+			myOrders = UserPreorders(current_user.id)
+			return render_template('preorder/Preorder-my-orders.html',info=info, pg_name=pg_name, sidebar="yes", OrderData=myOrders.OrderData)
+		else:
+			flash ("Please log in to use this feature", "danger")
+			return redirect(url_for('pre_order', page="select"))
+
+
+	return redirect(url_for('pre_order', page="select"))
+
+
 
 @site.route('/shop')
 def shop():

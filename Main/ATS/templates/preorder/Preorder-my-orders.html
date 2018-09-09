@@ -1,0 +1,39 @@
+{% extends "Layout/layout.html" %}
+
+
+{% block _content_ %}
+    <section class="media content-section">
+        <div class="media-body">
+            <div class="section-metadata-noline">
+            </div>
+
+
+
+                {% if not OrderData %}
+                    <br><br>
+                    <p class="text-center font-weight-bold" style="font-size: 1.5em"> It seems as if you don't have any current orders in for Ann's Tuck Shop. Feel free to <a style="color:  #052150" href="{{ (url_for('pre_order', page='select')) }}">make an order here.</a></p>
+                {% elif OrderData %}
+                    <table class="table" style="font-size: 0.9em">
+                        <tr>
+                            <th>Order ID</th>
+                            <th>Item</th>
+                            <th>Price (p)</th>
+                            <th>Time For</th>
+                            <th>Collected?</th>
+                        </tr>
+
+                        {% for orders in OrderData.Count %}
+                        <tr>
+                            <th>{{ OrderData.OrderID[orders] }}</th>
+                            <th>{{ OrderData.Item_name[orders] }}</th>
+                            <th>{{ OrderData.ItemPrice[orders] }}</th>
+                            <th>{{ OrderData.TimeFor[orders] }}</th>
+                            <th>{{ OrderData.Collected[orders] }}</th>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                {% endif %}
+
+        </div>
+    </section>
+{% endblock _content_ %}

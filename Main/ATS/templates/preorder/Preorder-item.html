@@ -1,0 +1,18 @@
+<!-- calling template -->
+{% extends "preorder/preorder-layout.html" %}
+
+{% block _pre_order_content_ %}
+	<section class="media content-section">
+		<div class="media-body">
+			<form method="POST" action="/pre-order/submit">
+				<p style="text-decoration-line: underline;"> Order Now</p>
+				<h5>The current option available is {{data.current_Item}}.
+				<h5>{{data.price}}, </h5>
+				<h5>Your order will be for <input style="border: none" type="text" name="time_for" value="{{data.time_for}}" readonly>, <input style="border: none" type="text" name="day_for" value="{{data.day}}" readonly>.</h5>	
+				<button type="submit" class="btn btn-primary">Submit Pre-Order</button>
+				<input style="display: none" type="text" name="item_id" value="{{data.current_Item_id}}" readonly>
+			</form>
+		</div>
+	</section>
+
+{% endblock _pre_order_content_ %}

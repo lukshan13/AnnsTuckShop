@@ -55,11 +55,11 @@ class BreakfastTimetable(db.Model):
 	Breakfast_Item = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
 
 	def __repr__(self):
-		return f"Day = {self.Day}, Item = {self.Breakfast_Item}"
+		return f"Breakast: Day = {self.Day}, Item = {self.Breakfast_Item}"
 
 class QuarterTimetable(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
 	Day = db.Column(db.Integer, nullable=False, unique=True)
 	Quarter_Item = db.Column(db.Integer, db.ForeignKey('item.id'), nullable=False)
 	def __repr__(self):
-		return f"Day = {self.Day}, Item = {self.Quarter_Item}"
+		return f"Quarter: Day = {self.Day}, Item = {self.Quarter_Item}"

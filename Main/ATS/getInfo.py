@@ -1,4 +1,5 @@
 #fetching date and time
+from ATS.models import BreakfastTimetable, QuarterTimetable, Item
 import datetime
 import time
 
@@ -32,6 +33,20 @@ def get_AccademicYear():
 		StartYear12 = (now.year)
 		StartYear13 = (StartYear12 -1)
 	
+def get_CurrentItems():
+	global homeInfo
+	breakfast_today = BreakfastTimetable.query.filter_by(Day=day).first()
+	breakfast_item = Item.query.filter_by(id=breakfast_today.Breakfast_Item).first().Item_name
+
+	quarter_today = QuarterTimetable.query.filter_by(Day=day).first()
+	print (quarter_today)
+	quarter_item = Item.query.filter_by(id=quarter_today.Quarter_Item).first().Item_name
+	print (quarter_item)
+
+	homeInfo = {
+	"breakfast_item": breakfast_item,
+	"quarter_item": quarter_item
+	}
 
 
 

@@ -75,7 +75,9 @@ class rUser:
 			self.add_to_db()
 			getVerify = GetVerifyToken(self.Password, self.Username, self.EmailAddress, self.FirstName)
 			getVerify.get_verify_token()
-			getVerify.send_email_verify_token()
+			email = getVerify.send_email_verify_token()
+			if email != None:
+				self.error = ("Something went wrong while emailing you. We have registered you to the system, please talk to Ann to verify your account")
 			self.token = getVerify.token
 	
 

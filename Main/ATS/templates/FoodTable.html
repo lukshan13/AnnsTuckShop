@@ -11,16 +11,22 @@ td, th{
 
     {% if highlight[:9] == "breakfast" %}
         .colB{
+            font-size: 1.7em;
             background-color: #80a0CC;
             color: #f5f5f5;
         }
     {% elif highlight[:7] == "quarter" %}
         .colQ{
+            font-size: 1.7em;
             background-color: #80a0CC;
             color: #f5f5f5;
         }
 
     {% endif %}
+
+    .colD{
+        font-size: 1.5em;
+    }
 
 </style>
 
@@ -31,46 +37,46 @@ td, th{
             <small class="text-muted">ATS Food Table</small>
         </div>
 
-        <table class="table" style="font-size: 1em">
+        <table class="table" style="font-size: 0.6em">
             <thead class="foodTable-head">
-            <tr>
+            <tr style="font-size: 1.4em">
                 <th>Day</th>
                 <th>Breakfast</th>
                 <th>Quarter</th>
             </tr>
             </thead>
             <tr>
-                <th scope="row">Monday</th>
+                <th class="colD" scope="row">Monday</th>
                 <td class="colB">{{table_data.Breakfast[0]}}</td>
                 <td class="colQ">{{table_data.Quarter[0]}}</td>
             </tr>
             <tr>
-                <th scope="row">Tuesday</th>
+                <th class="colD" scope="row">Tuesday</th>
                 <td class="colB">{{table_data.Breakfast[1]}}</td>
                 <td class="colQ">{{table_data.Quarter[1]}}</td>
             </tr>
             <tr>
-                <th scope="row">Wednesay</th>
+                <th class="colD" scope="row">Wednesay</th>
                 <td class="colB">{{table_data.Breakfast[2]}}</td>
                 <td class="colQ">{{table_data.Quarter[2]}}</td>
             </tr>
             <tr>
-                <th scope="row">Thursday</th>
+                <th class="colD" scope="row">Thursday</th>
                 <td class="colB">{{table_data.Breakfast[3]}}</td>
                 <td class="colQ">{{table_data.Quarter[3]}}</td>
             </tr>
             <tr>
-                <th scope="row">Friday</th>
+                <th class="colD" scope="row">Friday</th>
                 <td class="colB">{{table_data.Breakfast[4]}}</td>
                 <td class="colQ">{{table_data.Quarter[4]}}</td>
             </tr>
             <tr>
-                <th scope="row">Saturday</th>
+                <th class="colD" scope="row">Saturday</th>
                 <td class="colB">{{table_data.Breakfast[5]}}</td>
                 <td class="colQ">{{table_data.Quarter[5]}}</td>
             </tr>
             <tr>
-                <th scope="row">Sunday</th>
+                <th class="colD" scope="row">Sunday</th>
                 <td class="colB">{{table_data.Breakfast[6]}}</td>
                 <td class="colQ">{{table_data.Quarter[6]}}</td>
             </tr>

@@ -80,7 +80,7 @@ def register():
 			site_error = new_user.error
 			flash(site_error, 'danger')
 			return render_template('Signup.html',info=info, pg_name="Sign Up")
-		flash("Email has been sent to your @forest email. Please verify your account before signing in. If account not verified within 7 days, username will be marked as spam and not be allowed to resignup. If you can't see the email, please check that it has not been sent to your junk inbox!", 'info')
+		flash("Email has been sent to your @forest email. Please verify your account before signing in. If account not verified within 7 days, username will be marked as spam and not be allowed to resignup. IF YOU CAN'T SEE THE EMAIL, PLEASE CHECK THAT IT HAS NOT BEEN SENT TO YOUR JUNK INBOX!", 'info')
 		logout_user()
 		return redirect(url_for('home'), 301)
 	if request.method =="GET":
@@ -205,8 +205,9 @@ def verify_auto(vUsername,vToken):
 @site.route('/home')
 @site.route('/')
 def home():
+	getInfo.get_CurrentItems()
 	ParseInfo()
-	return render_template('Home.html',info=info, pg_name="Home", sidebar="yes")
+	return render_template('Home.html',info=info, pg_name="Home", sidebar="yes", homeInfo=getInfo.homeInfo)
 
 
 @site.route('/pre-order/')
@@ -280,13 +281,28 @@ def balance_services():
 	flash ("Whoops, this page is not complete yet! Hang tight, it'll be here soon!", "warning")
 	return render_template('Home.html',info=info, pg_name="Home", sidebar="yes")
 
-@site.route('/account')
+@site.route('/account/')
 def account():
 	ParseInfo()
-	flash ("Whoops, this page is not complete yet! Hang tight, it'll be here soon!", "warning")
-	return render_template('/account/Account.html',info=info, pg_name="My Account", sidebar="yes")
+	if current_user.is_authenticated:
+		flash ("Whoops, this page is not complete yet! Hang tight, it'll be here soon!", "warning")
+		return render_template('/account/Account.html',info=info, pg_name="My Account", sidebar="yes")
+	else:
+		pass
 
+@site.route('/account/edit/')
+def edit_account_redirect():
+	return redirect (url_for('edit_account', edit="select"))
 
+@site.route('/account/edit/<edit>')
+def edit_account(edit):
+	ParseInfo()
+	print (edit)
+	if current_user.is_authenticated:
+		return render_template('/account/Account.html',info=info, pg_name="My Account", sidebar="yes")
+	else:
+		flash ("Please log in to use this feature", "danger")
+		return redirect(url_for("home"))
 
 
 @site.route('/about')

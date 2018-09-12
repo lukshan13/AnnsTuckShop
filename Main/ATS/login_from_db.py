@@ -44,7 +44,7 @@ class sUser:
 			self.verified = True
 			print ("Username email verified")
 		else:
-			self.error = ("Username email not verified. Please check email to verify account")
+			self.error = ("Username email not verified. Please check email to verify account. Info: PLEASE CHECK JUNK/SPAM OF YOUR EMAIL")
 
 
 

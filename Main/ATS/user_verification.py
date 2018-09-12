@@ -29,7 +29,8 @@ class GetVerifyToken:
 		msg = Message("Anne's Tuck Shop Account: Email Verification",
 			recipients=[self.emailAddress, "lsharvaswaran@forestsch.org.uk"])
 		print (".....")
-		msg.body = f'''Dear {self.First_Name}
+		try:
+			msg.body = f'''Dear {self.First_Name}
 
 Thank you for signing up on Ann's Tuck Shop's web app. As you may know, the site allows you to view current food options as well as give you the ability to pre-order breakfast and quarter items. This makes it easier for Anne to manage food orders. To verify, please click on the link below. It should automatically verify you.
 
@@ -52,8 +53,12 @@ Ann's Tuck Shop
 Created by Lukshan Sharvaswaran, 2018. This is part of an NEA project for computer science, all rights reserved.
 
 		'''
-		mail.send(msg)
-		print("Email has been sent")
+			mail.send(msg)
+			print("Email has been sent")
+			return None
+		except:
+			print("Email sending error")
+			return ("Email Sending error")
 
 
 

@@ -4,12 +4,21 @@
 {% block _content_ %}
 	<div class="content-section">
 		<div class="media">
-			<img class="rounded-circle account-img" src="userimage.jpg">
 			<div class="media-body">
-				<h2 class="account-heading">Username</h2>
-				<p class="text-secondary">username@email.com</p>
+				<h2 class="account-heading">{{info.Current_Fullname}}</h2>
+				<div class="text-secondary">
+					<p>Username: {{current_user.Username}}</p>
+					<p>Email: {{current_user.Email}}
+					{% if current_user.YGS == "S" %}
+						<p>User Type: Staff</p>
+					{% elif current_user.YGS == "12" or current_user.YGS == "13" %}
+						<p>User Type:Student - Year {{current_user.YGS}}</p>
+					{% endif %}
+					<p>House: {{current_user.House}} House</p>
+					<a btn btn-info" href="{{url_for('edit_account', edit='select')}}"> Change Details <span class="badge badge-danger">Dev</span> </a>
+				</div>
 			</div>
 		</div>
-		<!-- FORM HERE -->
 	</div>
+
 {% endblock _content_ %}

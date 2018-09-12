@@ -28,7 +28,12 @@
                             <th>{{ OrderData.Item_name[orders] }}</th>
                             <th>{{ OrderData.ItemPrice[orders] }}</th>
                             <th>{{ OrderData.TimeFor[orders] }}</th>
-                            <th>{{ OrderData.Collected[orders] }}</th>
+                            {% if OrderData.Collected[orders] == "Yes" %}
+                                <th><a"><button class="btn btn-sm btn-info btn-static">{{OrderData.Collected[orders]}}</button></a></th>
+                            {% elif OrderData.Collected[orders] == "No" %}
+                                <th><a"><button class="btn btn-sm btn-success">{{OrderData.Collected[orders]}}</button></a></th>
+
+                            {% endif %}
                         </tr>
                         {% endfor %}
                     </table>

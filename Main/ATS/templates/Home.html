@@ -10,8 +10,8 @@
                 <small class="text-muted">{{ info.date }}</small>
             </div>
             <h2><a class="section-title"> Good {{ info.TimeOfDay }}! Today's selections are: </a></h2>
-            <p class="section-content">Breakfast     -   Bacon roll</p>
-            <p class="section-content">Quarter Break  -   Pizza slices</p>
+            <p class="section-content">Breakfast     -   {{homeInfo.breakfast_item}}</p>
+            <p class="section-content">Quarter Break  -   {{homeInfo.quarter_item}}</p>
             <p class="section-content links"><a href="{{url_for('lunch_menu')}}" target="_blank" rel="noopener"><span style= "color: #80A0CC;">Click here for lunch menu</span></a></p>
         </div>
     </section>

@@ -403,5 +403,8 @@ def purgekey():
 		flash("Whoops! Looks like you don't have permission to do that! If you think this is a mistake, please contact support", "danger")
 		return redirect(url_for('home'))
 
+@site.route('/.well-known/acme-challenge/D5P4DM9Yke1xBVl_YFOM0ebVP1JCexDLnZ6DLf5k7j0')
+def tempverify():
+	return site.send_static_file('D5P4DM9Yke1xBVl_YFOM0ebVP1JCexDLnZ6DLf5k7j0')
 
 

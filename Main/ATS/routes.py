@@ -224,11 +224,7 @@ def pre_order(page):
 	if request.method =="POST":
 		form_data = request.form
 		check_Order = PreOrderOptions(current_user.id, (form_data["time_for"]).lower())
-<<<<<<< HEAD
 		if check_Order.run() != True:
-=======
-		if check_Order.run() == True:
->>>>>>> 731c75793eb8931819e574ba094d31bccf7157b2
 			flash (check_Order.flashMessage,"danger")
 			return redirect(url_for('food_table_none',))
 		submit_order = SubmitPreorder(current_user.id, (form_data["item_id"]), (form_data["time_for"]), (form_data["day_for"]) )

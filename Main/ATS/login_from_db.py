@@ -44,7 +44,8 @@ class sUser:
 			self.verified = True
 			print ("Username email verified")
 		else:
-			self.error = ("Username email not verified. Please check email to verify account. Info: PLEASE CHECK JUNK/SPAM OF YOUR EMAIL")
+			#self.error = ("Username email not verified. Please check email to verify account. Info: PLEASE CHECK JUNK/SPAM OF YOUR EMAIL")
+			self.error = ("Regretably, it seems like your account has not been approved for the BETA. This means that you were not selected in the random selection. If you just signed up, this might also means that we have not had a chance to verify you.")
 
 
 

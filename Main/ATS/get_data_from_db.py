@@ -1,4 +1,5 @@
 from ATS import db
+from ATS import getInfo as getInfo
 from ATS.models import BreakfastTimetable, QuarterTimetable, Item, Order, User
 
 class TableGetter:
@@ -70,21 +71,40 @@ class TableGetter:
 				counter = counter+1
 
 
+	def Log_and_ClearAll(self):
+		self.orders = (Order.query.all())
+		self.file_open_and_log()
+		for order_ in self.orders:
+			print (order_.id)
+			Order.query.filter_by(id=order_.id).delete()
+			db.session.commit()
+
+
+	def file_open_and_log(self):
+		getInfo.get_datetime()
+		with open("ATS/static/OrderLog.txt","a+") as OrderLog:
+			OrderLog.write("\nOrder logged and cleared - " + getInfo.day + " " + getInfo.date + " AT "+ getInfo.time_display +"\n")
+			for order_ in self.orders:
+				item = Item.query.filter_by(id=order_.Order_Item).first()
+				info = f" {item.Item_name} bought for {order_.Time_for}. Order ID: {order_.id}. Ordered by UserID: {order_.User_id}. \tOrder Collected: {order_.Current} \n"
+				OrderLog.write(str(info))
+
+
+
+
+
 	def completePre_Orders(self, completedID):
 		#try:
 		if completedID == "all":
-			orders = (Order.query.all())
-			print (orders)
-			for order_ in orders:
-				print (order_.id)
-				Order.query.filter_by(id=order_.id).delete()
-				db.session.commit()
+			self.Log_and_ClearAll()
 			return
 		order = (Order.query.filter_by(id=(completedID)).first())
 		order.Current = (0)
 		db.session.commit()
 		#except:
 		#	pass
+
+
 
 
 

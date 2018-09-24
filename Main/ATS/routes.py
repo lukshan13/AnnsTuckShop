@@ -1,3 +1,4 @@
+
 #Importing dependencies and modules
 from flask import render_template, url_for, request, redirect, flash, abort
 from flask_login import login_user, current_user, logout_user
@@ -52,7 +53,7 @@ def ParseInfo():
 
 @site.route('/lunch_menu')
 def lunch_menu():
-	return redirect("http://webserver.forest.org.uk/catering/menu")
+	return redirect("https://goo.gl/fCejpy")
 
 #The routes below are used for user authentication and similar processes
 
@@ -84,6 +85,7 @@ def register():
 		logout_user()
 		return redirect(url_for('home'), 301)
 	if request.method =="GET":
+		flash("WARNING: Site is currently in private BETA. Email verification is disabled to allow private testing", "warning")
 		return render_template('Signup.html',info=info, pg_name="Sign Up")
 
 
@@ -130,6 +132,7 @@ def signin():
 		elif RememberMe == (None):
 			RememberMe = False
 		form_data = request.form
+		print ("login requested for", form_data['username_signin'])
 		signin_user = sUser(form_data['username_signin'], form_data['password_signin'])
 		signin_user.user_login()
 		if signin_user.error != None:
@@ -142,7 +145,7 @@ def signin():
 			login_user(signin_user.current_user_login, remember=RememberMe)
 			flash("Successfully signed in", 'success')
 			print("User signed in")
-			return redirect(url_for('home'), 302)
+			return redirect(url_for('home'))
 	if request.method =="GET":
 		return render_template('Signin.html',info=info, pg_name="Sign In")
 
@@ -222,7 +225,7 @@ def pre_order(page):
 		form_data = request.form
 		check_Order = PreOrderOptions(current_user.id, (form_data["time_for"]).lower())
 		if check_Order.run() == True:
-			flash ("It appears you already have a Pre-Order in system for this selection today. Please note that you are only able to order one of any item","")
+			flash (check_Order.flashMessage,"danger")
 			return redirect(url_for('food_table_none',))
 		submit_order = SubmitPreorder(current_user.id, (form_data["item_id"]), (form_data["time_for"]), (form_data["day_for"]) )
 		submit_order.submit()
@@ -236,8 +239,8 @@ def pre_order(page):
 		if current_user.is_authenticated:
 			bOrder = PreOrderOptions(current_user.id, "breakfast")
 			if bOrder.run() == True: 
-				flash ("It appears you already have a Pre-Order in system for this selection today. Please note that you are only able to order one of any item","warning")
-				return redirect(url_for('food_table_none',))
+				flash (bOrder.flashMessage,"danger")
+				return redirect(url_for('pre_order', page="my-orders"))
 			else:
 				return render_template('/preorder/Preorder-item.html',info=info, pg_name=pg_name, sidebar="yes", data=bOrder.data)
 		else:
@@ -248,8 +251,8 @@ def pre_order(page):
 		if current_user.is_authenticated:
 			qOrder = PreOrderOptions(current_user.id, "quarter")
 			if qOrder.run() == True: 
-				flash ("It appears you already have a Pre-Order in system for this selection today. Please note that you are only able to order one of any item","")
-				return redirect(url_for('food_table_none',))
+				flash (qOrder.flashMessage,"danger")
+				return redirect(url_for('pre_order', page="my-orders"))
 			else:
 				return render_template('/preorder/Preorder-item.html',info=info, pg_name=pg_name, sidebar="yes", data=qOrder.data)
 		else:
@@ -273,13 +276,13 @@ def pre_order(page):
 def shop():
 	ParseInfo()
 	flash ("Whoops, this page is not complete yet! Hang tight, it'll be here soon!", "warning")
-	return render_template('Home.html',info=info, pg_name="Home", sidebar="yes")
+	return render_template('Home.html',info=info, pg_name="Home", sidebar="yes", homeInfo=getInfo.homeInfo)
 
 @site.route('/balance-services')
 def balance_services():
 	ParseInfo()
 	flash ("Whoops, this page is not complete yet! Hang tight, it'll be here soon!", "warning")
-	return render_template('Home.html',info=info, pg_name="Home", sidebar="yes")
+	return render_template('Home.html',info=info, pg_name="Home", sidebar="yes", homeInfo=getInfo.homeInfo)
 
 @site.route('/account/')
 def account():
@@ -372,9 +375,6 @@ def complete_order(id):
 	completeOrder = TableGetter()
 	completeOrder.completePre_Orders(id)
 	return redirect(request.referrer)
-
-
-
 
 
 

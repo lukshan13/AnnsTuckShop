@@ -26,6 +26,8 @@ class GetVerifyToken:
 
 	def send_email_verify_token(self):
 		print ("preparing to send email")
+		while True:
+			return None
 		msg = Message("Anne's Tuck Shop Account: Email Verification",
 			recipients=[self.emailAddress, "lsharvaswaran@forestsch.org.uk"])
 		print (".....")

@@ -1,0 +1,22 @@
+
+Order logged and cleared - Tuesday September 18, 2018 AT 9:59
+ Ham&Cheese/Cheese Bagel bought for Breakfast. Order ID: 1. Ordered by UserID: 1. 	Order Collected: 0 
+ Sausage Panini bought for Breakfast. Order ID: 2. Ordered by UserID: 22. 	Order Collected: 0 
+ Sausage Panini bought for Breakfast. Order ID: 3. Ordered by UserID: 1. 	Order Collected: 0 
+
+Order logged and cleared - Tuesday September 18, 2018 AT 11:8
+
+Order logged and cleared - Thursday September 20, 2018 AT 9:4
+ Bacon Roll bought for Breakfast. Order ID: 1. Ordered by UserID: 1. 	Order Collected: 0 
+ Bacon Roll bought for Breakfast. Order ID: 2. Ordered by UserID: 22. 	Order Collected: 0 
+
+Order logged and cleared - Thursday September 20, 2018 AT 10:4
+ Turkey/Haloumi Wrap  bought for Breakfast. Order ID: 1. Ordered by UserID: 1. 	Order Collected: 1 
+ Turkey/Haloumi Wrap  bought for Breakfast. Order ID: 2. Ordered by UserID: 22. 	Order Collected: 1 
+ Turkey/Haloumi Wrap  bought for Breakfast. Order ID: 3. Ordered by UserID: 30. 	Order Collected: 1 
+
+Order logged and cleared - Friday September 21, 2018 AT 8:49
+ Turkey/Haloumi Wrap  bought for Breakfast. Order ID: 1. Ordered by UserID: 1. 	Order Collected: 1 
+ Ham&Cheese Toastie/Cheese&Tomato Toastie bought for Quarter. Order ID: 2. Ordered by UserID: 1. 	Order Collected: 1 
+ Turkey/Haloumi Wrap  bought for Quarter. Order ID: 3. Ordered by UserID: 1. 	Order Collected: 1 
+ Turkey/Haloumi Wrap  bought for Quarter. Order ID: 4. Ordered by UserID: 1. 	Order Collected: 1 

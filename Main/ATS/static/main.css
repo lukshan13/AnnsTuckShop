@@ -69,8 +69,11 @@ li.rightlast{
 
 
 .ATS_title{
-  color: #213564;
+  color: #052150;
   padding-right: 150px;
+  font-family: verdana;
+  font-weight: 550;
+  font-stretch: semi-expanded;
 }
 
 
@@ -84,8 +87,9 @@ li.rightlast{
 }
 
 .content-section{
+  overflow: auto;
   background: #ffffff;
-  padding: 10px 20px;
+  padding: 10px 10px;
   border: 1px solid #dddddd;
   border-radius: 3px;
   margin-bottom: 20px;
@@ -247,7 +251,7 @@ a.section-title:hover{
   }
 }
 
-@media screen and (max-width: 445px){
+@media screen and (max-width: 470px){
 
   .Forest-Logo{
     max-width: 95px;    
@@ -258,7 +262,7 @@ a.section-title:hover{
 }
 
 
-@media screen and (max-width: 340px){
+@media screen and (max-width: 360px){
   .Forest-Logo{
     max-width: 0px;
     max-height: 0px;

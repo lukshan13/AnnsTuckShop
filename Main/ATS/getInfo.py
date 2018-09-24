@@ -12,6 +12,7 @@ def get_datetime():
     time_display = (str(ctime[0])) + ":" + (str(ctime[1]))
     time_mins = (ctime[0]*60)+(ctime[1])
     
+    
 
 def get_TimeOfDay():
 	global TimeOfDay

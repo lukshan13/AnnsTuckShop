@@ -8,6 +8,7 @@ class PreOrderOptions:
 
 	def __init__(self, id, mode):
 		self.UserID = id
+		self.ordercount = 0
 		if mode == "breakfast":
 			self.today = getInfo.day
 			breakfast_today = BreakfastTimetable.query.filter_by(Day=self.today).first()
@@ -46,14 +47,24 @@ class PreOrderOptions:
 		check = Order.query.filter(and_(Order.User_id==self.UserID), (Order.Order_Item==self._today_id)).first()
 		if check != None and check.Current == 1:
 			print (check)	
-			return True
-		else:
-			return False
+			self.flashMessage = "It appears you already have a Pre-Order in system for this selection today. Please note that you are only able to order one of any item"
+			return
+
+
+	def checkPreorderNumbers(self):
+		orders = Order.query.filter_by(Order_Item=self._today_id).count()
+		if orders >= (20):
+			self.flashMessage = "It seems as if there are more than 20 orders for this item currently. Please try again later after orders have been collected"
 
 
 	def run(self):
 		self.getInfoFromDB()
-		return self.checkForPreorder()
+		self.checkPreorderNumbers()
+		self.checkForPreorder()
+		if self.flashMessage:
+			return self.flashMessage
+		else:
+			return True
 
 
 class SubmitPreorder:

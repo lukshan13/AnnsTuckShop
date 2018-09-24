@@ -1,8 +1,15 @@
+import sys, os
 print ("Developed By Lukshan Sharvaswaran, DvDt:2018. @lukshan13")
 
+try:
+	print (f"Python Version compatible")
+except:
+	print ("It looks like your version of Python is not compatible. Please try with Python 3.6.5+")
+	while True:
+		sys.exit()
+
 print ('importing modules.....')
-import sys, os
-from ATS import getInfo as getInfo
+
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
@@ -20,7 +27,7 @@ key.run()
 
 site.config['SECRET_KEY'] = (key.key)
 #Key is imported from a file for better security and to easily reset it
-site.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
+site.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///ats.db'
 site.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 #calling database
 
@@ -40,6 +47,7 @@ db = SQLAlchemy(site)
 login_manager = LoginManager(site)
 mail = Mail(site)
 
+from ATS import getInfo as getInfo
 from ATS import routes
 from ATS.DB_check import check_breakfast, check_quarter
 

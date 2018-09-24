@@ -11,6 +11,7 @@ def get_datetime():
     ctime = (time.localtime()[3], time.localtime()[4])
     time_display = (str(ctime[0])) + ":" + (str(ctime[1]))
     time_mins = (ctime[0]*60)+(ctime[1])
+    print (ctime)
     
     
 

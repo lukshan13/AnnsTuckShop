@@ -62,8 +62,8 @@ class rUser:
 
 	def add_to_db(self):
 		self.generate_email_address()
-		new_user1 = User(First_name=self.FirstName, Last_name=self.LastName, Username=self.Username, YGS=self.YGS, Email=self.EmailAddress, House=self.House, Password=self.Password, Admin_status=self.Admin)
-		db.session.add(new_user1)
+		self.new_user_to_add = User(First_name=self.FirstName, Last_name=self.LastName, Username=self.Username, YGS=self.YGS, Email=self.EmailAddress, House=self.House, Password=self.Password, Admin_status=self.Admin)
+		db.session.add(self.new_user_to_add)
 		db.session.commit()
 
 
@@ -79,6 +79,19 @@ class rUser:
 			if email != None:
 				self.error = ("Something went wrong while emailing you. We have registered you to the system, please talk to Ann to verify your account")
 			self.token = getVerify.token
+
+	def admin_add_new_user(self):
+		print ("New Register request")
+		self.normalise()
+		self.check_existing()
+		if self.existing == (False):
+			self.add_to_db()
+			print ("verifying account")
+			self.new_user_to_add.AccVerified = ("1")
+			db.session.commit()
+			self.token = None
+
+
 	
 
 class vUser:

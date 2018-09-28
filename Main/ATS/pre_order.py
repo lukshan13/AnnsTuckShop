@@ -9,6 +9,7 @@ class PreOrderOptions:
 	def __init__(self, id, mode):
 		self.UserID = id
 		self.ordercount = 0
+		self.flashMessage = None
 		if mode == "breakfast":
 			self.today = getInfo.day
 			breakfast_today = BreakfastTimetable.query.filter_by(Day=self.today).first()
@@ -44,10 +45,11 @@ class PreOrderOptions:
 		print (self.data)
 
 	def checkForPreorder(self):
-		check = Order.query.filter(and_(Order.User_id==self.UserID), (Order.Order_Item==self._today_id)).first()
+		check = Order.query.filter(and_(Order.User_id==self.UserID), (Order.Order_Item==self._today_id), (Order.Current==(1))).first()
 		if check != None and check.Current == 1:
 			print (check)	
 			self.flashMessage = "It appears you already have a Pre-Order in system for this selection today. Please note that you are only able to order one of any item"
+			print (self.flashMessage)
 			return
 
 
@@ -61,10 +63,10 @@ class PreOrderOptions:
 		self.getInfoFromDB()
 		self.checkPreorderNumbers()
 		self.checkForPreorder()
-		if self.flashMessage:
+		if self.flashMessage != None:
 			return self.flashMessage
 		else:
-			return True
+			return False
 
 
 class SubmitPreorder:

@@ -1,0 +1,127 @@
+<!-- calling template -->
+{% extends "Layout/layout.html" %}
+
+{% block _content_ %}
+	<div class="content-section">
+		<form method="POST" action="" style="padding-left: 15px">
+			<fieldset class="form-group">
+			<legend class="border-bottom mb-4">Add A New Verified User</legend>
+
+		
+
+				<div class="input-group">
+
+					<div class="form-row">
+   						<div class="col-md-auto mb-4">
+    						<label for="FirstName">First name</label>
+						    <input type="text" class="form-control" name="First_Name_Form" id="FirstName" placeholder="John" required>
+						</div>
+						<div class="col-md-auto mb-4">
+						    <label for="LastName">Last name</label>
+						    <input type="text" class="form-control" name="Last_Name_Form" id="LastName" placeholder="Appleseed"  required>
+						</div>
+					</div>
+
+					<div class="form-row">
+						<div class="col-md-auto mb-1">
+		    				<label for="Forest_Username">Forest username:</label>
+		   					<input type="text" class="form-control" name="Forest_Username_Form" id="Forest_Username" placeholder="JAppleseed" required>
+		   					<span class="help-block"><small>Please note: Email will be verified</small></span>
+		 				</div>
+		 				<div class="form-group col-md-auto mb-1 id_staff_student">
+		 					<label for="Forest_Email_Domain">    Please select one</label>
+		 					<select class="form-control" id="Forest_Email_Domain" name="Forest_Email_Domain_Form">
+		     					<option value="sch_student">@forestsch.org.uk</option>
+		     					<option value="sch_staff" >@forest.org.uk</option>
+		     				</select>	 				
+	     				</div>
+	     			</div>
+	     		</div>
+	     		
+	 		</fieldset>
+
+  
+		  	<div class="form-row">
+		  		<div class="col-md-auto">
+					<div>
+						<label for="PasswordInput" class="form-label">Password</label>
+						<input type="password" class="form-control" name="Password_Form" id="PasswordInput" placeholder="Password" required>
+					</div>
+				</div>
+			</div>
+			<fieldset class="form-group">
+				<div>
+					<legend style="padding-top: 25px;" class="col-form-label">Select Year Group</legend>
+					<div>
+						<div class="form-check">
+							<input class="form-check-input _student _student-default" type="radio" name="AccademicYear_Form" id="AccademicYear12" value="12" checked="true" >
+							<label class="form-check-label" for="AccademicYear12">
+								Year 12, joining Sixth Form from the September of {{ info.AccademicYear12 }}
+		  					</label>
+						</div>
+						<div class="form-check">
+							<input class="form-check-input _student" type="radio" name="AccademicYear_Form" id="AccademicYear13" value="13">
+							<label class="form-check-label" for="AccademicYear13">
+								Year 13, joining Sixth Form from the September of {{ info.AccademicYear13 }}
+							</label>
+						</div>
+						<div class="form-check">
+							<input class="form-check-input _staff" type="radio" name="AccademicYear_Form" id="Staff" value="S" disabled>
+							<label class="form-check-label" for="Staff">
+								Staff Member
+							</label>
+						</div>
+					</div>
+				</div>
+
+				<div style ="padding-top: 25px; padding-left: 0px;" class="form-group mb-1 col-md-4">
+		 					<label for="Select House">House</label>
+		 					<select class="form-control" name="House_Form" id="House">
+		     					<option>Astell</option>
+		     					<option>Baylis</option>
+		     					<option>Bishop's</option>
+		     					<option>Copeland's</option>
+		     					<option>Doctor's</option>
+		     					<option>Eliot</option>
+		     					<option>Franklin</option>
+		     					<option>Guy's</option>
+		     					<option>Hepworth</option>
+		     					<option>Johnian's</option>
+		     					<option>Kingsley</option>
+		     					<option>Miller's</option>
+		     					<option>Poole's</option>
+		     					<option>School</option>
+		     				</select>	 				
+	     				</div>
+
+						<div style="padding-top: 24px;">
+							</div>
+								<div class="form-check">
+								<input class="form-check-input _staff" type="radio" name="Admin_account" id="Standard" value="0" checked="checked">
+								<label class="form-check-label" for="Standard">
+									Standard user (Default)
+								</label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input _student" type="radio" name="Admin_account" id="Admin" value="1">
+								<label class="form-check-label" for="Admin">
+									Admin (Warning - This will give the user admin access to the webapp!)
+								</label>
+							</div>
+						</div>
+
+
+
+			</fieldset>
+			<div class="form-group">
+				<div class="border-top" style="position:relative; right:15px;"></div>
+				<div class="col-md-5 mb-4 " style="padding-left: 0px; padding-top: 15px">
+					<button type="submit" class="btn btn-primary">Register</button>
+				</div>
+			</div>
+		</form>
+		
+
+	<script src="{{ url_for('static', filename='register-disable-button.js') }}"></script>	
+
+{% endblock _content_ %}

@@ -1,0 +1,52 @@
+<!-- calling template -->
+{% extends "Layout/layout.html" %}
+
+{% block _content_ %}
+	<div class="content-section">
+		<form method="POST" action="" style="padding-left: 15px">
+			<fieldset class="form-group">
+			<legend class="border-bottom mb-4">Add A New Item</legend>
+
+		
+
+				<div class="input-group">
+
+					<div class="form-row">
+   						<div class="col-md-auto mb-4">
+    						<label for="ItemName">Item Name</label>
+						    <input type="text" class="form-control" name="ItemNameForm" id="ItemName" placeholder="Item" required>
+						</div>
+						<div class="col-md-auto mb-4">
+						    <label for="LastName">Price (in pennies)</label>
+						    <input type="number" class="form-control" name="ItemPriceForm" id="ItemPrice" placeholder="Price"  required>
+						</div>
+					</div>
+	     		</div>
+	     		
+	 		</fieldset>
+
+			<fieldset class="form-group">
+
+				<div style ="padding-top: 10px; padding-left: 0px;" class="form-group mb-1 col-md-4">
+		 			<label for="Select House">Item Type</label>
+		 			<select class="form-control" name="ItemTypeForm" id="type">
+		   				<option>BREAKFAST</option>
+		   				<option>QUARTER</option>
+		     			<option>OTHER's</option>
+		     		</select>	 				
+	     		</div>
+
+
+			</fieldset>
+			<div class="form-group">
+				<div class="border-top" style="position:relative; right:15px;"></div>
+				<div class="col-md-5 mb-4 " style="padding-left: 0px; padding-top: 15px">
+					<button type="submit" class="btn btn-primary">Add Item</button>
+				</div>
+			</div>
+		</form>
+		
+
+	<script src="{{ url_for('static', filename='register-disable-button.js') }}"></script>	
+
+{% endblock _content_ %}

@@ -31,7 +31,42 @@ class Admin_Add_Item:
 
 
 class Admin_Delete_Item:
-	pass
+	def __init__(self, delkey):
+		if delkey == "view":
+			self.GetItems()
+		else:
+			pass
+
+
+	def GetItems(self):
+		item_name = []
+		ItemPrice = []
+		Id = []
+		Editable = []
+		Count = []
+		items = Item.query.all()
+		counter = 1
+		for item in items:
+			if item.inQuarterTimetable or item.inBreakfastTimetable:
+				Editable.append(0)
+			else:
+				Editable.append(1)
+			Count.append(counter)
+			counter = counter+1
+			item_name.append(item.Item_name)
+			ItemPrice.append(item.Price)
+			Id.append(item.id)
+		self.itemData = {
+		"Count": Count,
+		"ItemID": Id,
+		"Item_name": item_name,
+		"ItemPrice": ItemPrice,
+		"Editable": Editable
+		}
+		print (self.itemData)
+
+
+
 
 class Admin_Modify_Table:
 

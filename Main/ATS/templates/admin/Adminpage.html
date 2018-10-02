@@ -12,8 +12,8 @@
 	        <div style="text-align:center;">
 	        	<h5> Shop options </h5>
 	        	<br>
-				<a><button class="btn btn-primary btn-sm">Add New Item</button></a>
-				<a><button class="btn btn-danger btn-sm">Delete Item</button></a>
+				<a href="{{ url_for('admin_add_new_item') }}"><button class="btn btn-primary btn-sm">Add New Item</button></a>
+				<a href="{{ url_for('admin_delete_item') }}"><button class="btn btn-danger btn-sm">Delete Item</button></a>
 				<a><button class="btn btn-secondary btn-sm">Modify Breakfast Data</button></a>
 				<a><button class="btn btn-secondary btn-sm">Modify Quarter Data</button></a>
 				<a><button class="btn btn-secondary btn-sm">Modify Week-Special</button></a>

@@ -12,7 +12,7 @@ from ATS.user_verification import CheckVerifyToken
 from ATS.get_data_from_db import TableGetter
 from ATS.pre_order import PreOrderOptions, SubmitPreorder, UserPreorders
 from ATS import getInfo as getInfo
-from ATS.admin_service import Admin_Add_Item
+from ATS.admin_service import Admin_Add_Item, Admin_Delete_Item
 
 getInfo.RunGetInfo()
 
@@ -414,13 +414,24 @@ def admin_add_new_item():
 		nItem = Admin_Add_Item(form_data['ItemNameForm'], form_data['ItemTypeForm'], form_data['ItemPriceForm'])
 		nItem.add_item()
 
-
-
-
 		return redirect(url_for('adminpage'))
-
 	if request.method == "GET":
 		return render_template('admin/admin_add_new_item.html', info=info, pg_name="Add New Item")
+
+@site.route('/admin/delete-item', methods=['POST','GET'])
+def admin_delete_item():
+	ParseInfo()
+
+	if request.method == "POST":
+		form_data = request.form
+		print (form_data)
+		nItem = Admin_Add_Item(form_data['ItemNameForm'], form_data['ItemTypeForm'], form_data['ItemPriceForm'])
+		nItem.add_item()
+
+		return redirect(url_for('adminpage'))
+	if request.method == "GET":
+		dItem = Admin_Delete_Item("view")
+		return render_template('admin/admin_delete_item.html', info=info, pg_name="Delete New Item", itemData = dItem.itemData)
 
 
 

@@ -26,11 +26,13 @@
 				<a><button class="btn btn-danger btn-sm">View and Modify/Delete Accounts</button></a>
 				<a><button class="btn btn-secondary btn-sm">Verify An Account Manually</button></a>
 	        </div>
-	        <div style="text-align:center;">
+	        <div style="text-align:center; padding-top: 15px">
     	        <h5> Server options </h5>
 	        	<br>
-	        	<a href="{{ url_for('restart_server') }}"><button  class="btn btn-danger btn-sm">Restart Server</button></a>
-				<a href="{{ url_for('purgekey') }}"><button class="btn btn-danger btn-sm">Purge Secret Key - Logout Everyone</button></a>
+	        	<form action ="{{ url_for('serverSettings') }}" onsubmit="return confirm('Do you really want to do this?');" method="POST">
+		        	<button name="uRequest" value="restart_server" type="submit" class="btn btn-danger btn-sm">Restart Server</button>
+					<button name="uRequest" value="purge_key" type="submit" class="btn btn-danger btn-sm">Purge Secret Key - Logout Everyone</button>
+				</form>
 	        </div>
     	</div>
     </section>

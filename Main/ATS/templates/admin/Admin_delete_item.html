@@ -21,9 +21,11 @@
                     <th>{{ itemData.Item_name[item] }}</th>
                     <th>{{ itemData.ItemPrice[item] }}</th>
                     {% if itemData.Editable[item] == 0 %}
-                        <th><button class="btn btn-warning">Item In Table</button></th>
+                        <th><button class="btn btn-warning">Item In a Table</button></th>
                     {% elif itemData.Editable[item] == 1 %}
-                        <th><button class="btn btn-danger">Delete Item</button></th>
+                        <form onsubmit="return confirm('Do you really want to delete this item?');" action="" method="POST">
+                            <th><button class="btn btn-danger" name="deleteID" value="{{ itemData.ItemID[item] }}">&nbsp;&nbsp;Delete Item &nbsp;&nbsp;</button></th>
+                        </form>
                     {% endif %}
                 </tr>
                 {% endfor %}

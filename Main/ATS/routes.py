@@ -423,42 +423,32 @@ def admin_delete_item():
 	ParseInfo()
 
 	if request.method == "POST":
-		form_data = request.form
-		print (form_data)
-		nItem = Admin_Add_Item(form_data['ItemNameForm'], form_data['ItemTypeForm'], form_data['ItemPriceForm'])
-		nItem.add_item()
+		data = request.form
+		dcItem = Admin_Delete_Item(data["deleteID"])
+		return redirect(url_for('admin_delete_item'))
 
-		return redirect(url_for('adminpage'))
 	if request.method == "GET":
 		dItem = Admin_Delete_Item("view")
 		return render_template('admin/admin_delete_item.html', info=info, pg_name="Delete New Item", itemData = dItem.itemData)
 
 
+@site.route('/admin/server', methods=['POST','GET'])
+def serverSettings():
 
-
-@site.route('/admin/restart_server')
-def restart_server():
 	admin = admin_perm_check()
 	if admin == True:
-		shutdown_server()
-		flash (f"Server Restart inititiated by {current_user.Username}", "warning")
+		if request.method == "POST":
+			adminRequest = request.form
+			if adminRequest["uRequest"] == "restart_server":
+				shutdown_server()
+				flash (f"Server Restart inititiated by {current_user.Username}", "warning")
+			elif adminRequest["uRequest"] == "purge_key":
+				purge = sk()
+				purge.purgeKey()
+				shutdown_server()
 	else:
 		flash("Whoops! Looks like you don't have permission to do that! If you think this is a mistake, please contact support", "danger")
 	return redirect(url_for('home'))
-
-
-
-
-@site.route('/admin/purgekey')
-def purgekey():
-	admin = admin_perm_check()
-	if admin == True:
-		purge = sk()
-		purge.purgeKey()
-		return redirect(url_for('restart_server'))
-	else:
-		flash("Whoops! Looks like you don't have permission to do that! If you think this is a mistake, please contact support", "danger")
-		return redirect(url_for('home'))
 
 @site.route('/.well-known/acme-challenge/D5P4DM9Yke1xBVl_YFOM0ebVP1JCexDLnZ6DLf5k7j0')
 def tempverify():

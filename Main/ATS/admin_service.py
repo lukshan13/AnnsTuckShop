@@ -5,13 +5,13 @@ from ATS.models import User, Item, Order, QuarterTimetable, BreakfastTimetable
 #Shop options
 class Admin_Add_Item:
 
-	def __init__(self, name, price, Type):
+	def __init__(self, name, Type, price):
 		self.itemName = name
 		self.itemPrice = price
 		self.itemType = Type
 
 	def check_existing(self):
-		if Item.query.filter_by(Item_name=self.itemName).first() != None:
+		if Item.query.filter_by(Item_name=self.itemName).first() == None:
 			return True
 		else:
 			return False
@@ -35,7 +35,8 @@ class Admin_Delete_Item:
 		if delkey == "view":
 			self.GetItems()
 		else:
-			pass
+			self.key = delkey
+			self.DeleteItem()
 
 
 	def GetItems(self):
@@ -65,7 +66,9 @@ class Admin_Delete_Item:
 		}
 		print (self.itemData)
 
-
+	def DeleteItem(self):
+		dItem = Item.query.filter_by(id=self.key).delete()
+		db.session.commit()
 
 
 class Admin_Modify_Table:

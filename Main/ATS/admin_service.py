@@ -64,7 +64,6 @@ class Admin_Delete_Item:
 		"ItemPrice": ItemPrice,
 		"Editable": Editable
 		}
-		print (self.itemData)
 
 	def DeleteItem(self):
 		dItem = Item.query.filter_by(id=self.key).delete()
@@ -73,8 +72,52 @@ class Admin_Delete_Item:
 
 class Admin_Modify_Table:
 
-	def __init__(self, table):
-		pass
+	def __init__(self, table, mode):
+		if table == "breakfast":
+			self.tableData = BreakfastTimetable.query.all()
+		elif table == "quarter":
+			self.tableData = QuarterTimetable.query.all()
+		if mode == "view":
+			self.view_table(table)
+		elif mode != "view":
+			self.change_table(table, mode)
+
+	def view_table(self, table):
+		items = Item.query.all()
+		Items = []
+		for item in items:
+			Items.append(item.Item_name)
+		Day = []
+		item_name = []
+		counter = []
+		count = 0
+		for entry in self.tableData:
+			Day.append(entry.Day)
+			if table == "breakfast":
+				item_name.append((Item.query.filter_by(id=entry.Breakfast_Item).first().Item_name))			
+			elif table == "quarter":
+				item_name.append((Item.query.filter_by(id=entry.Quarter_Item).first().Item_name))
+			counter.append(count)
+			count = count + 1			
+		self.tableExport = {
+		"count": counter,
+		"day": Day,
+		"item_name": item_name,
+		"allItems": Items
+		}
+
+	def change_table(self, table, data):
+		for entry in data:
+			if data[entry] != "ignore":
+				if table == "breakfast":
+					toModify = BreakfastTimetable.query.filter_by(Day=entry).first()
+					toModify.Breakfast_Item=(Item.query.filter_by(Item_name=data[entry]).first().id)
+				elif table == "quarter":
+					toModify = QuarterTimetable.query.filter_by(Day=entry).first()
+					toModify.Quarter_Item=(Item.query.filter_by(Item_name=data[entry]).first().id)
+				print (toModify)
+				db.session.commit()
+
 
 class Admin_Modify_Week_Special:
 	pass

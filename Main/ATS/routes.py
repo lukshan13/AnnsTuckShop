@@ -12,7 +12,7 @@ from ATS.user_verification import CheckVerifyToken
 from ATS.get_data_from_db import TableGetter
 from ATS.pre_order import PreOrderOptions, SubmitPreorder, UserPreorders
 from ATS import getInfo as getInfo
-from ATS.admin_service import Admin_Add_Item, Admin_Delete_Item
+from ATS.admin_service import Admin_Add_Item, Admin_Delete_Item, Admin_Modify_Table
 
 getInfo.RunGetInfo()
 
@@ -430,6 +430,32 @@ def admin_delete_item():
 	if request.method == "GET":
 		dItem = Admin_Delete_Item("view")
 		return render_template('admin/admin_delete_item.html', info=info, pg_name="Delete New Item", itemData = dItem.itemData)
+
+
+@site.route('/admin/modify-<table>', methods=['POST','GET'])
+def admin_modify_table_data(table):
+	ParseInfo()
+	admin = admin_perm_check()
+	if admin == True:
+		if request.method == "GET":
+			if table == "breakfast" or table == "quarter":
+				mvTable = Admin_Modify_Table(table, "view")
+				print (mvTable.tableExport)
+
+				return render_template('admin/adminChangeTable.html', info=info, pg_name="Modify Table", tableData=mvTable.tableExport)
+			else:
+				flash ("Warning: Invalid request. If this keeps happening please contact support", "warning")
+				return redirect(url_for('adminpage'))
+		elif request.method == "POST":
+			data = request.form
+			mTable = Admin_Modify_Table(table, data)
+			return redirect(url_for('adminpage'))
+
+
+
+	else:
+		flash("Whoops! Looks like you don't have permission to do that! If you think this is a mistake, please contact support", "danger")
+	return redirect(url_for('home'))
 
 
 @site.route('/admin/server', methods=['POST','GET'])

@@ -52,6 +52,13 @@ def ParseInfo():
 		'Current_Fullname': (fullname)
 	}
 
+@site.errorhandler(404)
+def page_not_found(e):
+	ParseInfo()
+	return render_template('error/404.html', info=info, pg_name="404", sidebar="yes"),	404
+
+
+
 @site.route('/lunch_menu')
 def lunch_menu():
 	return redirect("https://goo.gl/fCejpy")
@@ -440,7 +447,6 @@ def admin_modify_table_data(table):
 		if request.method == "GET":
 			if table == "breakfast" or table == "quarter":
 				mvTable = Admin_Modify_Table(table, "view")
-				print (mvTable.tableExport)
 
 				return render_template('admin/adminChangeTable.html', info=info, pg_name="Modify Table", tableData=mvTable.tableExport)
 			else:

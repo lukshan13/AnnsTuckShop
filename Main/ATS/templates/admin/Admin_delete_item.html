@@ -1,0 +1,38 @@
+{% extends "Layout/layout.html" %}
+
+
+
+{% block _content_ %}
+    <section class="media content-section" style="width: 950px;">
+        <div class="media-body">
+            <legend class="mb-4">Delete an Item</legend>
+
+            <table class="table" style="font-size: 0.9em">
+                <tr>
+                    <th>Item ID</th>
+                    <th>Name</th>
+                    <th>Price (p)</th>
+                    <th>Delete</th>
+                </tr>
+
+                {% for item in itemData.Count %}
+                <tr>
+                    <th>{{ itemData.ItemID[item] }}</th>
+                    <th>{{ itemData.Item_name[item] }}</th>
+                    <th>{{ itemData.ItemPrice[item] }}</th>
+                    {% if itemData.Editable[item] == 0 %}
+                        <th><button class="btn btn-warning">Item In a Table</button></th>
+                    {% elif itemData.Editable[item] == 1 %}
+                        <form onsubmit="return confirm('Do you really want to delete this item?');" action="" method="POST">
+                            <th><button class="btn btn-danger" name="deleteID" value="{{ itemData.ItemID[item] }}">&nbsp;&nbsp;Delete Item &nbsp;&nbsp;</button></th>
+                        </form>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </table>
+
+            <br><br><a href="/admin/view-pre-item/completed/all"><button class="btn btn-warning btn-block" >Day End: Clear item</button></a>
+
+        </div>
+    </section>
+{% endblock _content_ %}

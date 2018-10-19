@@ -20,3 +20,35 @@ Order logged and cleared - Friday September 21, 2018 AT 8:49
  Ham&Cheese Toastie/Cheese&Tomato Toastie bought for Quarter. Order ID: 2. Ordered by UserID: 1. 	Order Collected: 1 
  Turkey/Haloumi Wrap  bought for Quarter. Order ID: 3. Ordered by UserID: 1. 	Order Collected: 1 
  Turkey/Haloumi Wrap  bought for Quarter. Order ID: 4. Ordered by UserID: 1. 	Order Collected: 1 
+
+Order logged and cleared - Saturday September 22, 2018 AT 12:56
+ Open Day Food bought for Breakfast. Order ID: 1. Ordered by UserID: 1. 	Order Collected: 0 
+ Open Day Food test bought for Quarter. Order ID: 2. Ordered by UserID: 1. 	Order Collected: 0 
+ Open Day Food bought for Breakfast. Order ID: 3. Ordered by UserID: 1. 	Order Collected: 0 
+ Open Day Food bought for Breakfast. Order ID: 4. Ordered by UserID: 1. 	Order Collected: 1 
+
+Order logged and cleared - Saturday September 22, 2018 AT 12:57
+ Open Day Food test bought for Quarter. Order ID: 1. Ordered by UserID: 1. 	Order Collected: 0 
+
+Order logged and cleared - Saturday September 22, 2018 AT 12:57
+
+Order logged and cleared - Monday September 24, 2018 AT 11:3
+ None bought for Breakfast. Order ID: 1. Ordered by UserID: 1. 	Order Collected: 0 
+ Ham&Cheese/Cheese Bagel bought for Breakfast. Order ID: 2. Ordered by UserID: 22. 	Order Collected: 0 
+ Pork Sausage Roll/Cheese&Tomato Pizza bought for Quarter. Order ID: 3. Ordered by UserID: 30. 	Order Collected: 0 
+
+Order logged and cleared - Friday September 28, 2018 AT 15:44
+ Sausage Panini bought for Breakfast. Order ID: 1. Ordered by UserID: 22. 	Order Collected: 0 
+ Sausage Panini bought for Breakfast. Order ID: 2. Ordered by UserID: 1. 	Order Collected: 0 
+ Bacon Baps/Fruit Smoothie bought for Quarter. Order ID: 3. Ordered by UserID: 1. 	Order Collected: 0 
+ Sausage Panini bought for Breakfast. Order ID: 4. Ordered by UserID: 1. 	Order Collected: 0 
+ Bacon Roll bought for Breakfast. Order ID: 5. Ordered by UserID: 22. 	Order Collected: 0 
+ Bacon Roll bought for Breakfast. Order ID: 6. Ordered by UserID: 28. 	Order Collected: 0 
+ Bacon Roll bought for Breakfast. Order ID: 7. Ordered by UserID: 1. 	Order Collected: 0 
+
+Order logged and cleared - Friday September 28, 2018 AT 15:52
+ Croquet Monster w/ Veg option  bought for Breakfast. Order ID: 1. Ordered by UserID: 1. 	Order Collected: 0 
+ Croquet Monster w/ Veg option  bought for Breakfast. Order ID: 2. Ordered by UserID: 1. 	Order Collected: 0 
+ Croquet Monster w/ Veg option  bought for Breakfast. Order ID: 3. Ordered by UserID: 1. 	Order Collected: 0 
+ Croquet Monster w/ Veg option  bought for Breakfast. Order ID: 4. Ordered by UserID: 1. 	Order Collected: 1 
+ Croquet Monster w/ Veg option  bought for Breakfast. Order ID: 5. Ordered by UserID: 1. 	Order Collected: 1 

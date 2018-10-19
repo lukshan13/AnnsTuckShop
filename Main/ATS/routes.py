@@ -12,6 +12,7 @@ from ATS.user_verification import CheckVerifyToken
 from ATS.get_data_from_db import TableGetter
 from ATS.pre_order import PreOrderOptions, SubmitPreorder, UserPreorders
 from ATS import getInfo as getInfo
+from ATS.admin_service import Admin_Add_Item, Admin_Delete_Item, Admin_Modify_Table
 
 getInfo.RunGetInfo()
 
@@ -50,6 +51,13 @@ def ParseInfo():
 		'Current_Username': (username),
 		'Current_Fullname': (fullname)
 	}
+
+@site.errorhandler(404)
+def page_not_found(e):
+	ParseInfo()
+	return render_template('error/404.html', info=info, pg_name="404", sidebar="yes"),	404
+
+
 
 @site.route('/lunch_menu')
 def lunch_menu():
@@ -224,7 +232,7 @@ def pre_order(page):
 	if request.method =="POST":
 		form_data = request.form
 		check_Order = PreOrderOptions(current_user.id, (form_data["time_for"]).lower())
-		if check_Order.run() != True:
+		if check_Order.run() != False:
 			flash (check_Order.flashMessage,"danger")
 			return redirect(url_for('food_table_none',))
 		submit_order = SubmitPreorder(current_user.id, (form_data["item_id"]), (form_data["time_for"]), (form_data["day_for"]) )
@@ -238,7 +246,7 @@ def pre_order(page):
 	if page == "breakfast":
 		if current_user.is_authenticated:
 			bOrder = PreOrderOptions(current_user.id, "breakfast")
-			if bOrder.run() == True: 
+			if bOrder.run() != False: 
 				flash (bOrder.flashMessage,"danger")
 				return redirect(url_for('pre_order', page="my-orders"))
 			else:
@@ -250,7 +258,7 @@ def pre_order(page):
 	if page == "quarter":
 		if current_user.is_authenticated:
 			qOrder = PreOrderOptions(current_user.id, "quarter")
-			if qOrder.run() == True: 
+			if qOrder.run() != False: 
 				flash (qOrder.flashMessage,"danger")
 				return redirect(url_for('pre_order', page="my-orders"))
 			else:
@@ -378,30 +386,101 @@ def complete_order(id):
 
 
 
+@site.route('/admin/add-new-user', methods=['POST', 'GET'])
+def admin_add_new_user():
+	ParseInfo()
 
-@site.route('/admin/restart_server')
-def restart_server():
+	if request.method == 'POST':
+		form_data = request.form
+		print (form_data)
+		new_user = rUser(form_data['First_Name_Form'], form_data['Last_Name_Form'], form_data['Forest_Username_Form'], form_data['Forest_Email_Domain_Form'], form_data['AccademicYear_Form'], form_data['House_Form'], form_data['Password_Form'], form_data['Admin_account'])
+		new_user.admin_add_new_user()
+		#Checks if any errors were produced
+		if new_user.error != None:
+			print (new_user.error)
+			site_error = new_user.error
+			flash(site_error, 'danger')
+			return render_template('Signup.html',info=info, pg_name="Sign Up")
+		flash("User has been created. Please advice them to log in on their device", 'info')
+		return redirect(url_for('home'), 301)
+	if request.method =="GET":
+		return render_template('admin/Admin_add_new_user.html',info=info, pg_name="Add New User")
+
+
+
+
+
+
+@site.route('/admin/add-new-item', methods=['POST','GET'])
+def admin_add_new_item():
+	ParseInfo()
+
+	if request.method == "POST":
+		form_data = request.form
+		print (form_data)
+		nItem = Admin_Add_Item(form_data['ItemNameForm'], form_data['ItemTypeForm'], form_data['ItemPriceForm'])
+		nItem.add_item()
+
+		return redirect(url_for('adminpage'))
+	if request.method == "GET":
+		return render_template('admin/admin_add_new_item.html', info=info, pg_name="Add New Item")
+
+@site.route('/admin/delete-item', methods=['POST','GET'])
+def admin_delete_item():
+	ParseInfo()
+
+	if request.method == "POST":
+		data = request.form
+		dcItem = Admin_Delete_Item(data["deleteID"])
+		return redirect(url_for('admin_delete_item'))
+
+	if request.method == "GET":
+		dItem = Admin_Delete_Item("view")
+		return render_template('admin/admin_delete_item.html', info=info, pg_name="Delete New Item", itemData = dItem.itemData)
+
+
+@site.route('/admin/modify-<table>', methods=['POST','GET'])
+def admin_modify_table_data(table):
+	ParseInfo()
 	admin = admin_perm_check()
 	if admin == True:
-		shutdown_server()
-		flash (f"Server Restart inititiated by {current_user.Username}", "warning")
+		if request.method == "GET":
+			if table == "breakfast" or table == "quarter":
+				mvTable = Admin_Modify_Table(table, "view")
+
+				return render_template('admin/adminChangeTable.html', info=info, pg_name="Modify Table", tableData=mvTable.tableExport)
+			else:
+				flash ("Warning: Invalid request. If this keeps happening please contact support", "warning")
+				return redirect(url_for('adminpage'))
+		elif request.method == "POST":
+			data = request.form
+			mTable = Admin_Modify_Table(table, data)
+			return redirect(url_for('adminpage'))
+
+
+
 	else:
 		flash("Whoops! Looks like you don't have permission to do that! If you think this is a mistake, please contact support", "danger")
 	return redirect(url_for('home'))
 
 
+@site.route('/admin/server', methods=['POST','GET'])
+def serverSettings():
 
-
-@site.route('/admin/purgekey')
-def purgekey():
 	admin = admin_perm_check()
 	if admin == True:
-		purge = sk()
-		purge.purgeKey()
-		return redirect(url_for('restart_server'))
+		if request.method == "POST":
+			adminRequest = request.form
+			if adminRequest["uRequest"] == "restart_server":
+				shutdown_server()
+				flash (f"Server Restart inititiated by {current_user.Username}", "warning")
+			elif adminRequest["uRequest"] == "purge_key":
+				purge = sk()
+				purge.purgeKey()
+				shutdown_server()
 	else:
 		flash("Whoops! Looks like you don't have permission to do that! If you think this is a mistake, please contact support", "danger")
-		return redirect(url_for('home'))
+	return redirect(url_for('home'))
 
 @site.route('/.well-known/acme-challenge/D5P4DM9Yke1xBVl_YFOM0ebVP1JCexDLnZ6DLf5k7j0')
 def tempverify():

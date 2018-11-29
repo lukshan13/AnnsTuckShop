@@ -11,15 +11,13 @@ class sk:
 	def checkSKfile(self):
 		if (os.path.isfile("ATS/static/sk.txt")):
 		    self.fileSK_exists = True
-		    print ("file exists")
 		else:
 		    self.fileSK_exists = False
-		    print ("file does not exist)")
+		    print ("Secret Key file does not exist)")
 
 
 	def GenerateAndWriteSK(self):
 		file = open("ATS/static/sk.txt","w")
-		print ("'sk.txt' file at 'ATS' written")
 		rBytes = os.urandom(64)
 		self.NewKey = b64encode(rBytes).decode('utf-8')[:32]
 		file.write(str(self.NewKey))
@@ -39,7 +37,6 @@ class sk:
   		if self.fileSK_exists == False:
   			self.GenerateAndWriteSK()
   		self.ReadKey()
-  		print ("Secret Key ready")
 
 
 	def purgeKey(self):

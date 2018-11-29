@@ -12,6 +12,10 @@
             <h2><a class="section-title"> Good {{ info.TimeOfDay }}! Today's selections are: </a></h2>
             <p class="section-content">Breakfast     -   {{homeInfo.breakfast_item}}</p>
             <p class="section-content">Quarter Break  -   {{homeInfo.quarter_item}}</p>
+            <!-- Sorry for bad if formatting but HTML causes it to show wrong line spacing on the frontend if I format it nicer -->
+            <p class="section-content">Week Special  -   {% if homeInfo.week_special %}  {{homeInfo.week_special.Item_name}}</p> {% else %} Unset, please contact Ann</p>
+                {% endif %}
+            <br>
             <p class="section-content links"><a href="{{url_for('lunch_menu')}}" target="_blank" rel="noopener"><span style= "color: #80A0CC;">Click here for lunch menu</span></a></p>
         </div>
     </section>

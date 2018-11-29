@@ -10,22 +10,21 @@
 
             <table class="table" style="font-size: 0.9em">
                 <tr>
-                    <th>Day</th>
                     <th>Item Name</th>
+                    <th>Price (p)</th>
                     <th>Change</th>
                 </tr>
                 <form method="POST" action="">
-                    {% for entry in tableData.count %}
                     <tr>
-                        <th>{{ tableData.day[entry] }}</th>
-                        <th>{{ tableData.item_name[entry] }}</th>
-                        <th><select class="form-control" name="{{ tableData.day[entry] }}" >
-                            <option value = "ignore" >No Change</option>
-                            {% for item in tableData.allItems %}
-                                <option value="{{ item }}">{{ item }}</option>
-                            {% endfor %}
-                        </select></th>
-                    {% endfor %}
+                    <th>{{tableData.ItemName}}</th>
+                    <th>{{tableData.ItemPrice}}</th>
+                    <th><select class="form-control" name="NewItem">
+                        <option value="ignore" >No Change</option>
+                        {% for item in tableData.allItems %}
+                            <option value="{{ item }}">{{ item }}</option>
+                        {% endfor %}
+                    </select></th>
+
             </table>
 
                     <br><br><button type = "submit" class="btn btn-warning btn-block" >Save changes</button>

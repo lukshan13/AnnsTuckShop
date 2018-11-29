@@ -1,0 +1,220 @@
+{% extends "Layout/layout.html" %}
+
+
+
+{% block _content_ %}
+    <section class="media content-section" style="width: 950px;">
+        <div class="media-body">
+            <legend class="mb-0 list-group-item-light" style="font-size: 0.8em">&nbsp;Modify User</legend>
+
+            <p><h2> {{userData.FirstName}} {{userData.LastName}}</h2></p>
+
+
+            <form method="POST" action="" style="padding-left: 15px">
+                <fieldset class="form-group">
+
+
+                        <div class="form-row">
+                            <div class="col-md-auto mb-4">
+                                <label for="FirstName">First name</label>
+                                <input type="text" class="form-control" name="First_Name_Form" id="FirstName" value="{{userData.FirstName}}" required>
+                            </div>
+                            <div class="col-md-auto mb-4">
+                                <label for="LastName">Last name</label>
+                                <input type="text" class="form-control" name="Last_Name_Form" id="LastName" value="{{userData.LastName}}"  required>
+                            </div>
+                        </div>
+                        <p></p>
+
+                        <div class="form-row">
+                            <div class="col-md-auto mb-1">
+                                <label for="Forest_Username">Forest username:</label>
+                                <input type="text" class="form-control" name="Forest_Username_Form" id="Forest_Username" value="{{userData.Username}}" required>
+                                <span class="help-block"><small>Please note: Email will be verified</small></span>
+                            </div>
+                            <div class="form-group col-md-auto mb-1 id_staff_student">
+                                <label for="Forest_Email_Domain">    Please select one</label>
+                                <select class="form-control" id="Forest_Email_Domain" name="Forest_Email_Domain_Form">
+                                    <option value="sch_student">@forestsch.org.uk</option>
+                                    <option value="sch_staff" >@forest.org.uk</option>
+                                </select>                   
+                            </div>
+                        </div>
+
+                    
+                </fieldset>
+
+      
+                <div class="form-row">
+                    <div class="col-md-auto">
+                        <div>
+                            <label for="PasswordInput" class="form-label"> Change Password</label>
+                            <input type="password" class="form-control" name="ChangePassword_Form" id="PasswordInput" placeholder="Change Password" aria-describedby="passwordHelpBlock" >
+                            <p id="passwordHelpBlock" class="form-text text-muted">Leave blank to remain unchanged</p>
+                        </div>
+                    </div>
+                </div>
+                <fieldset class="form-group">
+                    <div>
+                        <legend style="padding-top: 25px;" class="col-form-label">Select Year Group (Please Change this!)</legend>
+                        <div>
+                            <div class="form-check">
+                                <input class="form-check-input _student _student-default" type="radio" name="AccademicYear_Form" id="AccademicYear12" value="{{ info.AccademicYear12 }}" checked="true" >
+                                <label class="form-check-label" for="AccademicYear12">
+                                    Year 12, joining Sixth Form from the September of {{ info.AccademicYear12 }}
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input _student" type="radio" name="AccademicYear_Form" id="AccademicYear13" value="{{ info.AccademicYear13 }}">
+                                <label class="form-check-label" for="AccademicYear13">
+                                    Year 13, joining Sixth Form from the September of {{ info.AccademicYear13 }}
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input _staff" type="radio" name="AccademicYear_Form" id="Staff" value="S" disabled>
+                                <label class="form-check-label" for="Staff">
+                                    Staff Member
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style ="padding-top: 25px; padding-left: 0px;" class="form-group mb-1 col-md-4">
+                            <label for="Select House">House</label>
+                            <select class="form-control" name="House_Form" id="House">
+
+                                {% if userData.House == "Astell" %}
+                                    <option selected="selected">Astell</option>
+                                {% else %}
+                                    <option>Astell</option>
+                                {% endif %}
+
+
+                                {% if userData.House == "Baylis" %}
+                                    <option selected="selected">Baylis</option>
+                                {% else %}
+                                    <option>Baylis</option>
+                                {% endif %}
+
+
+                                {% if userData.House == "Bishop's" %}
+                                    <option selected="selected">Bishop's</option>
+                                {% else %}
+                                    <option>Bishop's</option>
+                                {% endif %}
+
+
+                                {% if userData.House == "Copeland's" %}
+                                    <option selected="selected">Copeland's</option>
+                                {% else %}
+                                    <option>Copeland's</option>
+                                {% endif %}
+
+
+                                {% if userData.House == "Doctor's" %}
+                                    <option selected="selected">Doctor's</option>
+                                {% else %}
+                                    <option>Doctor's</option>
+                                {% endif %}
+
+
+                                {% if userData.House == "Eliot" %}
+                                    <option selected="selected">Eliot</option>
+                                {% else %}
+                                    <option>Eliot</option>
+                                {% endif %}
+
+
+                                {% if userData.House == "Franklin" %}
+                                    <option selected="selected">Franklin</option>
+                                {% else %}
+                                    <option>Franklin</option>
+                                {% endif %}
+
+
+                                {% if userData.House == "Guy's" %}
+                                    <option selected="selected">Guy's</option>
+                                {% else %}
+                                    <option>Guy's</option>
+                                {% endif %}
+
+
+                                {% if userData.House == "Hepworth" %}
+                                    <option selected="selected">Hepworth</option>
+                                {% else %}
+                                    <option>Hepworth</option>
+                                {% endif %}
+
+
+                                {% if userData.House == "Johnian's" %}
+                                    <option selected="selected">Johnian's</option>
+                                {% else %}
+                                    <option>Johnian's</option>
+                                {% endif %}
+
+
+                                {% if userData.House == "Kingsley" %}
+                                    <option selected="selected">Kingsley</option>
+                                {% else %}
+                                    <option>Kingsley</option>
+                                {% endif %}
+
+
+                                {% if userData.House == "Miller's" %}
+                                    <option selected="selected">Miller's</option>
+                                {% else %}
+                                    <option>Miller's</option>
+                                {% endif %}
+
+
+                                {% if userData.House == "Poole's" %}
+                                    <option selected="selected">Poole's</option>
+                                {% else %}
+                                    <option>Poole's</option>
+                                {% endif %}
+
+
+                                {% if userData.House == "School" %}
+                                    <option selected="selected">School</option>
+                                {% else %}
+                                    <option>School</option>
+                                {% endif %} 
+                            </select>              
+                        </div>
+
+                        <div style="padding-top: 24px;">
+                            </div>
+                                <div class="form-check">
+                                <input class="form-check-input _staff" type="radio" name="Admin_account" id="Standard" value="0" checked="checked">
+                                <label class="form-check-label" for="Standard">
+                                    Standard user (Default)
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input _student" type="radio" name="Admin_account" id="Admin" value="1">
+                                <label class="form-check-label" for="Admin">
+                                    Admin (Warning - This will give the user admin access to the webapp!)
+                                </label>
+                                <br><br><br>
+                            </div>
+                        </div>
+
+                        <button style="position: absolute; left: 40px; bottom: 40px" class="btn btn-primary">Modify</button>
+                    </div>
+
+                </fieldset>
+
+
+
+            <input type="hidden" name="OGusername" value="{{userData.Username}}"/>
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <input type="hidden" name="submit_modification" value="1"/>
+            </form>
+        
+        </div>
+        <script src="{{ url_for('static', filename='register-disable-button.js') }}"></script> 
+
+
+    </section>
+
+{% endblock _content_ %}

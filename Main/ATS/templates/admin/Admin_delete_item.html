@@ -25,13 +25,12 @@
                     {% elif itemData.Editable[item] == 1 %}
                         <form onsubmit="return confirm('Do you really want to delete this item?');" action="" method="POST">
                             <th><button class="btn btn-danger" name="deleteID" value="{{ itemData.ItemID[item] }}">&nbsp;&nbsp;Delete Item &nbsp;&nbsp;</button></th>
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                         </form>
                     {% endif %}
                 </tr>
                 {% endfor %}
             </table>
-
-            <br><br><a href="/admin/view-pre-item/completed/all"><button class="btn btn-warning btn-block" >Day End: Clear item</button></a>
 
         </div>
     </section>

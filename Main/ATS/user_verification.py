@@ -2,6 +2,7 @@ from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import url_for
 from ATS import mail
 from flask_mail import Message
+import time
 
 class GetVerifyToken:
 
@@ -20,14 +21,11 @@ class GetVerifyToken:
 
 	def get_verify_token(self, expires_sec=604800):
 		username = self.username
-		print ("Generating verification token for user")
 		s = Serializer(username, expires_sec)
 		self.token = (s.dumps(self.password)).decode("utf-8")
 
 	def send_email_verify_token(self):
 		print ("preparing to send email")
-		while True:
-			return None
 		msg = Message("Anne's Tuck Shop Account: Email Verification",
 			recipients=[self.emailAddress, "lsharvaswaran@forestsch.org.uk"])
 		print (".....")
@@ -77,17 +75,27 @@ class CheckVerifyToken:
 		self.username = str(wUsername).lower()
 		self.token = (wToken)
 
+
+
+	def TimingAttackThrow(self):
+		for i in self.Token[:5]:
+			time.sleep(0.05)
+
+
+
+
+
 	def check_verify_token(self):
-		print (self.username)
-		print ("checking token")
 		token = self.token
 		s = Serializer(self.username)
 		try:
+			self.TimingAttackThrow
 			self.checkedPassword = s.loads(token)
 			return ("Verified")
 		except:
 			self.error = ("Invalid/Expired token or bad username. If you have an expired token, please contact support to refresh your username from the database")
 			return ("self.error")
 
-		print ("after token  ", checkedPassword)
+
+
 		

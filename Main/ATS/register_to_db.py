@@ -1,6 +1,7 @@
 from ATS import db
 from ATS.models import User
 from ATS.user_verification import GetVerifyToken
+from ATS.passwordManager import passwordHash
 
 
 class rUser:
@@ -9,7 +10,7 @@ class rUser:
 	LastName = None
 	Username = None
 	EmailEnd = None
-	YGS = None
+	Year = None
 	House = None
 	EmailAddress = None
 	Password = None
@@ -18,12 +19,12 @@ class rUser:
 	error = None
 	token = None
 
-	def __init__(self, FirstName, LastName, Username, EmailEnd, YGS, House, Password, Admin):
+	def __init__(self, FirstName, LastName, Username, EmailEnd, Year, House, Password, Admin):
 		self.FirstName = FirstName
 		self.LastName = LastName
 		self.Username = Username
 		self.EmailEnd = EmailEnd
-		self.YGS = YGS
+		self.Year = Year
 		self.House = House
 		self.Password = Password
 		self.Admin = Admin
@@ -33,12 +34,10 @@ class rUser:
 		
 		try:
 			check_query = User.query.filter_by(Username=self.Username).first()
-			print ("checking if account already exisits")
 			if check_query.Username == self.Username:
 				self.existing = True
 				self.error = ("Account under that username already exists.")
 		except AttributeError:
-			print ("Account does not exist")
 			self.existing = False	
 
 
@@ -49,7 +48,6 @@ class rUser:
 			EmailDomain = "@forestsch.org.uk"
 
 		self.EmailAddress = (self.Username+EmailDomain)
-		print ("Generating account for", self.EmailAddress)
 
 
 
@@ -59,16 +57,23 @@ class rUser:
 		self.Username = self.Username.lower()
 
 
-
 	def add_to_db(self):
 		self.generate_email_address()
-		self.new_user_to_add = User(First_name=self.FirstName, Last_name=self.LastName, Username=self.Username, YGS=self.YGS, Email=self.EmailAddress, House=self.House, Password=self.Password, Admin_status=self.Admin)
+		self.getPassword()
+		self.new_user_to_add = User(First_name=self.FirstName, Last_name=self.LastName, Username=self.Username, Year=self.Year, Email=self.EmailAddress, House=self.House, Password=self.Password, Salt=self.Salt, HashVer=self.HashVer, Admin_status=self.Admin)
 		db.session.add(self.new_user_to_add)
-		db.session.commit()()
+		db.session.commit()
+
+
+	def getPassword(self):
+		hashNewPass = passwordHash()
+		PasswordData = hashNewPass.hashPassword_RandomSalt(self.Password)
+		self.Password = PasswordData["password"]
+		self.Salt = PasswordData["salt"]
+		self.HashVer = PasswordData["algorithmVer"]
 
 
 	def add_new_user(self):
-		print ("New Register request")
 		self.normalise()
 		self.check_existing()
 		if self.existing == (False):
@@ -81,12 +86,10 @@ class rUser:
 			self.token = getVerify.token
 
 	def admin_add_new_user(self):
-		print ("New Register request")
 		self.normalise()
 		self.check_existing()
 		if self.existing == (False):
 			self.add_to_db()
-			print ("verifying account")
 			self.new_user_to_add.AccVerified = ("1")
 			db.session.commit()
 			self.token = None
@@ -101,14 +104,12 @@ class vUser:
 	def __init__(self, vUsername):
 		self.Username = vUsername.lower()
 
+
 	def verify_user(self):
 			try:
-				print (self.Username)
 				check_query = User.query.filter_by(Username=self.Username).first()
-				print (check_query)
 				check_query.AccVerified = ("1")
 				db.session.commit()
-				print ("commiting to db")
 			except AttributeError:
 				error = ("Something went wrong, please try again. This should not happen")
 				print (error)

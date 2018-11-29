@@ -1,5 +1,6 @@
 from ATS import db
 from ATS.models import User, Item, Order
+from ATS.passwordManager import passwordHash
 
 
 class sUser:
@@ -30,7 +31,6 @@ class sUser:
 			#checking if account exisits
 			if check_query.Username == self.Username:
 				self.existing = True
-				print ("Username found")
 				
 		except AttributeError:
 			self.existing = False
@@ -42,18 +42,17 @@ class sUser:
 		self.current_user_login = User.query.filter_by(Username=self.Username).first()
 		if self.current_user_login.AccVerified == (1):
 			self.verified = True
-			print ("Username email verified")
 		else:
-			#self.error = ("Username email not verified. Please check email to verify account. Info: PLEASE CHECK JUNK/SPAM OF YOUR EMAIL")
-			self.error = ("Regretably, it seems like your account has not been approved for the BETA. This means that you were not selected in the random selection. If you just signed up, this might also means that we have not had a chance to verify you.")
-
+			self.error = ("Username email not verified. Please check email to verify account. Info: PLEASE CHECK JUNK/SPAM OF YOUR EMAIL")
+			
 
 
 	def compare_password(self):
 		#Checking password
-		if self.current_user_login.Password == self.Password:
+
+		checkPassword = passwordHash()		
+		if checkPassword.hashPassword_check(self.current_user_login.Password, self.Password, self.current_user_login.HashVer, self.current_user_login.Salt) == True:
 			self.success_login = True
-			print ("Credentials match!")
 		else:
 			self.error = ("Incorrect Password")
 			
@@ -61,8 +60,6 @@ class sUser:
 
 
 	def user_login(self):
-		print ("New Login request")
-		self.normalise()
 		self.check_existing()
 		if self.existing == (True): #tells function to continue if account exists
 			self.check_verified()

@@ -32,9 +32,7 @@ class PreOrderOptions:
 
 	def getInfoFromDB(self):
 		(self.current_item.Price) = str(self.current_item.Price)
-		print(self.current_item.Price)
 		self.Price = "£" + self.current_item.Price[:-2] + "." + self.current_item.Price[-2:]
-		#print (priceReform)
 		self.data = {
 		"current_Item": self.current_item.Item_name,
 		"current_Item_id": self.current_item.id,
@@ -42,21 +40,18 @@ class PreOrderOptions:
 		"time_for": self.Time,
 		"day": self.today
 		}
-		print (self.data)
 
 	def checkForPreorder(self):
 		check = Order.query.filter(and_(Order.User_id==self.UserID), (Order.Order_Item==self._today_id), (Order.Current==(1))).first()
 		if check != None and check.Current == 1:
-			print (check)	
 			self.flashMessage = "It appears you already have a Pre-Order in system for this selection today. Please note that you are only able to order one of any item"
-			print (self.flashMessage)
 			return
 
 
 	def checkPreorderNumbers(self):
 		orders = Order.query.filter_by(Order_Item=self._today_id).count()
 		if orders >= (20):
-			self.flashMessage = "It seems as if there are more than 20 orders for this item currently. Please try again later after orders have been collected"
+			self.flashMessage = "It seems as if there are more than 20 orders for this item currently. Please try again later when the tuck shop is less busy"
 
 
 	def run(self):
@@ -121,6 +116,5 @@ class UserPreorders:
 				"Collected": Collected
 				}
 				counter = counter+1
-			print(self.OrderData)
 		except:
 			pass

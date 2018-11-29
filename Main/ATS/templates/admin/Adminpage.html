@@ -15,21 +15,22 @@
 				<a href="{{ url_for('admin_add_new_item') }}"><button style="padding: 2px" class="btn btn-primary btn-sm">Add New Item</button></a>
 				<a href="{{ url_for('admin_delete_item') }}"><button style="padding: 2px" class="btn btn-danger btn-sm">Delete Item</button></a>
 				<a href="{{ url_for('admin_modify_table_data', table = 'breakfast') }}"><button style="padding: 2px" class="btn btn-secondary btn-sm">Modify Breakfast Data</button></a>
-				<a href="{{ url_for('admin_modify_table_data', table = 'quarter') }}""><button style="padding: 2px" class="btn btn-secondary btn-sm">Modify Quarter Data</button></a>
-				<a><button style="padding: 2px" class="btn btn-secondary btn-sm">Modify Week-Special</button></a>
+				<a href="{{ url_for('admin_modify_table_data', table = 'quarter') }}"><button style="padding: 2px" class="btn btn-secondary btn-sm">Modify Quarter Data</button></a>
+				<a href="{{ url_for('admin_modify_week_special_data')}}"><button style="padding: 2px" class="btn btn-secondary btn-sm">Modify Week-Special</button></a>
 	        </div>
 	        <br>
 	        <div style="text-align:center;">
     	        <h5> Accounts options </h5>
 	        	<br>
 				<a href="{{ url_for('admin_add_new_user') }}"><button style="padding: 2px" class="btn btn-primary btn-sm">Add New Account</button></a>
-				<a><button style="padding: 2px" class="btn btn-danger btn-sm">View and Modify/Delete Accounts</button></a>
-				<a><button style="padding: 2px" class="btn btn-secondary btn-sm">Verify An Account Manually</button></a>
+				<a href="{{ url_for('admin_view_modify_delete') }}"><button style="padding: 2px" class="btn btn-danger btn-sm">View and Modify/Delete Accounts</button></a>
+				<a href="{{ url_for('admin_view_verify_user') }}"><button style="padding: 2px" class="btn btn-secondary btn-sm">Verify An Account Manually</button></a>
 	        </div>
 	        <div style="text-align:center; padding-top: 15px">
     	        <h5> Server options </h5>
 	        	<br>
 	        	<form action ="{{ url_for('serverSettings') }}" onsubmit="return confirm('Do you really want to do this?');" method="POST">
+	        		<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 		        	<button style="padding: 2px" name="uRequest" value="restart_server" type="submit" class="btn btn-danger btn-sm">Restart Server</button>
 					<button style="padding: 2px" name="uRequest" value="purge_key" type="submit" class="btn btn-danger btn-sm">Purge Secret Key - Logout Everyone</button>
 				</form>

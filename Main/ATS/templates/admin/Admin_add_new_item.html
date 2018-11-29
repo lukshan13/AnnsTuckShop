@@ -32,6 +32,7 @@
 		 			<select class="form-control" name="ItemTypeForm" id="type">
 		   				<option>BREAKFAST</option>
 		   				<option>QUARTER</option>
+		   				<option>WEEK SPECIAL</option>
 		     			<option>OTHER</option>
 		     		</select>	 				
 	     		</div>
@@ -44,6 +45,7 @@
 					<button type="submit" class="btn btn-primary">Add Item</button>
 				</div>
 			</div>
+		<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 		</form>
 		
 

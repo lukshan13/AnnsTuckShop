@@ -33,7 +33,6 @@ class TableGetter:
 		'Breakfast': self.Breakfast_List,
 		'Quarter': self.Quarter_List
 		}
-		print (self.tableData)
 
 
 	def getPre_orders(self):
@@ -75,7 +74,6 @@ class TableGetter:
 		self.orders = (Order.query.all())
 		self.file_open_and_log()
 		for order_ in self.orders:
-			print (order_.id)
 			Order.query.filter_by(id=order_.id).delete()
 			db.session.commit()
 

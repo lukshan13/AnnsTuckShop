@@ -52,3 +52,31 @@ Order logged and cleared - Friday September 28, 2018 AT 15:52
  Croquet Monster w/ Veg option  bought for Breakfast. Order ID: 3. Ordered by UserID: 1. 	Order Collected: 0 
  Croquet Monster w/ Veg option  bought for Breakfast. Order ID: 4. Ordered by UserID: 1. 	Order Collected: 1 
  Croquet Monster w/ Veg option  bought for Breakfast. Order ID: 5. Ordered by UserID: 1. 	Order Collected: 1 
+
+Order logged and cleared - Tuesday October 16, 2018 AT 10:6
+ Croquet Monster w/ Veg option  bought for Breakfast. Order ID: 1. Ordered by UserID: 1. 	Order Collected: 0 
+ Sausage/Quorn Baguette bought for Quarter. Order ID: 2. Ordered by UserID: 1. 	Order Collected: 0 
+ Open Day Food bought for Breakfast. Order ID: 3. Ordered by UserID: 1. 	Order Collected: 0 
+ Ham&Cheese/Cheese Bagel bought for Breakfast. Order ID: 4. Ordered by UserID: 22. 	Order Collected: 0 
+ Ham&Cheese/Cheese Bagel bought for Breakfast. Order ID: 5. Ordered by UserID: 1. 	Order Collected: 0 
+ Bacon Baps/Fruit Smoothie bought for Quarter. Order ID: 6. Ordered by UserID: 3. 	Order Collected: 0 
+ Bacon muffin bought for Breakfast. Order ID: 7. Ordered by UserID: 1. 	Order Collected: 0 
+ Bacon muffin bought for Breakfast. Order ID: 8. Ordered by UserID: 1. 	Order Collected: 0 
+ Turkey/Haloumi Wrap  bought for Breakfast. Order ID: 9. Ordered by UserID: 22. 	Order Collected: 0 
+ Turkey/Haloumi Wrap  bought for Breakfast. Order ID: 10. Ordered by UserID: 1. 	Order Collected: 0 
+ Open Day Food bought for Breakfast. Order ID: 11. Ordered by UserID: 36. 	Order Collected: 0 
+ Ham&Cheese Toastie/Cheese&Tomato Toastie bought for Breakfast. Order ID: 12. Ordered by UserID: 1. 	Order Collected: 0 
+ Sausage Panini bought for Breakfast. Order ID: 13. Ordered by UserID: 22. 	Order Collected: 0 
+ Sausage Panini bought for Breakfast. Order ID: 14. Ordered by UserID: 1. 	Order Collected: 0 
+ Sausage Panini bought for Breakfast. Order ID: 15. Ordered by UserID: 1. 	Order Collected: 1 
+
+Order logged and cleared - Tuesday October 16, 2018 AT 10:6
+
+Order logged and cleared - Tuesday October 16, 2018 AT 10:7
+
+Order logged and cleared - Wednesday November 07, 2018 AT 13:35
+ Sausage Panini bought for Breakfast. Order ID: 1. Ordered by UserID: 1. 	Order Collected: 0 
+ Turkey/Haloumi Wrap  bought for Breakfast. Order ID: 2. Ordered by UserID: 6. 	Order Collected: 0 
+ Turkey/Haloumi Wrap  bought for Breakfast. Order ID: 3. Ordered by UserID: 1. 	Order Collected: 1 
+ Sausage/Quorn Baguette bought for Quarter. Order ID: 4. Ordered by UserID: 35. 	Order Collected: 1 
+ Bacon muffin bought for Breakfast. Order ID: 5. Ordered by UserID: 1. 	Order Collected: 0 

@@ -54,13 +54,13 @@
 					<legend style="padding-top: 25px;" class="col-form-label">Select Year Group</legend>
 					<div>
 						<div class="form-check">
-							<input class="form-check-input _student _student-default" type="radio" name="AccademicYear_Form" id="AccademicYear12" value="12" checked="true" >
+							<input class="form-check-input _student _student-default" type="radio" name="AccademicYear_Form" id="AccademicYear12" value="{{ info.AccademicYear12 }}" checked="true" >
 							<label class="form-check-label" for="AccademicYear12">
 								Year 12, joining Sixth Form from the September of {{ info.AccademicYear12 }}
 		  					</label>
 						</div>
 						<div class="form-check">
-							<input class="form-check-input _student" type="radio" name="AccademicYear_Form" id="AccademicYear13" value="13">
+							<input class="form-check-input _student" type="radio" name="AccademicYear_Form" id="AccademicYear13" value="{{ info.AccademicYear13 }}">
 							<label class="form-check-label" for="AccademicYear13">
 								Year 13, joining Sixth Form from the September of {{ info.AccademicYear13 }}
 							</label>
@@ -119,6 +119,7 @@
 					<button type="submit" class="btn btn-primary">Register</button>
 				</div>
 			</div>
+		<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 		</form>
 		
 

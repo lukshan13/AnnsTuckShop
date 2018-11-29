@@ -1,5 +1,5 @@
 import sys, os
-print ("Developed By Lukshan Sharvaswaran, DvDt:2018. @lukshan13")
+print ("Developed By Lukshan Sharvaswara, 2017-2019. @lukshan13. Licenced under GLU v3.0.")
 
 try:
 	print (f"Python Version compatible")
@@ -14,11 +14,16 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_mail import Mail
+from flask_wtf.csrf import CSRFProtect
 from ATS import skHandler
 
 
+
 import os, sys
+csrf = CSRFProtect()
 site = Flask(__name__)
+csrf.init_app(site)
+
 
 print("The Python version is %s.%s.%s" % sys.version_info[:3])
 
@@ -49,7 +54,7 @@ mail = Mail(site)
 
 from ATS import getInfo as getInfo
 from ATS import routes
-from ATS.DB_check import check_breakfast, check_quarter
+from ATS.DB_check import check_breakfast, check_quarter, check_default_entries
 
 
 db.create_all()
@@ -57,6 +62,10 @@ checkBreakfast = check_breakfast()
 checkQuarter = check_quarter()
 checkBreakfast.checkBreakfast()
 checkQuarter.checkQuarter()
+
+checkEntries = check_default_entries()
+checkEntries.check_admin()
+checkEntries.check_none_item()
 
 
 

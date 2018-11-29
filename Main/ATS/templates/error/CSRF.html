@@ -1,0 +1,19 @@
+<!-- calling template -->
+{% extends "Layout/layout.html" %}
+
+
+{% block _content_ %}
+    <section class="media content-section">
+        <div class="media-body">
+            <div class="section-metadata">
+                <small class="text-muted">CSRF Validation Faliure</small>
+            </div>
+            <h5>{{ reason }}. It seems as if someone tried to do some hacky hacky things. Please click on one of the options below</h5>
+            <img style="display: block; margin-left: auto; margin-right: auto; width: 70%" src="{{ url_for('static', filename='404.png') }}" alt="Forest-Logo">
+            <div style="text-align: center;">
+            <div><p><button class="btn btn-success btn-sm" onClick="history.go(-1)" href="#">Go back to the previous page</button></p>
+            <p><button class="btn btn-primary btn-sm"><a class="links" style="color: #ffffff" href="{{ url_for('home') }}">Go to the homepage</a></button></p>
+            <p><button class="btn btn-primary btn-sm"><a class="links" style="color: #ffffff" href="{{ url_for('redirect_pre_order') }}}">Make a pre-order</a></button></p></div>
+        </div>
+    </section>
+{% endblock _content_ %}

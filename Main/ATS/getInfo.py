@@ -11,7 +11,6 @@ def get_datetime():
     ctime = (time.localtime()[3], time.localtime()[4])
     time_display = (str(ctime[0])) + ":" + (str(ctime[1]))
     time_mins = (ctime[0]*60)+(ctime[1])
-    print (ctime)
     
     
 
@@ -36,19 +35,27 @@ def get_AccademicYear():
 		StartYear13 = (StartYear12 -1)
 	
 def get_CurrentItems():
-	global homeInfo
-	breakfast_today = BreakfastTimetable.query.filter_by(Day=day).first()
-	breakfast_item = Item.query.filter_by(id=breakfast_today.Breakfast_Item).first().Item_name
+	try:
+		global homeInfo
+		breakfast_today = BreakfastTimetable.query.filter_by(Day=day).first()
+		breakfast_item = Item.query.filter_by(id=breakfast_today.Breakfast_Item).first().Item_name
 
-	quarter_today = QuarterTimetable.query.filter_by(Day=day).first()
-	print (quarter_today)
-	quarter_item = Item.query.filter_by(id=quarter_today.Quarter_Item).first().Item_name
-	print (quarter_item)
+		quarter_today = QuarterTimetable.query.filter_by(Day=day).first()
+		quarter_item = Item.query.filter_by(id=quarter_today.Quarter_Item).first().Item_name
 
-	homeInfo = {
-	"breakfast_item": breakfast_item,
-	"quarter_item": quarter_item
-	}
+		WeekSpecial = Item.query.filter_by(WeekSpecial=(1)).first()
+
+		homeInfo = {
+		"breakfast_item": breakfast_item,
+		"quarter_item": quarter_item,
+		"week_special": WeekSpecial
+		}
+	except:
+		homeInfo = {
+		"breakfast_item": "Unavailable",
+		"quarter_item": "Unavailable"
+		}
+
 
 
 

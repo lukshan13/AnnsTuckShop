@@ -1,0 +1,55 @@
+{% extends "Layout/layout.html" %}
+
+
+
+{% block _content_ %}
+    <section class="media content-section" style="width: 950px;">
+        <div class="media-body">
+            <legend class="mb-4">Users</legend>
+
+            <table class="table" style="font-size: 0.9em">
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Username</th>
+                    <th>YGS</th>
+                    <th>House</th>
+                    <th>Modify</th>
+                    <th>Delete</th>
+                </tr>
+
+                {% for user in userData.Count %}
+                <tr>
+                    <th>{{ userData.FirstName[user] }}</th>
+                    <th>{{ userData.LastName[user] }}</th>
+                    <th>{{ userData.Username[user] }}</th>
+                    {% if userData.YGS[user] == "S" %}
+                        <th>Staff</th>
+                    {% elif userData.YGS[user] == "12" or userData.YGS[user] == "13" %}
+                        <th>Year {{userData.YGS[user]}}</th>
+                    {% else %}
+                        <th>Unset</th>
+                    {% endif %}
+                    <th>{{ userData.House[user]}}
+
+                    {% if userData.AdminState[user] == 1 %}
+                        <th><button class="btn btn-secondary">Admin</button></th>
+                    {% elif userData.AdminState[user] == 0 %}
+                        <form action="{{ url_for('admin_view_modify_delete_modify') }}" method="POST">
+                            <th><button class="btn btn-warning" name="Username" value="{{ userData.Username[user] }}">Modify user</button></th>
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        <input type="hidden" name="submit_modification" value="0"/>
+                        </form>
+                        <form onsubmit="return confirm('Do you really want to delete this user?');" action="{{ url_for('admin_view_modify_delete_delete') }}" method="POST">
+                            <th><button class="btn btn-danger" name="Username" value="{{ userData.Username[user] }}">Delete user</button></th>
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                        </form>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </table>
+
+
+        </div>
+    </section>
+{% endblock _content_ %}

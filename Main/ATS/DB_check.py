@@ -1,9 +1,32 @@
 from ATS import db
-from ATS.models import BreakfastTimetable, QuarterTimetable, User, Order
+from ATS.models import BreakfastTimetable, QuarterTimetable, User, Order, Item
+from ATS.passwordManager import passwordHash
 
 
 class check_item_null:
 	pass
+
+
+class check_default_entries:
+
+	def check_admin(self):
+		defaultUser = User.query.filter_by(id=0).first()
+		if not defaultUser:
+			hashpassword = passwordHash()
+			hashpass = hashpassword.hashPassword_RandomSalt("tuck18")
+			defaultAdmin = User(id= (0), First_name="ATS", Last_name="SFC", Username="ATS", Year="S", Email="ATS@forest.org.uk", House="Astell", Password=hashpass["password"], Salt=hashpass["salt"], HashVer=hashpass["algorithmVer"], AccVerified="1", Admin_status="1")
+			print ("DB has been updated.")
+			db.session.add(defaultAdmin)
+			db.session.commit()
+
+	def check_none_item(self):
+		noneItem = Item.query.filter_by(id=0).first()
+		if not noneItem:
+			defaultNoneItem = Item(id = (0), Item_name = "None", Type= "None", Price = (0))
+			print ("DB has been updated.")
+			db.session.add(defaultNoneItem)
+			db.session.commit()
+
 
 
 
@@ -13,7 +36,6 @@ class check_breakfast:
 	count = None
 
 	def check_no_extra(self):
-		print ("Breakfast Table checking....")
 		self.breakfast_table = BreakfastTimetable.query.all()
 		self.count = 0
 		try:
@@ -29,7 +51,7 @@ class check_breakfast:
 				self.count = self.count+1
 			else:
 				print ("InValid Entry:", item)
-				print ("Warning: Invalid entry detected: Deleteing Invalid entry")
+				print ("Warning: Invalid entry detected: Deleting Invalid entry")
 				BreakfastTimetable.query.filter_by(id=item.id).delete()
 				db.session.commit()
 
@@ -58,10 +80,8 @@ class check_breakfast:
 		if self.count < 7:
 			print ("Missing data detected!! Running diagnostics")
 			self.refresh_days()
-			print ("Rerunning")
 			self.checkBreakfast()
-		else:
-			print ("Breakfast complete")
+
 
 
 
@@ -72,7 +92,6 @@ class check_quarter:
 	count = None
 
 	def check_no_extra(self):
-		print ("Quarter Table checking....")
 		self.quarter_table = QuarterTimetable.query.all()
 		self.count = 0
 		Last = BreakfastTimetable.query.filter_by(id=(7)).first()
@@ -113,7 +132,4 @@ class check_quarter:
 		if self.count < 7:
 			print ("Missing data detected!! Running diagnostics")
 			self.refresh_days()
-			print ("Rerunning")
 			self.checkQuarter()
-		else:
-			print ("Quarter complete")

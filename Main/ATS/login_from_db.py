@@ -1,12 +1,11 @@
+#login_from_db.py
+
 from ATS import db
 from ATS.models import User, Item, Order
 from ATS.passwordManager import passwordHash
 
-
 class sUser:
 
-	Username = None
-	Password = None
 	existing = False
 	verified = False
 	error = None
@@ -18,11 +17,8 @@ class sUser:
 		self.Username = Username
 		self.Password = Password
 
-
 	def normalise(self):
 		self.Username = self.Username.lower()
-
-
 
 	def check_existing(self):
 		
@@ -45,19 +41,22 @@ class sUser:
 		else:
 			self.error = ("Username email not verified. Please check email to verify account. Info: PLEASE CHECK JUNK/SPAM OF YOUR EMAIL")
 			
-
-
 	def compare_password(self):
 		#Checking password
 
 		checkPassword = passwordHash()		
-		if checkPassword.hashPassword_check(self.current_user_login.Password, self.Password, self.current_user_login.HashVer, self.current_user_login.Salt) == True:
+		password_check = checkPassword.hashPassword_check(self.current_user_login.Password, self.Password, self.current_user_login.HashVer, self.current_user_login.Salt)
+		if password_check[0]:
+			if password_check[1]:
+				self.updateHashAlgorithm(password_check[1])
 			self.success_login = True
 		else:
 			self.error = ("Incorrect Password")
-			
-			
+	
 
+	def updateHashAlgorithm(self, data):
+		UserToUpdate = User.query.filter_by(Username=self.Username).update(data)
+		db.session.commit()
 
 	def user_login(self):
 		self.check_existing()
@@ -67,7 +66,3 @@ class sUser:
 				self.compare_password()
 
 		print ("Error:", self.error)
-
-		
-
-

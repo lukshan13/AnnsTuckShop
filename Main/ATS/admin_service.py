@@ -1,6 +1,7 @@
+#admin_service.py
+import json
 from ATS import db
 from ATS.models import User, Item, Order, QuarterTimetable, BreakfastTimetable
-
 
 #Shop options
 class Admin_Add_Item:
@@ -39,7 +40,6 @@ class Admin_Delete_Item:
 			self.key = delkey
 			self.DeleteItem()
 
-
 	def GetItems(self):
 		item_name = []
 		ItemPrice = []
@@ -48,6 +48,7 @@ class Admin_Delete_Item:
 		Count = []
 		items = Item.query.all()
 		counter = 1
+		#recursive algorithm that puts data in lists, and then places the lists in a dict
 		for item in items:
 			if item.inQuarterTimetable or item.inBreakfastTimetable:
 				Editable.append(0)
@@ -98,6 +99,7 @@ class Admin_Modify_Table:
 		item_name = []
 		counter = []
 		count = 0
+		#recursive algorithm that puts data in lists, and then places the lists in a dict
 		for entry in self.tableData:
 			Day.append(entry.Day)
 			if table == "breakfast":
@@ -141,13 +143,11 @@ class Admin_Modify_Table:
 				oldItem.WeekSpecial = None
 			newItem = Item.query.filter_by(Item_name=data["NewItem"]).first()
 			newItem.WeekSpecial = (1)
-			db.session.commit()			
+			db.session.commit()
 
 
 
 #Account options
-
-
 
 class Admin_View_Delete_Account:
 
@@ -166,6 +166,7 @@ class Admin_View_Delete_Account:
 		counter = []
 		admin = []
 		count = 0
+		#recursive algorithm that puts data in lists, and then places the lists in a dict
 		users = User.query.all()
 		for user in users:
 			if user.id == (0):
@@ -193,10 +194,10 @@ class Admin_View_Delete_Account:
 		dUser = User.query.filter_by(Username=username).delete()
 		db.session.commit()
 
+
 class Admin_Verify_Account:
 	
 	def viewUnverified(self):
-
 		users = User.query.all()
 		first_name = []
 		last_name = []
@@ -206,6 +207,7 @@ class Admin_Verify_Account:
 		counter = []
 		count = 0
 		users = User.query.all()
+		#recursive algorithm that puts data in lists, and then places the lists in a dict
 		for user in users:
 			if user.AccVerified == (0):
 				first_name.append(user.First_name)
@@ -224,8 +226,42 @@ class Admin_Verify_Account:
 		"Count": counter
 		}
 
-
 	def verifyUser(self, username):
 		user = User.query.filter_by(Username=username).first()
 		user.AccVerified = (1)
 		db.session.commit()
+
+class Admin_Modify_Pre_Order_Time:
+	def __init__(self, data):
+		with open('ATS/static/config.json',"r+") as RawconfigFile:
+			configFile = json.load(RawconfigFile)
+			RawconfigFile.close()
+			number = 0
+			for i in data:
+				if i == "csrf_token":
+					continue
+				if data[i] == "None":
+					number = number+1
+					continue
+				if number == 0:
+					(configFile["tuckshop"])["PreOrderStartHour"] = data[i]
+				elif number == 1:
+					print (data[i])
+					if str(data[i]) == "0":
+						(configFile["tuckshop"])["PreOrderStartMinute"] = str(data[i])+"0"
+					else:
+						(configFile["tuckshop"])["PreOrderStartMinute"] = data[i]
+				elif number == 2:
+					(configFile["tuckshop"])["PreOrderEndHour"] = data[i]
+				elif number == 3:
+					if str(data[i]) == "0":
+						(configFile["tuckshop"])["PreOrderStartMinute"] = str(data[i])+"0"
+					else:
+						(configFile["tuckshop"])["PreOrderEndMinute"] = data[i]
+				number = number+1
+
+
+			with open('ATS/static/config.json',"w+") as RawconfigFile:
+
+				RawconfigFile.write(json.dumps(configFile))
+				RawconfigFile.close()

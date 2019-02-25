@@ -1,0 +1,72 @@
+{% extends "Layout/layout.html" %}
+
+
+{% block _head_ %}
+{% endblock _head_ %}
+
+{% block _content_ %}
+    <section class="media content-section" style="width: 950px;">
+        <div class="media-body">
+            <h1></h1>
+
+            <table class="table" style="font-size: 0.9em">
+                <tr>
+                    <th>Pre Order Start Time</th>
+                    <th>Hour</th>
+                    <th>Minutes</th>
+                </tr>
+                <form method="POST" action="">
+                    <tr>
+                        <th>Current Time - {{ info.PreOrderWindow[0] }}</th>
+                        <th>
+                            <select name="StartHour">
+                                <option selected value="None">Unchanged</option>
+                                {% for i in range(1,25) %}
+                                    <option value="{{i}}">{{i}}</option>
+                                {% endfor %}
+                            </select>
+                        </th>
+                        <th>
+                            <select name="StartMinute">
+                                <option selected value="None">Unchanged</option>
+                                {% for i in [0, 15, 30, 45] %}
+                                    <option value="{{i}}">{{i}}</option>
+                                {% endfor %}
+                            </select>
+                        </th>
+                    </tr>
+            </table>
+            <br>
+            <br>
+            <table class="table" style="font-size: 0.9em">
+                <tr>
+                    <th>Pre Order End Time</th>
+                    <th>Hour</th>
+                    <th>Minutes</th>
+                </tr>
+                    <tr>
+                        <th>Current Time - {{ info.PreOrderWindow[1] }}</th>
+                        <th>
+                            <select  name="EndHour">
+                                <option selected value="None">Unchanged</option>
+                                {% for i in range(1,25) %}
+                                    <option value="{{i}}">{{i}}</option>
+                                {% endfor %}
+                            </select>
+                        </th>
+                        <th>
+                            <select name="EndMinute">
+                                <option selected value="None">Unchanged</option>
+                                {% for i in [0, 15, 30, 45] %}
+                                    <option value="{{i}}">{{i}}</option>
+                                {% endfor %}
+                            </select>
+                        </th>
+                    </tr>
+            </table>
+                    <br><br><button type = "submit" class="btn btn-warning btn-block" >Save changes</button>
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                </form>
+        </div>
+    </section>
+{% endblock _content_ %}

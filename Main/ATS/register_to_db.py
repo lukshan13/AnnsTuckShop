@@ -1,20 +1,13 @@
+#register_to_db.py
+
 from ATS import db
 from ATS.models import User
 from ATS.user_verification import GetVerifyToken
 from ATS.passwordManager import passwordHash
 
-
 class rUser:
 
-	FirstName = None
-	LastName = None
-	Username = None
-	EmailEnd = None
-	Year = None
-	House = None
 	EmailAddress = None
-	Password = None
-	Admin = None
 	existing = False
 	error = None
 	token = None
@@ -29,7 +22,6 @@ class rUser:
 		self.Password = Password
 		self.Admin = Admin
 
-
 	def check_existing(self):
 		
 		try:
@@ -37,9 +29,8 @@ class rUser:
 			if check_query.Username == self.Username:
 				self.existing = True
 				self.error = ("Account under that username already exists.")
-		except AttributeError:
+		except AttributeError: #An attribrute error will occur if that user does not exist
 			self.existing = False	
-
 
 	def generate_email_address(self):
 		if self.EmailEnd == ("sch_staff"):
@@ -49,13 +40,10 @@ class rUser:
 
 		self.EmailAddress = (self.Username+EmailDomain)
 
-
-
 	def normalise(self):
 		self.FirstName = self.FirstName.capitalize()
 		self.LastName = self.LastName.capitalize()
 		self.Username = self.Username.lower()
-
 
 	def add_to_db(self):
 		self.generate_email_address()
@@ -64,14 +52,12 @@ class rUser:
 		db.session.add(self.new_user_to_add)
 		db.session.commit()
 
-
 	def getPassword(self):
 		hashNewPass = passwordHash()
 		PasswordData = hashNewPass.hashPassword_RandomSalt(self.Password)
-		self.Password = PasswordData["password"]
-		self.Salt = PasswordData["salt"]
-		self.HashVer = PasswordData["algorithmVer"]
-
+		self.Password = PasswordData["Password"]
+		self.Salt = PasswordData["Salt"]
+		self.HashVer = PasswordData["HashVer"]
 
 	def add_new_user(self):
 		self.normalise()
@@ -94,12 +80,7 @@ class rUser:
 			db.session.commit()
 			self.token = None
 
-
-	
-
 class vUser:
-
-	Username = None
 
 	def __init__(self, vUsername):
 		self.Username = vUsername.lower()

@@ -8,13 +8,13 @@ from ATS.models import User, Item, Order
 from ATS.register_to_db import rUser, vUser
 from ATS.login_from_db import sUser
 from ATS.skHandler import sk
-from ATS.passwordManager import passwordHash
 from ATS.user_verification import CheckVerifyToken
 from ATS.get_data_from_db import TableGetter
 from ATS.pre_order import PreOrderOptions, SubmitPreorder, UserPreorders
 from ATS.user_modification import userModification
 from ATS import getInfo as getInfo
-from ATS.admin_service import Admin_Add_Item, Admin_Delete_Item, Admin_Modify_Table, Admin_View_Delete_Account, Admin_Verify_Account
+from ATS.admin_service import Admin_Add_Item, Admin_Delete_Item, Admin_Modify_Table, Admin_View_Delete_Account, Admin_Verify_Account, Admin_Modify_Pre_Order_Time
+import json
 
 getInfo.RunGetInfo()
 
@@ -22,9 +22,33 @@ def shutdown_server():
     func = request.environ.get('werkzeug.server.shutdown')
     func()
 
+def isPreorderTime(currentTime, startTime, endTime):
+	if currentTime > startTime and currentTime < endTime:
+		return True
+	else:
+		return False
+
 def ParseInfo():
 #purpose of function is to put all the information that a template requires 
 	global info
+
+	#with open('ATS/static/config.json',"w+") as RawconfigFile:
+	#	dict = {
+	#	"tuckshop": {
+	#	"PreOrderStartHour": "9",
+	#	"PreOrderStartMinute": "9",
+	#	"PreOrderEndHour": "9",
+	#	"PreOrderEndMinute": "9"
+	#	}}
+	#	RawconfigFile.write(json.dumps(dict))
+
+	#Gathers data from config file,
+	with open('ATS/static/config.json',"r+") as RawconfigFile:
+		configFile = json.load(RawconfigFile)
+		RawconfigFile.close()
+		PreOrderStartTime = [(configFile["tuckshop"])["PreOrderStartHour"], (configFile["tuckshop"])["PreOrderStartMinute"] , (int((configFile["tuckshop"])["PreOrderStartHour"])*60)+(int((configFile["tuckshop"])["PreOrderStartMinute"]))]
+		PreOrderEndTime = [(configFile["tuckshop"])["PreOrderEndHour"], (configFile["tuckshop"])["PreOrderEndMinute"] , (int((configFile["tuckshop"])["PreOrderEndHour"])*60)+(int((configFile["tuckshop"])["PreOrderEndMinute"]))]
+
 	try:
 		if current_user.Year:
 			old = current_user.YGS
@@ -33,18 +57,23 @@ def ParseInfo():
 				if current_user.Year == str((getInfo.StartYear12)):
 					current_user.YGS = str(12)
 					if old != current_user.YGS:
+						print ("commiting data")
 						db.session.commit()
 				elif current_user.Year == str((getInfo.StartYear13)):
 					current_user.YGS = str(13)
 					if old != current_user.YGS:
+						print ("commiting data")
 						db.session.commit()
 				else:
 					current_user == ("Old Student")
 			elif current_user.Year == "S":
 				current_user.YGS = "S"
 				if old != current_user.YGS:
+					print ("commiting data")
 					db.session.commit()
 				user_type = ("Staff")
+
+
 
 	except:
 		user_type = ("Guest")
@@ -56,6 +85,7 @@ def ParseInfo():
 		fullname = None
 	print (f"request by {username}")
 
+
 	page_title = (user_type + ": ")
 	getInfo.RunGetInfo()
 	info = {
@@ -66,7 +96,8 @@ def ParseInfo():
 		'AccademicYear12': (getInfo.StartYear12),
 		'AccademicYear13': (getInfo.StartYear13),
 		'Current_Username': (username),
-		'Current_Fullname': (fullname)
+		'Current_Fullname': (fullname),
+		'PreOrderWindow': [(PreOrderStartTime[0]+":"+PreOrderStartTime[1]), (PreOrderEndTime[0]+":"+PreOrderEndTime[1]), isPreorderTime(getInfo.time_mins ,PreOrderStartTime[2], PreOrderEndTime[2])]
 	}
 
 
@@ -155,13 +186,13 @@ def signin():
 	ParseInfo()
 
 	if request.method =="POST":
-		global site_error
 		RememberMe = request.form.get("RememberMe_signin")
 		if RememberMe == ("on"):
 			RememberMe = True
 		elif RememberMe == (None):
 			RememberMe = False
 		form_data = request.form
+		print ("login requested for", form_data['username_signin'])
 		signin_user = sUser(form_data['username_signin'], form_data['password_signin'])
 		signin_user.user_login()
 		if signin_user.error != None:
@@ -170,9 +201,10 @@ def signin():
 			site_error = signin_user.error
 			flash(site_error, 'danger')
 			return render_template('Signin.html',info=info, pg_name="Sign In")
-		if signin_user.success_login:
+		if signin_user.success_login == True:
 			login_user(signin_user.current_user_login, remember=RememberMe)
 			flash("Successfully signed in", 'success')
+			print("User signed in")
 			return redirect(url_for('home'))
 	if request.method =="GET":
 		return render_template('Signin.html',info=info, pg_name="Sign In")
@@ -185,7 +217,7 @@ def signout():
 	flash("You've signed out", 'info')
 	return redirect(url_for('home'))
 
-@site.route('/verify-manual/', methods=['POST', 'GET'])
+@site.route('/verify_manual/', methods=['POST', 'GET'])
 #Incase the automatic link does not work, this will allow users to verify their accounts
 def verify_manual():
 	if current_user.is_authenticated:
@@ -252,6 +284,10 @@ def pre_order(page):
 	if request.method =="POST":
 		form_data = request.form
 		check_Order = PreOrderOptions(current_user.id, (form_data["time_for"]).lower())
+
+		if not info["PreOrderWindow"][2] and not admin_perm_check(): #allows admins to order anytime they want but does not allow normal users to order outside of preorder times
+				flash ("Pre orders are currently not being accepted. Please try again during when they are accepted","danger")
+				return redirect(url_for('pre_order', page="my-orders"))
 		if check_Order.run() != False:
 			flash (check_Order.flashMessage,"danger")
 			return redirect(url_for('food_table_none',))
@@ -266,6 +302,10 @@ def pre_order(page):
 
 	if page == "breakfast":
 		if current_user.is_authenticated:
+			if not info["PreOrderWindow"][2] and not admin_perm_check(): #allows admins to order anytime they want but does not allow normal users to order outside of preorder times
+				flash ("Pre orders are currently not being accepted. Please try again during when they are accepted","danger")
+				return redirect(url_for('pre_order', page="my-orders"))
+
 			bOrder = PreOrderOptions(current_user.id, "breakfast")
 			if bOrder.run() != False: 
 				flash (bOrder.flashMessage,"danger")
@@ -278,6 +318,10 @@ def pre_order(page):
 
 	if page == "quarter":
 		if current_user.is_authenticated:
+			if not info["PreOrderWindow"][2] and not admin_perm_check(): #allows admins to order anytime they want but does not allow normal users to order outside of preorder times
+				flash ("Pre orders are currently not being accepted. Please try again during when they are accepted","danger")
+				return redirect(url_for('pre_order', page="my-orders"))
+
 			qOrder = PreOrderOptions(current_user.id, "quarter")
 			if qOrder.run() != False: 
 				flash (qOrder.flashMessage,"danger")
@@ -323,7 +367,7 @@ def account():
 
 @site.route('/account/edit/')
 def edit_account_redirect():
-	return redirect (url_for('edit_account', edit="user"))
+	return redirect (url_for('edit_account', edit="select"))
 
 @site.route('/account/edit/<edit>', methods=['POST', 'GET'])
 def edit_account(edit):
@@ -339,12 +383,8 @@ def edit_account(edit):
 		if request.method == "POST":
 			form_data = request.form
 			if form_data["submit_modification"] == "1":
-				if form_data["ChangePassword_Form"] == "":
-					form_password = None
-				else:
-					form_password = form_data["ChangePassword_Form"]
 				modify_user = userModification()
-				modify_user.standard_modify_user(form_data['First_Name_Form'], form_data['Last_Name_Form'], form_data['Forest_Username_Form'], form_data['Forest_Email_Domain_Form'], form_data['AccademicYear_Form'], form_data['House_Form'], form_password, form_data["OGusername"])
+				modify_user.standard_modify_user(form_data['First_Name_Form'], form_data['Last_Name_Form'], form_data['Forest_Username_Form'], form_data['Forest_Email_Domain_Form'], form_data['AccademicYear_Form'], form_data['House_Form'], form_data["ChangePassword_Form"], form_data["OGusername"])
 				return redirect (url_for("home"))
 
 	else:
@@ -380,11 +420,8 @@ def food_table_none():
 
 #Admin routes used for system maintainance
 def admin_perm_check():
-	if current_user.is_authenticated:
-		if current_user.Admin_status == (1):
-			return True
-		elif current_user.Admin_status != (1):
-			return False
+	if current_user.is_authenticated and current_user.Admin_status == 1:
+		return True
 	return False
 
 
@@ -392,9 +429,8 @@ def admin_perm_check():
 
 @site.route('/admin')
 def adminpage():
-	admin = admin_perm_check()
 	ParseInfo()
-	if admin:
+	if admin_perm_check():
 		return render_template('/admin/Adminpage.html',info=info, pg_name="Admin", sidebar="no")
 	else:
 		flash("Whoops! Looks like you don't have permission to do that! If you think this is a mistake, please contact support", "danger")
@@ -404,9 +440,8 @@ def adminpage():
 
 @site.route('/admin/view-pre-orders')
 def view_preorder():
-	admin = admin_perm_check()
 	ParseInfo()
-	if admin:
+	if admin_perm_check():
 		Table = TableGetter()
 		Table.getPre_orders()
 		return render_template('/admin/View_preorder.html',info=info, pg_name="Admin", sidebar="no", OrderData = Table.OrderData)
@@ -425,11 +460,11 @@ def complete_order(id):
 @site.route('/admin/add-new-user', methods=['POST', 'GET'])
 def admin_add_new_user():
 	ParseInfo()
-	admin = admin_perm_check()
-	if admin:
+	if admin_perm_check():
 
 		if request.method == 'POST':
 			form_data = request.form
+			print (form_data)
 			#password hash fuction to be inserted here
 			new_user = rUser(form_data['First_Name_Form'], form_data['Last_Name_Form'], form_data['Forest_Username_Form'], form_data['Forest_Email_Domain_Form'], form_data['AccademicYear_Form'], form_data['House_Form'], form_data['Password_Form'], form_data['Admin_account']) #replace raw text password with hashed value
 			new_user.admin_add_new_user()
@@ -452,11 +487,11 @@ def admin_add_new_user():
 @site.route('/admin/modify-delete-user', methods=['GET'])
 def admin_view_modify_delete():
 	ParseInfo()
-	admin = admin_perm_check()
-	if admin:
+	if admin_perm_check():
 
 		if request.method == 'GET':
 			viUsers = Admin_View_Delete_Account("view", None)
+			print (User.query.filter_by(Username="ATS").first())
 			return render_template('admin/admin_view_delete_modify_user.html', info=info, pg_name="View/Modiy/Delete user", userData = viUsers.allUsersData)
 
 	else:
@@ -468,18 +503,13 @@ def admin_view_modify_delete():
 def admin_view_modify_delete_modify():
 	ParseInfo()
 	#devika
-	admin = admin_perm_check()
-	if admin:
+	if admin_perm_check():
 
 		if request.method == "POST":
 			form_data = request.form
 			if form_data["submit_modification"] == "1":
-				if form_data["ChangePassword_Form"] == "":
-					form_password = None
-				else:
-					form_password = form_data["ChangePassword_Form"]
 				modify_user = userModification()
-				modify_user.admin_modify_user(form_data['First_Name_Form'], form_data['Last_Name_Form'], form_data['Forest_Username_Form'], form_data['Forest_Email_Domain_Form'], form_data['AccademicYear_Form'], form_data['House_Form'], form_password, form_data['Admin_account'], form_data["OGusername"])
+				modify_user.admin_modify_user(form_data['First_Name_Form'], form_data['Last_Name_Form'], form_data['Forest_Username_Form'], form_data['Forest_Email_Domain_Form'], form_data['AccademicYear_Form'], form_data['House_Form'], form_data['ChangePassword_Form'] , form_data['Admin_account'], form_data["OGusername"])
 				return redirect (url_for("home"))
 
 			viModifyUser = userModification()
@@ -494,8 +524,7 @@ def admin_view_modify_delete_modify():
 @site.route('/admin/modify-delete-user/delete', methods=['POST', 'GET'])
 def admin_view_modify_delete_delete():
 	ParseInfo()
-	admin = admin_perm_check()
-	if admin:
+	if admin_perm_check():
 
 		if request.method == "POST":
 			post_data = request.form
@@ -508,8 +537,7 @@ def admin_view_modify_delete_delete():
 @site.route('/admin/verify_user', methods=['GET', 'POST'])
 def admin_view_verify_user():
 	ParseInfo()
-	admin = admin_perm_check()
-	if admin:
+	if admin_perm_check():
 
 		if request.method == 'GET':
 			viUnverified = Admin_Verify_Account()
@@ -535,11 +563,11 @@ def admin_view_verify_user():
 @site.route('/admin/add-new-item', methods=['POST','GET'])
 def admin_add_new_item():
 	ParseInfo()
-	admin = admin_perm_check()
-	if admin:
+	if admin_perm_check():
 
 		if request.method == "POST":
 			form_data = request.form
+			print (form_data)
 			nItem = Admin_Add_Item(form_data['ItemNameForm'], form_data['ItemTypeForm'], form_data['ItemPriceForm'])
 			nItem.add_item()
 
@@ -553,8 +581,7 @@ def admin_add_new_item():
 @site.route('/admin/delete-item', methods=['POST','GET'])
 def admin_delete_item():
 	ParseInfo()
-	admin = admin_perm_check()
-	if admin:
+	if admin_perm_check():
 		if request.method == "POST":
 			data = request.form
 			dcItem = Admin_Delete_Item(data["deleteID"])
@@ -571,13 +598,12 @@ def admin_delete_item():
 @site.route('/admin/modify-<table>', methods=['POST','GET'])
 def admin_modify_table_data(table):
 	ParseInfo()
-	admin = admin_perm_check()
-	if admin:
+	if admin_perm_check():
 		if request.method == "GET":
 			if table == "breakfast" or table == "quarter":
 				mvTable = Admin_Modify_Table(table, "view")
 
-				return render_template('admin/adminChangeTable.html', info=info, pg_name="Modify Table", tableData=mvTable.tableExport)
+				return render_template('admin/adminChangeTable.html', info=info, pg_name="Modify"+table, tableData=mvTable.tableExport)
 			else:
 				flash ("Warning: Invalid request. If this keeps happening please contact support", "warning")
 				return redirect(url_for('adminpage'))
@@ -590,34 +616,39 @@ def admin_modify_table_data(table):
 		flash("Whoops! Looks like you don't have permission to do that! If you think this is a mistake, please contact support", "danger")
 	return redirect(url_for('home'))
 
-
-@site.route('/admin/modify-week-special', methods=['POST','GET'])
+@site.route('/admin/modify-week-special', methods=['POST', 'GET'])
 def admin_modify_week_special_data():
 	ParseInfo()
-	admin = admin_perm_check()
-	if admin:
+	if admin_perm_check():
 		if request.method == "GET":
-			vwsTable = Admin_Modify_Table("week-special", "view-week-special")
-			return render_template('admin/adminChangeWeekSpecial.html', info=info, pg_name="Modify Table", tableData=vwsTable.weekSpecial)
-
-		elif request.method == "POST":
+			mvSpecial = Admin_Modify_Table("week-special", "view-week-special")
+			return render_template('admin/adminChangeWeekSpecial.html', info=info, pg_name="Modify Week Special", tableData=mvSpecial.weekSpecial)
+		if request.method == "POST":
 			data = request.form
-			mwsTable = Admin_Modify_Table("week-special", "modify-week-special", data)
+			mSpecial = Admin_Modify_Table("week-special", "modify-week-special", data)
+
 			return redirect(url_for('adminpage'))
 
+	else:
+		flash("Whoops! Looks like you don't have permission to do that! If you think this is a mistake, please contact support", "danger")
+	return redirect(url_for('home'))
 
-
-		
-
-
-
+@site.route('/admin/modify-preorder-times', methods=['POST', 'GET'])
+def admin_modify_preorder_times():
+	ParseInfo()
+	if admin_perm_check():
+		if request.method == "GET":
+			return render_template('admin/adminChangePreorderTime.html', info=info, pg_name="Modify Pre Order Times")	
+		if request.method == "POST":
+			mPT = Admin_Modify_Pre_Order_Time(request.form)
+	else:
+		flash("Whoops! Looks like you don't have permission to do that! If you think this is a mistake, please contact support", "danger")
+	return redirect(url_for('home'))
 
 
 @site.route('/admin/server', methods=['POST','GET'])
 def serverSettings():
-
-	admin = admin_perm_check()
-	if admin:
+	if admin_perm_check():
 		if request.method == "POST":
 			adminRequest = request.form
 			if adminRequest["uRequest"] == "restart_server":
@@ -631,9 +662,6 @@ def serverSettings():
 		flash("Whoops! Looks like you don't have permission to do that! If you think this is a mistake, please contact support", "danger")
 	return redirect(url_for('home'))
 
-@site.route('/.well-known/acme-challenge/D5P4DM9Yke1xBVl_YFOM0ebVP1JCexDLnZ6DLf5k7j0')
+@site.route('/.well-known/acme-challenge/uCYeB0NpASesiYJWeyV7DN_RhYJjKRheqq_GUHkiUlk')
 def tempverify():
-	return site.send_static_file('D5P4DM9Yke1xBVl_YFOM0ebVP1JCexDLnZ6DLf5k7j0')
-
-
-
+	return site.send_static_file('uCYeB0NpASesiYJWeyV7DN_RhYJjKRheqq_GUHkiUlk')

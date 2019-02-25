@@ -6,16 +6,21 @@
     <section class="media content-section">
         <div class="media-body">
             <div class="section-metadata">
-                <a class="links" href="#">{{ info.day }}</a>
+                <a class="links" >{{ info.day }}</a>
                 <small class="text-muted">{{ info.date }}</small>
             </div>
             <h2><a class="section-title"> Good {{ info.TimeOfDay }}! Today's selections are: </a></h2>
             <p class="section-content">Breakfast     -   {{homeInfo.breakfast_item}}</p>
             <p class="section-content">Quarter Break  -   {{homeInfo.quarter_item}}</p>
             <!-- Sorry for bad if formatting but HTML causes it to show wrong line spacing on the frontend if I format it nicer -->
-            <p class="section-content">Week Special  -   {% if homeInfo.week_special %}  {{homeInfo.week_special.Item_name}}</p> {% else %} Unset, please contact Ann</p>
-                {% endif %}
+            <p class="section-content">Week Special  -   {% if homeInfo.week_special %}  {{homeInfo.week_special.Item_name}}</p> {% else %} Unset, please contact Ann</p>{% endif %}
             <br>
+            <p class="section-content">Pre-orders are accepted between {{ info.PreOrderWindow[0] }} - {{ info.PreOrderWindow[1] }}</p>
+            {% if info.PreOrderWindow[2] %}
+                <a href="{{url_for('pre_order', page="select")}}"><p style="font-size: 1.2em;" class="section-content links">Orders are being accepted</p></a>
+            {% else %}
+                <p style="color: red; font-size: 1.2em;" class="section-content">Orders are not being accepted</p> 
+            {% endif %}
             <p class="section-content links"><a href="{{url_for('lunch_menu')}}" target="_blank" rel="noopener"><span style= "color: #80A0CC;">Click here for lunch menu</span></a></p>
         </div>
     </section>

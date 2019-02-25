@@ -59,7 +59,13 @@
                         <legend style="padding-top: 25px;" class="col-form-label">Select Year Group</legend>
                         <div>
                             <div class="form-check">
-                                <input class="form-check-input _student _student-default" type="radio" name="AccademicYear_Form" id="AccademicYear12" value="{{ info.AccademicYear12 }}" checked="true" >
+                                <input class="form-check-input _student _student-default" type="radio" name="AccademicYear_Form" id="AccademicYear12" value="None" checked="true" >
+                                <label class="form-check-label" for="AccademicYear12">
+                                    Unchanged
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input _student _student-default" type="radio" name="AccademicYear_Form" id="AccademicYear12" value="{{ info.AccademicYear12 }}" >
                                 <label class="form-check-label" for="AccademicYear12">
                                     Year 12, joining Sixth Form from the September of {{ info.AccademicYear12 }}
                                 </label>

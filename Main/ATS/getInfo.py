@@ -1,7 +1,11 @@
+#getinfo.py
+
 #fetching date and time
 from ATS.models import BreakfastTimetable, QuarterTimetable, Item
 import datetime
 import time
+
+#This module is designed to get most of the basic data that is reqired by the applications, such as date, time, current options, ect.
 
 def get_datetime():
     global now, date, day, ctime, time_mins, time_display
@@ -11,8 +15,6 @@ def get_datetime():
     ctime = (time.localtime()[3], time.localtime()[4])
     time_display = (str(ctime[0])) + ":" + (str(ctime[1]))
     time_mins = (ctime[0]*60)+(ctime[1])
-    
-    
 
 def get_TimeOfDay():
 	global TimeOfDay
@@ -55,9 +57,6 @@ def get_CurrentItems():
 		"breakfast_item": "Unavailable",
 		"quarter_item": "Unavailable"
 		}
-
-
-
 
 def RunGetInfo():
 	get_datetime()

@@ -1,3 +1,5 @@
+#user_verification.py
+
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from flask import url_for
 from ATS import mail

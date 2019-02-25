@@ -1,11 +1,11 @@
+#get_data_from_db.py
+
 from ATS import db
 from ATS import getInfo as getInfo
 from ATS.models import BreakfastTimetable, QuarterTimetable, Item, Order, User
 
 class TableGetter:
 
-	Breakfast_List = []
-	Quarter_List = []
 	tableData = None
 	OrderData = None
 
@@ -45,6 +45,7 @@ class TableGetter:
 		Data = Order.query.all()
 		Count = []
 		counter = 0
+		#recursive algorithm that puts data in lists, and then places the lists in a dict
 		for items in Data:
 			if items.Current == 1:
 				order = (Order.query.filter_by(id=(items.id)).first())
@@ -69,7 +70,7 @@ class TableGetter:
 				}
 				counter = counter+1
 
-
+	#Clears order history
 	def Log_and_ClearAll(self):
 		self.orders = (Order.query.all())
 		self.file_open_and_log()
@@ -77,7 +78,7 @@ class TableGetter:
 			Order.query.filter_by(id=order_.id).delete()
 			db.session.commit()
 
-
+	#Stores order history in a txt file,
 	def file_open_and_log(self):
 		getInfo.get_datetime()
 		with open("ATS/static/OrderLog.txt","a+") as OrderLog:
@@ -87,23 +88,11 @@ class TableGetter:
 				info = f" {item.Item_name} bought for {order_.Time_for}. Order ID: {order_.id}. Ordered by UserID: {order_.User_id}. \tOrder Collected: {order_.Current} \n"
 				OrderLog.write(str(info))
 
-
-
-
-
+	#Adds complete status to an order
 	def completePre_Orders(self, completedID):
-		#try:
 		if completedID == "all":
 			self.Log_and_ClearAll()
 			return
 		order = (Order.query.filter_by(id=(completedID)).first())
 		order.Current = (0)
 		db.session.commit()
-		#except:
-		#	pass
-
-
-
-
-
-

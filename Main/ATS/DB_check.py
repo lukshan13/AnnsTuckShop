@@ -1,25 +1,25 @@
+#DB_check.py
+
 from ATS import db
 from ATS.models import BreakfastTimetable, QuarterTimetable, User, Order, Item
 from ATS.passwordManager import passwordHash
-
-
-class check_item_null:
-	pass
-
 
 class check_default_entries:
 
 	def check_admin(self):
 		defaultUser = User.query.filter_by(id=0).first()
+		#SQLalchemy starts with 1 as first primary key, using 0 as the default admin account.
+		#Checks if account exits. If account does not exist, it will generate the account.
 		if not defaultUser:
 			hashpassword = passwordHash()
 			hashpass = hashpassword.hashPassword_RandomSalt("tuck18")
-			defaultAdmin = User(id= (0), First_name="ATS", Last_name="SFC", Username="ATS", Year="S", Email="ATS@forest.org.uk", House="Astell", Password=hashpass["password"], Salt=hashpass["salt"], HashVer=hashpass["algorithmVer"], AccVerified="1", Admin_status="1")
+			defaultAdmin = User(id= (0), First_name="ATS", Last_name="SFC", Username="ATS", Year="S", Email="ATS@forest.org.uk", House="Astell", Password=hashpass["Password"], Salt=hashpass["Salt"], HashVer=hashpass["HashVer"], AccVerified="1", Admin_status="1")
 			print ("DB has been updated.")
 			db.session.add(defaultAdmin)
 			db.session.commit()
 
 	def check_none_item(self):
+		#Database reqires an empty item in the Items table so that the timetables Tables can have a foreign key. This will check if such an item exists and if not create a new one.
 		noneItem = Item.query.filter_by(id=0).first()
 		if not noneItem:
 			defaultNoneItem = Item(id = (0), Item_name = "None", Type= "None", Price = (0))
@@ -27,26 +27,21 @@ class check_default_entries:
 			db.session.add(defaultNoneItem)
 			db.session.commit()
 
-
-
-
 class check_breakfast:
 
-	breakfast_table = None
-	count = None
-
+	#Checks if the timetable is in correct order, and only the specific days are in the field. If an error is detected, it will rewrite the timetable.
 	def check_no_extra(self):
 		self.breakfast_table = BreakfastTimetable.query.all()
 		self.count = 0
 		try:
 			Last = BreakfastTimetable.query.filter_by(id=(7)).first()
 			if Last.Day != "Sunday":
+				#if last item in the table is not Sunday, then there is something wrong with the table
 				return
 		except(AttributeError):
 			return
 		for item in self.breakfast_table:
 			Daybank = [None, "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-			#if item.Day == "Monday" or item.Day == "Tuesday" or item.Day == "Wednesday" or item.Day == "Thursday" or item.Day == "Friday" or item.Day == "Saturday" or item.Day == "Sunday":
 			if item.Day in Daybank:
 				self.count = self.count+1
 			else:
@@ -83,19 +78,15 @@ class check_breakfast:
 			self.checkBreakfast()
 
 
-
-
-
 class check_quarter:
 
-	quarter_table = None
-	count = None
-
+	#Checks if the timetable is in correct order, and only the specific days are in the field. If an error is detected, it will rewrite the timetable.
 	def check_no_extra(self):
 		self.quarter_table = QuarterTimetable.query.all()
 		self.count = 0
 		Last = BreakfastTimetable.query.filter_by(id=(7)).first()
 		if Last.Day != "Sunday":
+		#if last item in the table is not Sunday, then there is something wrong with the table
 			return
 		for item in self.quarter_table:
 			Daybank = [None, "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]

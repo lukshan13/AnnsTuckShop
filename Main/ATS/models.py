@@ -1,6 +1,9 @@
+#models.py
+
 from ATS import db, login_manager
 from flask_login import UserMixin
 
+#Defines table layouts and their relationships
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -22,7 +25,6 @@ class User(db.Model, UserMixin):
 	AccVerified = db.Column(db.Integer, nullable=False, default=0)
 	Admin_status = db.Column(db.Integer, nullable=False, default=0)
 	Orders = db.relationship('Order', backref=('customer'), lazy=True)
-
 	
 	def __repr__(self):
 		return f"User('{self.First_name}', '{self.Last_name}', '{self.Username}', '{self.House}')"
@@ -35,8 +37,7 @@ class Item(db.Model):
 	Price = db.Column(db.Integer, nullable=False)
 	WeekSpecial = db.Column(db.Integer)
 	inBreakfastTimetable = db.relationship('BreakfastTimetable', backref=('breakfast_timetable'), lazy=True)
-	inQuarterTimetable = db.relationship('QuarterTimetable', backref=('quarter_timetable'), lazy=True)
-	
+	inQuarterTimetable = db.relationship('QuarterTimetable', backref=('quarter_timetable'), lazy=True)	
 
 	def __repr__(self):
 		return f"Item('{self.id}', '{self.Item_name}', '{self.Type}', '{self.Price}')"

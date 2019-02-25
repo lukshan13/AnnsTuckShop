@@ -1,4 +1,5 @@
-cd ~/desktop/anns_tuck_shop/main
+#!/bin/bash
+cd "$(dirname "$0")"/../main
 
 export FLASK_APP=ATS
 export FLASK_ENV=production

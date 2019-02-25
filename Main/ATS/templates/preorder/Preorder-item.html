@@ -8,7 +8,7 @@
 				<p style="text-decoration-line: underline;"> Order Now</p>
 				<h5>The current option available is {{data.current_Item}}.
 				<h5>{{data.price}}, </h5>
-				<h5>Your order will be for <input style="border: none" type="text" name="time_for" value="{{data.time_for}}" size="8" readonly>, <input style="border: none" type="text" name="day_for" value="{{data.day}}" size="8" readonly>.</h5>	
+				<h5>Your order will be for <input style="border: none" type="text" name="time_for" value="{{data.time_for}}" size="8" readonly>, <input style="border: none" type="text" name="day_for" value="{{data.day}}" size="10" readonly>.</h5>	
 				<button type="submit" class="btn btn-primary">Submit Pre-Order</button>
 				<input style="display: none" type="text" name="item_id" value="{{data.current_Item_id}}" readonly>
 			<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>

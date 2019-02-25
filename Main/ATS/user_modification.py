@@ -1,3 +1,5 @@
+#user_modification.py
+
 from ATS import db
 from ATS.models import User
 from ATS.passwordManager import passwordHash
@@ -7,6 +9,7 @@ class userModification:
 
 
 	def viewUserToModify(self, username):
+		#Finds the user that is about to modified and retrieves information.
 		user = User.query.filter_by(Username=username).first()
 		self.userData = {
 		"Username": user.Username,
@@ -25,14 +28,17 @@ class userModification:
 		LastName = LastName.capitalize()
 		Username = Username.lower()
 
-
+		if YGS == "None":
+			YGS = User.query.filter_by(Username = OGusername).first().Year
+			
 		if plainPassword != None:
 			hashNewPass = passwordHash()
 			PasswordData = hashNewPass.hashPassword_RandomSalt(plainPassword)
-			PasswordDataDict = {"Password": PasswordData["password"], "Salt": PasswordData["salt"], "HashVer": PasswordData["algorithmVer"]}
+			self.Password = PasswordData["Password"]
+			self.Salt = PasswordData["Salt"]
+			self.HashVer = PasswordData["HashVer"]
 		else:
-			PasswordDataDict = {}
-
+			PasswordData = {}
 
 		#Email is created by aggregating Username and emailEnd
 		if EmailEnd == ("sch_staff"):
@@ -41,8 +47,12 @@ class userModification:
 			EmailDomain = "@forestsch.org.uk"
 		EmailAddress = (Username+EmailDomain)
 
+
+
+
+		#data is committed to the database
 		data = {"First_name": FirstName, "Last_name": LastName, "Username": Username, "Year": YGS, "Email": EmailAddress, "House" : House, "Admin_status": Admin}
-		data.update(PasswordDataDict)
+		data.update(PasswordData)
 		user_to_modify = User.query.filter_by(Username = OGusername).update(data)
 		db.session.commit()
 
@@ -57,12 +67,14 @@ class userModification:
 		if plainPassword != None:
 			hashNewPass = passwordHash()
 			PasswordData = hashNewPass.hashPassword_RandomSalt(plainPassword)
-			PasswordDataDict = {"Password": PasswordData["password"], "Salt": PasswordData["salt"], "HashVer": PasswordData["algorithmVer"]}
-			self.Password = PasswordData["password"]
-			self.Salt = PasswordData["salt"]
-			self.HashVer = PasswordData["algorithmVer"]
+			self.Password = PasswordData["Password"]
+			self.Salt = PasswordData["Salt"]
+			self.HashVer = PasswordData["HashVer"]
 		else:
-			PasswordDataDict = {}
+			PasswordData = {}
+
+		if YGS == "None":
+			YGS = User.query.filter_by(Username = OGusername).first().Year
 
 		#Email is created by aggregating Username and emailEnd
 		if EmailEnd == ("sch_staff"):
@@ -71,12 +83,8 @@ class userModification:
 			EmailDomain = "@forestsch.org.uk"
 		EmailAddress = (Username+EmailDomain)
 
+		#data is committed to the the database
 		data = {"First_name": FirstName, "Last_name": LastName, "Username": Username, "Year": YGS, "Email": EmailAddress, "House" : House }
-		data.update(PasswordDataDict)
+		data.update(PasswordData)
 		user_to_modify = User.query.filter_by(Username = OGusername).update(data)
 		db.session.commit()
-
-
-
-	def change_password(self):
-		pass

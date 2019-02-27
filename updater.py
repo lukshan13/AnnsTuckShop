@@ -5,7 +5,7 @@ def run():
         from urllib.request import urlopen
         import os
         try:
-                content = urlopen("https://raw.githubusercontent.com"+URL+"/master/version").read().decode()
+                content = urlopen("https://raw.githubusercontent.com"+URL+"/master/Main/version.txt").read().decode()
         except:
                 print("Unable to contact github.\nCannot check for updates\n")
                 return
@@ -28,7 +28,12 @@ def run():
 
 def update():
         from urllib.request import urlretrieve
+        import zipfile
         urlretrieve("https://github.com"+URL+"/archive/master.zip", "download.zip")
+        with zipfile.ZipFile("download.zip","r") as zip_ref:
+                    zip_ref.extractall("../")
+        import os
+        os.remove("download.zip")
 
 
 run()

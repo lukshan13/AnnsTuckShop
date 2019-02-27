@@ -32,8 +32,10 @@ def update():
         urlretrieve("https://github.com"+URL+"/archive/master.zip", "download.zip")
         with zipfile.ZipFile("download.zip","r") as zip_ref:
                     zip_ref.extractall("../")
-        import os
+        import os, shutil
         os.remove("download.zip")
+        shutil.rmtree("../Anns_Tuck_Shop")
+        os.rename("../AnnsTuckShop-master", "../Anns_Tuck_Shop")
 
 
 run()

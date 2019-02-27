@@ -34,8 +34,6 @@ def update():
                     zip_ref.extractall("../")
         import os, shutil
         os.remove("download.zip")
-        shutil.rmtree("../Anns_Tuck_Shop")
-        os.rename("../AnnsTuckShop-master", "../Anns_Tuck_Shop")
 
 
 run()

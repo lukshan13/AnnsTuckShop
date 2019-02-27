@@ -45,3 +45,5 @@ nginx-win/logs/nginx.pid
 nginx-win/nginx.exe
 nginx-win/html/index.html
 nginx-win/html/50x.html
+Main/ATS/static/sk.txt
+Main/ATS/static/config.json

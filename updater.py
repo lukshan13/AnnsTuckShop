@@ -35,23 +35,33 @@ def update():
         config = open("main/ATS/static/config.json", 'r+b')
         sk = open("main/ATS/static/sk.txt", 'r+b')
 
+
+        db = db.read()
+        config = config.read()
+        sk=sk.read()
+        print (sk)
+        
         from urllib.request import urlretrieve
         import zipfile
+
+        
 
         urlretrieve("https://github.com"+URL+"/archive/master.zip", "download.zip")
         with zipfile.ZipFile("download.zip","r") as zip_ref:
                 zip_ref.extractall("../")
         import os, shutil
         os.remove("download.zip")
+        
         with open("main/ATS/ats.db", 'wb') as db1:
-                db1.write(db.read())
+                db1.write(db)
         with open("main/ATS/static/config.json", 'wb') as config1:
-                config1.write(config.read())
+                config1.write(config)
         with open("main/ATS/static/sk.txt", 'wb') as sk1:
-                sk1.write(sk.read())
-        db.close()
-        config.close()
-        sk.close()
+                sk1.write(sk)
+
+def update2():
+        import git
+        git.cmd.Git("..")
 
 
 #run()

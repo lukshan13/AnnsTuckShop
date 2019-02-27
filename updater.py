@@ -25,7 +25,7 @@ def run():
                 print ("Program up to date\n")
         else:
                 print ("Update available, program will be updated\n")
-
+                update()
 def update():
         from urllib.request import urlretrieve
         import zipfile
@@ -34,7 +34,8 @@ def update():
                     zip_ref.extractall("../")
         import os, shutil
         os.remove("download.zip")
+        
 
 
 run()
-update()
+

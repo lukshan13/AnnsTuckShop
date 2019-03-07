@@ -53,7 +53,6 @@ def update():
 
 
 
-        print (db, config, sk)
         
         from urllib.request import urlretrieve
         import zipfile

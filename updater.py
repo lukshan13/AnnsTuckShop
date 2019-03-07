@@ -30,15 +30,29 @@ def run():
                 update()
 def update():
 
+        try:
+                db = open("main/ATS/ats.db", 'r+b')
+                db = db.read()
+        except:
+                print ("unable to save file (db). Ignore this is this is the first time running this server")
+                db = None
+                
+        try:
+                config = open("main/ATS/static/config.json", 'r+b')
+                config = config.read()
+        except:
+                print ("unable to save file (config). Ignore this is this is the first time running this server")
+                db = False
+                
+        try:
+                sk = open("main/ATS/static/sk.txt", 'r+b')
+                sk=sk.read()
+        except:
+                print ("unable to save file (sk). Ignore this is this is the first time running this server")
+                db = None
 
-        db = open("main/ATS/ats.db", 'r+b')
-        config = open("main/ATS/static/config.json", 'r+b')
-        sk = open("main/ATS/static/sk.txt", 'r+b')
 
 
-        db = db.read()
-        config = config.read()
-        sk=sk.read()
         print (db, config, sk)
         
         from urllib.request import urlretrieve
@@ -54,8 +68,9 @@ def update():
         
         with open("main/ATS/ats.db", 'wb') as db1:
                 db1.write(db)
-        with open("main/ATS/static/config.json", 'wb') as config1:
-                config1.write(config)
+        if config:
+                with open("main/ATS/static/config.json", 'wb') as config1:
+                        config1.write(config)
         with open("main/ATS/static/sk.txt", 'wb') as sk1:
                 sk1.write(sk)
 

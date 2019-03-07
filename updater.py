@@ -39,7 +39,7 @@ def update():
         db = db.read()
         config = config.read()
         sk=sk.read()
-        print (sk)
+        print (db, config, sk)
         
         from urllib.request import urlretrieve
         import zipfile
@@ -59,10 +59,7 @@ def update():
         with open("main/ATS/static/sk.txt", 'wb') as sk1:
                 sk1.write(sk)
 
-def update2():
-        import git
-        git.cmd.Git("..")
 
 
-#run()
-update()
+run()
+#update()

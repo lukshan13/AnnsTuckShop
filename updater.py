@@ -70,7 +70,7 @@ def update():
         if config:
                 with open("main/ATS/static/config.json", 'wb') as config1:
                         config1.write(config)
-        with open("main/ATS/static/sk.txt", 'wb') as sk1:
+        with open("main/ATS/secrets/sk.txt", 'wb') as sk1:
                 sk1.write(sk)
 
 

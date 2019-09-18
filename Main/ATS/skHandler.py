@@ -11,7 +11,7 @@ class sk:
 
 	#checks if secret key file exists
 	def checkSKfile(self):
-		if (os.path.isfile("ATS/static/sk.txt")):
+		if (os.path.isfile("ATS/secrets/sk.txt")):
 		    self.fileSK_exists = True
 		else:
 		    self.fileSK_exists = False
@@ -19,7 +19,7 @@ class sk:
 
 	#generates a new key
 	def GenerateAndWriteSK(self):
-		with open("ATS/static/sk.txt","w") as file:
+		with open("ATS/secrets/sk.txt","w") as file:
 			rBytes = os.urandom(64)
 			self.NewKey = b64encode(rBytes).decode('utf-8')[:32]
 			file.write(str(self.NewKey))
@@ -27,7 +27,7 @@ class sk:
 
 
 	def ReadKey(self):
-		with open("ATS/static/sk.txt","r") as file:
+		with open("ATS/secrets/sk.txt","r") as file:
 			self.key = file.read()
 			print ("KEY LEN:", len(self.key))
 			if len(self.key) != 32: #if key stored in txt file is wrong length, it will be purged and a new one will be generated.

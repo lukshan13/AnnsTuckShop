@@ -451,9 +451,13 @@ def view_preorder():
 
 @site.route('/admin/view-pre-orders/completed/<id>')
 def complete_order(id):
-	completeOrder = TableGetter()
-	completeOrder.completePre_Orders(id)
-	return redirect(request.referrer)
+	if admin_perm_check():
+		completeOrder = TableGetter()
+		completeOrder.completePre_Orders(id)
+		return redirect(request.referrer)
+	else:
+		flash("Whoops! Looks like you don't have permission to do that! If you think this is a mistake, please contact support", "danger")
+		return redirect(url_for('home'))	
 
 
 

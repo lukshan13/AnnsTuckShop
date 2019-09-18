@@ -59,17 +59,27 @@ class rUser:
 		self.Salt = PasswordData["Salt"]
 		self.HashVer = PasswordData["HashVer"]
 
+	def check_username(self):
+		return self.Username.isalnum() and self.FirstName.isalnum() and self.LastName.isalnum()
+
+
+		
+
+
 	def add_new_user(self):
 		self.normalise()
-		self.check_existing()
-		if self.existing == (False):
-			self.add_to_db()
-			getVerify = GetVerifyToken(self.Password, self.Username, self.EmailAddress, self.FirstName)
-			getVerify.get_verify_token()
-			email = getVerify.send_email_verify_token()
-			if email != None:
-				self.error = ("Something went wrong while emailing you. We have registered you to the system, please talk to Ann to verify your account")
-			self.token = getVerify.token
+		if self.check_username():
+			self.check_existing()
+			if self.existing == (False):
+				self.add_to_db()
+				getVerify = GetVerifyToken(self.Password, self.Username, self.EmailAddress, self.FirstName)
+				getVerify.get_verify_token()
+				email = getVerify.send_email_verify_token()
+				if email != None:
+					self.error = ("Something went wrong while emailing you. We have registered you to the system, please talk to Ann to verify your account")
+				self.token = getVerify.token
+		else:
+			self.error = ("Something went wrong whilst carrying out this task. Please ask for help. Your error code is 0x01")
 
 	def admin_add_new_user(self):
 		self.normalise()

@@ -45,7 +45,7 @@ def update():
                 db = False
                 
         try:
-                sk = open("main/ATS/static/sk.txt", 'r+b')
+                sk = open("main/ATS/secrets/sk.txt", 'r+b')
                 sk=sk.read()
         except:
                 print ("unable to save file (sk). Ignore this is this is the first time running this server")

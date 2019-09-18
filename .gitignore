@@ -47,3 +47,4 @@ nginx-win/html/index.html
 nginx-win/html/50x.html
 Main/ATS/static/sk.txt
 Main/ATS/static/config.json
+Main/ATS/secrets/sk.txt

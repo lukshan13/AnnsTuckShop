@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: RunningAppYT
+  annotations:
+    github.com/project-slug: lukshan13/RunningAppYT
+spec:
+  type: other
+  lifecycle: unknown
+  owner: lukshan

@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: AnnsTuckShop
+  annotations:
+    github.com/project-slug: lukshan13/AnnsTuckShop
+spec:
+  type: other
+  lifecycle: unknown
+  owner: lukshan
